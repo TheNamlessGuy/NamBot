@@ -1,0 +1,91 @@
+package HelperPackage;
+
+import java.io.File;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+
+import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+
+public class HelperFunctions {
+	public static Random random = new Random();
+	
+	public static int randomInt(int min, int max) {
+		return random.nextInt((max - min) + 1) + min;
+	}
+	
+	public static boolean randomBool() {
+		return random.nextBoolean();
+	}
+	
+	public static void setTimeout(Runnable runnable, int delay) {
+		new Thread(() -> {
+	        try {
+	            Thread.sleep(delay);
+	            runnable.run();
+	        }
+	        catch (Exception e){
+	        	// no
+	        }
+	    }).start();
+	}
+	
+	public static String getEffectiveNickname(MessageReceivedEvent event, User u) {
+		return event.getGuild().getMember(u).getEffectiveName();
+	}
+	
+	public static void debug(String msg) {
+		System.out.println(msg);
+	}
+	
+	public static boolean sentBy(MessageReceivedEvent event, Permission perm) {
+		return event.getMember().hasPermission(perm);
+	}
+	
+	public static boolean sentByNambot(MessageReceivedEvent event) {
+		return (event.getAuthor().getId().equals(GlobalVars.snowflakes.get("Nambot")));
+	}
+	
+	public static boolean sentByNamless(MessageReceivedEvent event) {
+		return (event.getAuthor().getId().equals(GlobalVars.snowflakes.get("Namless")));
+	}
+	
+	public static boolean isNambot(User u) {
+		return u.getId().equals(GlobalVars.snowflakes.get("Nambot"));
+	}
+	
+	public static boolean isNamless(User u) {
+		return u.getId().equals(GlobalVars.snowflakes.get("Namless"));
+	}
+	
+	public static User getFirstMentionOrAuthor(MessageReceivedEvent event) {
+		if (event.getMessage().getMentionedUsers().size() == 0) {
+			return event.getAuthor();
+		} else {
+			return event.getMessage().getMentionedUsers().get(0);
+		}
+	}
+	
+	public static String convertMentions(MessageReceivedEvent event) {
+		String msg = event.getMessage().getContent();
+		for (User u : event.getMessage().getMentionedUsers()) {
+			msg = msg.replace("@" + event.getGuild().getMember(u).getEffectiveName(), u.getAsMention());
+		}
+		return msg;
+	}
+	
+	public static String getFileEnd(File f) {
+		int i = f.getName().lastIndexOf('.');
+		if (i > 0) {
+			return f.getName().substring(i + 1).toLowerCase();
+		}
+		return "";
+	}
+	
+	public static List<String> supportedImageFormats = Arrays.asList("png", "jpg", "jpeg", "gif");
+	public static boolean isImage(File f) {
+		return supportedImageFormats.contains(getFileEnd(f));
+	}
+}
