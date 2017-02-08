@@ -40,7 +40,7 @@ public class ImageCommands {
 		}
 		
 		event.getMessage().deleteMessage().queue();
-		sendImage(event.getChannel(), getPatGif(mentionedUser.getEffectiveAvatarUrl(), event.getAuthor().getEffectiveAvatarUrl()), msg);
+		sendImage(event.getChannel(), getPatGif(mentionedUser.getEffectiveAvatarUrl(), event.getAuthor().getEffectiveAvatarUrl()), "pat.gif", msg);
 	}
 	
 	/*
@@ -54,7 +54,8 @@ public class ImageCommands {
 			return;
 		}
 		
-		sendImage(event.getChannel(), getSorryAboutExistingImage(u.getEffectiveAvatarUrl()));
+		sendImage(event.getChannel(), getSorryAboutExistingImage(u.getEffectiveAvatarUrl()), "sorryaboutexisting.png");
+		//event.getChannel().sendFile(getSorryAboutExistingImage(u.getEffectiveAvatarUrl()), "sorryaboutexisting.png", new MessageBuilder().append("aa").build()).queue();
 	}
 	
 	/*
@@ -75,6 +76,7 @@ public class ImageCommands {
 		}
 		
 		String msg = "**" + getEffectiveNickname(event, event.getAuthor()) + "** shipped **" + getEffectiveNickname(event, jack) + "** with **" + getEffectiveNickname(event, rose) + "**";
-		sendImage(event.getChannel(), getShipImage(jack.getEffectiveAvatarUrl(), rose.getEffectiveAvatarUrl()), msg);
+		sendImage(event.getChannel(), getShipImage(jack.getEffectiveAvatarUrl(), rose.getEffectiveAvatarUrl()), "ship.jpg", msg);
+		//sendImage(event.getChannel(), getShipImage(jack.getEffectiveAvatarUrl(), rose.getEffectiveAvatarUrl()), msg);
 	}
 }

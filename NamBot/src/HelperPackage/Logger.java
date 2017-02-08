@@ -57,6 +57,10 @@ public class Logger {
 		sendMessage(e.getMember().getAsMention() + " was removed from the roles " + roles, e.getGuild());
 	}
 	
+	public static void log(String msg, Guild g) {
+		sendMessage(msg, g);
+	}
+	
 	/*
 	 * TEXT
 	 */

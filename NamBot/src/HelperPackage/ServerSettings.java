@@ -38,9 +38,7 @@ public class ServerSettings {
 	}
 	
 	public boolean isAdmin(Member m) {
-		if (m.getPermissions().contains(Permission.ADMINISTRATOR)) {
-			return true;
-		}
+		if (m.getPermissions().contains(Permission.ADMINISTRATOR)) { return true; }
 		
 		for (Role r : m.getRoles()) {
 			if (adminRoles.contains(r.getId())) {
@@ -51,6 +49,8 @@ public class ServerSettings {
 	}
 	
 	public boolean isElevated(Member m) {
+		if (isAdmin(m)) { return true; }
+		
 		for (Role r : m.getRoles()) {
 			if (elevatedUserRoles.contains(r.getId())) {
 				return true;

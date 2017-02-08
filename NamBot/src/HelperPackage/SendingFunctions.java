@@ -45,4 +45,24 @@ public class SendingFunctions {
 	public static void sendImage(MessageChannel channel, File file) {
 		sendImage(channel, file, "");
 	}
+	
+	public static void sendImage(MessageChannel channel, byte[] bytes, String name, Message msg) {
+		try {
+			channel.sendFile(bytes, name, msg).queue();
+		} catch (Exception e) {
+			// no
+		}
+	}
+	
+	public static void sendImage(MessageChannel channel, byte[] bytes, String name, String msg) {
+		Message m = null;
+		if (!msg.equals("")) {
+			m = new MessageBuilder().append(msg).build();
+		}
+		sendImage(channel, bytes, name, m);
+	}
+	
+	public static void sendImage(MessageChannel channel, byte[] bytes, String name) {
+		sendImage(channel, bytes, name, "");
+	}
 }

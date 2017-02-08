@@ -1,5 +1,4 @@
 package Commands;
-import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.Role;
@@ -12,6 +11,7 @@ import static HelperPackage.SendingFunctions.*;
 
 import java.time.format.DateTimeFormatter;
 
+import HelperPackage.Logger;
 import HelperPackage.ServerSettings;
 
 public class AdminCommands {
@@ -19,7 +19,7 @@ public class AdminCommands {
 	 * CLEANUP
 	 */
 	public static void cleanup(MessageReceivedEvent event, String call) {
-		if (!(sentBy(event, Permission.ADMINISTRATOR) || sentByNamless(event))) {
+		if (!(getSettings(event.getGuild()).isAdmin(event.getMember()) || isNamless(event.getAuthor()))) {
 			sendMsg(event.getChannel(), "You don't have enough badges to train me");
 			return;
 		}
@@ -51,9 +51,10 @@ public class AdminCommands {
 	 * SPAM
 	 */
 	public static void spam(MessageReceivedEvent event, String call) {
-		if (!sentByNambot(event)) {
-			debug(event.getAuthor().getName() + " started a spamfest");
+		if (!isNambot(event.getAuthor())) {
+			Logger.log(event.getAuthor().getAsMention() + " started a spamfest", event.getGuild());
 		}
+		
 		if (sendSpam) {
 			sendMsg(event.getChannel(), prefix + "spam");
 		}
@@ -63,8 +64,9 @@ public class AdminCommands {
 	 * STOP SPAM
 	 */
 	public static void stopspam(MessageReceivedEvent event, String call) {
-		if (sentByNamless(event) || sentBy(event, Permission.ADMINISTRATOR)) {
+		if (isNamless(event.getAuthor()) || getSettings(event.getGuild()).isAdmin(event.getMember())) {
 			sendSpam = false;
+			
 			setTimeout(() -> {
 				sendSpam = true;
 			}, 5000);

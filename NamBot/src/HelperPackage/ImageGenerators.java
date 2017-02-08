@@ -3,6 +3,7 @@ package HelperPackage;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -10,7 +11,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
-import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageOutputStream;
 
 public class ImageGenerators {
@@ -26,7 +26,7 @@ public class ImageGenerators {
 	/*
 	 * PAT GIF
 	 */
-	public static File getPatGif(String mentionedAvatarURL, String authorAvatarURL) {
+	public static byte[] getPatGif(String mentionedAvatarURL, String authorAvatarURL) {
 		try {
 			BufferedImage pat0 = ImageIO.read(new File("res/images/templates/pat0.jpg"));
 			BufferedImage pat1 = ImageIO.read(new File("res/images/templates/pat1.jpg"));
@@ -39,16 +39,19 @@ public class ImageGenerators {
 			pat0.getGraphics().drawImage(writingAvatar, 150, 80, 50, 50, null);
 			pat1.getGraphics().drawImage(writingAvatar, 150, 80, 50, 50, null);
 			
-			File f = new File("res/images/generated/pat.gif");
-			ImageOutputStream out = new FileImageOutputStream(f);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ImageOutputStream out = ImageIO.createImageOutputStream(baos);
 
 			GifSequenceWriter writer = new GifSequenceWriter(out, pat0.getType(), 150, true);
 			writer.writeToSequence(pat0);
 			writer.writeToSequence(pat1);
 			
 			writer.close();
+			out.flush();
+			byte[] arr = baos.toByteArray();
 			out.close();
-			return f;
+			baos.close();
+			return arr;
 		} catch (Exception e) {
 			HelperFunctions.debug(e.getMessage());
 		}
@@ -58,7 +61,7 @@ public class ImageGenerators {
 	/*
 	 * SORRY ABOUT EXISTING IMAGE
 	 */
-	public static File getSorryAboutExistingImage(String avatarURL) {
+	public static byte[] getSorryAboutExistingImage(String avatarURL) {
 		try {
 			BufferedImage avatar = getAvatar(avatarURL);
 			BufferedImage baseimage = ImageIO.read(new File("res/images/templates/sorryaboutexisting.png"));
@@ -71,9 +74,12 @@ public class ImageGenerators {
 			AffineTransformOp op = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
 			baseimage.getGraphics().drawImage(op.filter(avatar, null), 50, 50, null);
 			
-			File f = new File("res/images/generated/sorryaboutexisting.png");
-			ImageIO.write(baseimage, "PNG", f);
-			return f;
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ImageIO.write(baseimage, "PNG", baos);
+			baos.flush();
+			byte[] arr = baos.toByteArray();
+			baos.close();
+			return arr;
 		} catch (Exception e) {
 			HelperFunctions.debug(e.getMessage());
 		}
@@ -83,7 +89,7 @@ public class ImageGenerators {
 	/*
 	 * SHIP
 	 */
-	public static File getShipImage(String jackURL, String roseURL) {
+	public static byte[] getShipImage(String jackURL, String roseURL) {
 		try {
 			BufferedImage jack = getAvatar(jackURL);
 			BufferedImage rose = getAvatar(roseURL);
@@ -92,9 +98,12 @@ public class ImageGenerators {
 			base.getGraphics().drawImage(jack, 325, 85, 100, 100, null);
 			base.getGraphics().drawImage(rose, 425, 95, 100, 100, null);
 			
-			File f = new File("res/images/generated/ship.jpg");
-			ImageIO.write(base, "JPG", f);
-			return f;
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ImageIO.write(base, "JPG", baos);
+			baos.flush();
+			byte[] arr = baos.toByteArray();
+			baos.close();
+			return arr;
 		} catch (Exception e) {
 			HelperFunctions.debug(e.getMessage());
 		}

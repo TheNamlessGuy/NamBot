@@ -8,7 +8,6 @@ import java.util.Random;
 
 import org.json.JSONObject;
 
-import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -42,18 +41,6 @@ public class HelperFunctions {
 	
 	public static void debug(Object msg) {
 		System.out.println(msg);
-	}
-	
-	public static boolean sentBy(MessageReceivedEvent event, Permission perm) {
-		return event.getMember().hasPermission(perm);
-	}
-	
-	public static boolean sentByNambot(MessageReceivedEvent event) {
-		return (event.getAuthor().getId().equals(GlobalVars.snowflakes.get("Nambot")));
-	}
-	
-	public static boolean sentByNamless(MessageReceivedEvent event) {
-		return (event.getAuthor().getId().equals(GlobalVars.snowflakes.get("Namless")));
 	}
 	
 	public static boolean isNambot(User u) {
