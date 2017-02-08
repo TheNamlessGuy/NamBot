@@ -19,10 +19,10 @@ public class Main {
 			String token = scanner.useDelimiter("\\Z").next();
 			scanner.close();
 			
-			nambot = new JDABuilder(AccountType.BOT)
+			setJDA(new JDABuilder(AccountType.BOT)
 					  .setToken(token)
 					  .addListener(new MessageListener())
-					  .buildBlocking();
+					  .buildBlocking());
 			
 			nambot.getPresence().setGame(Game.of(prefix + "help"));
 			

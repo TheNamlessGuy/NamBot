@@ -8,11 +8,23 @@ import Commands.*;
 import java.lang.reflect.Method;
 
 import net.dv8tion.jda.core.entities.ChannelType;
+import net.dv8tion.jda.core.events.guild.GuildBanEvent;
+import net.dv8tion.jda.core.events.guild.GuildUnbanEvent;
+import net.dv8tion.jda.core.events.guild.member.GuildMemberJoinEvent;
+import net.dv8tion.jda.core.events.guild.member.GuildMemberLeaveEvent;
+import net.dv8tion.jda.core.events.guild.member.GuildMemberNickChangeEvent;
+import net.dv8tion.jda.core.events.guild.member.GuildMemberRoleAddEvent;
+import net.dv8tion.jda.core.events.guild.member.GuildMemberRoleRemoveEvent;
+import net.dv8tion.jda.core.events.guild.voice.GuildVoiceJoinEvent;
+import net.dv8tion.jda.core.events.guild.voice.GuildVoiceLeaveEvent;
+import net.dv8tion.jda.core.events.guild.voice.GuildVoiceMoveEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageDeleteEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import static HelperPackage.GlobalVars.*;
 //import static HelperPackage.HelperFunctions.*;
+import static HelperPackage.Logger.*;
 import static HelperPackage.FightingFunctions.*;
 import static HelperPackage.SendingFunctions.*;
 
@@ -23,7 +35,8 @@ public class MessageListener extends ListenerAdapter {
 															   prefix + "test",
 															   prefix + "help",
 															   prefix + "spam",
-															   prefix + "stopspam");
+															   prefix + "stopspam",
+															   prefix + "setloggerchannel");
 	
 	public MessageListener() throws Exception {
 		@SuppressWarnings("rawtypes")
@@ -36,6 +49,7 @@ public class MessageListener extends ListenerAdapter {
 		calls.put(prefix + "spam", AdminCommands.class.getMethod("spam", param));
 		calls.put(prefix + "stopspam", AdminCommands.class.getMethod("stopspam", param));
 		calls.put(prefix + "getinfo", AdminCommands.class.getMethod("getinfo", param));
+		calls.put(prefix + "setloggerchannel", AdminCommands.class.getMethod("setloggerchannel", param));
 
 		/*
 		 * USER COMMANDS
@@ -108,4 +122,27 @@ public class MessageListener extends ListenerAdapter {
 		str += "```";
 		sendMsg(event.getChannel(), str);
 	}
+	
+	@Override
+	public void onGuildVoiceJoin(GuildVoiceJoinEvent e) { log(e); }
+	@Override
+	public void onGuildVoiceLeave(GuildVoiceLeaveEvent e) { log(e); }
+	@Override
+	public void onGuildVoiceMove(GuildVoiceMoveEvent e) { log(e); }
+	@Override
+	public void onGuildBan(GuildBanEvent e) { log(e); }
+	@Override
+	public void onGuildUnban(GuildUnbanEvent e) { log(e); }
+	@Override
+	public void onGuildMemberJoin(GuildMemberJoinEvent e) { log(e); }
+	@Override
+	public void onGuildMemberLeave(GuildMemberLeaveEvent e) { log(e); }
+	@Override
+	public void onGuildMemberNickChange(GuildMemberNickChangeEvent e) { log(e); }
+	@Override
+	public void onGuildMemberRoleAdd(GuildMemberRoleAddEvent e) { log(e); }
+	@Override
+	public void onGuildMemberRoleRemove(GuildMemberRoleRemoveEvent e) { log(e); }
+	@Override
+	public void onGuildMessageDelete(GuildMessageDeleteEvent e) { log(e); }
 }

@@ -24,7 +24,7 @@ public class ConsoleInputParser {
 		TextChannel tc = getChannel(g, in[1]);
 		if (tc == null) { return; }
 
-		tc.sendMessage(concat(in, 2)).queue();
+		tc.sendMessage(concat(in, 2, " ")).queue();
 	}
 	
 	private static void info(String[] in) {
@@ -40,6 +40,7 @@ public class ConsoleInputParser {
 	}
 	
 	private static void shutdown(String[] in) {
+		HelperFunctions.saveSettings();
 		System.exit(0);
 	}
 	
@@ -77,10 +78,10 @@ public class ConsoleInputParser {
 		return null;
 	}
 	
-	private static String concat(String[] s, int start) {
+	private static String concat(String[] s, int start, String separator) {
 		String m = "";
 		for (int i = start; i < s.length; i++) {
-			m += s[i];
+			m += s[i] + separator;
 		}
 		return m;
 	}

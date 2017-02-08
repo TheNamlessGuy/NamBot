@@ -28,8 +28,11 @@ public class UserCommands {
 		} else if (isNambot(member.getUser())) {
 			sendMsg(event.getChannel(), "That's me");
 		} else {
-			sendMsg(event.getChannel(), "You are " + member.getEffectiveName()
-					+ " (a.k.a. " + member.getUser().getName() + "), a " + member.getRoles().get(0).getName());
+			String msg = "You are " + member.getEffectiveName() + "(a.k.a. " + member.getUser().getName() + ")";
+			if (member.getRoles().size() > 0) {
+				msg += ", a" + member.getRoles().get(0).getName();
+			}
+			sendMsg(event.getChannel(), msg);
 		}
 	}
 	

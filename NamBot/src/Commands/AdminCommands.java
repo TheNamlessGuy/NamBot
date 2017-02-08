@@ -12,6 +12,8 @@ import static HelperPackage.SendingFunctions.*;
 
 import java.time.format.DateTimeFormatter;
 
+import HelperPackage.ServerSettings;
+
 public class AdminCommands {
 	/*
 	 * CLEANUP
@@ -91,5 +93,19 @@ public class AdminCommands {
 		msg += "Color: " + m.getColor().getRed() + ", " + m.getColor().getGreen() + ", " + m.getColor().getBlue() + "\n";
 		msg += "```";
 		sendMsg(event.getChannel(), msg);
+	}
+	
+	/*
+	 * SET LOGGER CHANNEL
+	 */
+	public static void setloggerchannel(MessageReceivedEvent event, String call) {
+		ServerSettings s = getSettings(event.getGuild());
+		
+		if (s.isAdmin(event.getMember())) {
+			s.loggerChannel = event.getChannel().getId();
+			sendMsg(event.getChannel(), "This channel successfully set to logger channel");
+		} else {
+			sendMsg(event.getChannel(), "You do not have permissions to set this to logger channel");
+		}
 	}
 }

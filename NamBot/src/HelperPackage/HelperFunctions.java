@@ -1,11 +1,15 @@
 package HelperPackage;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import org.json.JSONObject;
+
 import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
@@ -36,7 +40,7 @@ public class HelperFunctions {
 		return event.getGuild().getMember(u).getEffectiveName();
 	}
 	
-	public static void debug(String msg) {
+	public static void debug(Object msg) {
 		System.out.println(msg);
 	}
 	
@@ -87,5 +91,25 @@ public class HelperFunctions {
 	public static List<String> supportedImageFormats = Arrays.asList("png", "jpg", "jpeg", "gif");
 	public static boolean isImage(File f) {
 		return supportedImageFormats.contains(getFileEnd(f));
+	}
+	
+	public static void saveSettings() {
+		try {
+			FileWriter f = new FileWriter("serversettings.json");
+			
+			JSONObject obj = new JSONObject();
+			for (String snowflake : GlobalVars.serversettings.keySet()) {
+				obj.put(snowflake, GlobalVars.serversettings.get(snowflake).toJSON());
+			}
+			
+			f.write(obj.toString());
+			f.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static ServerSettings getSettings(Guild g) {
+		return GlobalVars.serversettings.get(g.getId());
 	}
 }
