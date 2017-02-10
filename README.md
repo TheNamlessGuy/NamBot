@@ -16,7 +16,7 @@ These are just ordered in a way I found made sense when I implemented them, no r
 `pat @user` -> Pats that user (creates gif)  
 `sorryaboutexisting [@user]` -> Makes the user say sorry about existing (creates an image)  
 `ship [@user @user]` -> If two users are mentioned, ships those users (creates an image)  
-`highfive @user` -> Highfives that user (creates an image)  
+`highfive @user` -> Highfives that user (creates gif)  
 
 ###### Reaction Commands
 `becool` -> sends :sunglasses:  
