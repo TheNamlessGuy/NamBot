@@ -32,29 +32,40 @@ public class Logger {
 	}
 	
 	public static void log(GuildMemberLeaveEvent e) {
+		if (HelperFunctions.isNambot(e.getMember().getUser())) { return; }
 		sendMessage(e.getMember().getAsMention() + " left the server", e.getGuild());
 	}
 	
 	public static void log(GuildMemberNickChangeEvent e) {
-		sendMessage(e.getMember().getAsMention() + " changed their nickname from " + e.getPrevNick() + " to " + e.getNewNick(), e.getGuild());
+		sendMessage(e.getMember().getAsMention() + " changed their nickname from `" + e.getPrevNick() + "` to `" + e.getNewNick() + '`', e.getGuild());
 	}
 	
 	public static void log(GuildMemberRoleAddEvent e) {
 		String roles = "";
 		for (Role r : e.getRoles()) {
-			roles += r.getAsMention() + ", ";
+			roles += "`" + r.getName() + "`, ";
 		}
 		roles = roles.substring(0, roles.length() - 2);
-		sendMessage(e.getMember().getAsMention() + " was added to roles " + roles, e.getGuild());
+		
+		if (e.getRoles().size() == 1) {
+			sendMessage(e.getMember().getAsMention() + " was added to the role " + roles, e.getGuild());
+		} else {
+			sendMessage(e.getMember().getAsMention() + " was added to the roles " + roles, e.getGuild());
+		}
 	}
 	
 	public static void log(GuildMemberRoleRemoveEvent e) {
 		String roles = "";
 		for (Role r : e.getRoles()) {
-			roles += r.getAsMention() + ", ";
+			roles += "`" + r.getName() + "`, ";
 		}
 		roles = roles.substring(0, roles.length() - 2);
-		sendMessage(e.getMember().getAsMention() + " was removed from the roles " + roles, e.getGuild());
+		
+		if (e.getRoles().size() == 1) {
+			sendMessage(e.getMember().getAsMention() + " was removed from the role " + roles, e.getGuild());
+		} else {
+			sendMessage(e.getMember().getAsMention() + " was removed from the roles " + roles, e.getGuild());
+		}
 	}
 	
 	public static void log(String msg, Guild g) {
@@ -73,15 +84,15 @@ public class Logger {
 	 * VOICE
 	 */
 	public static void log(GuildVoiceJoinEvent e) {
-		sendMessage(e.getMember().getAsMention() + " joined voice channel " + e.getChannelJoined().getName(), e.getGuild());
+		sendMessage(e.getMember().getAsMention() + " joined voice channel `" + e.getChannelJoined().getName() + '`', e.getGuild());
 	}
 	
 	public static void log(GuildVoiceLeaveEvent e) {
-		sendMessage(e.getMember().getAsMention() + " left voice channel " + e.getChannelLeft().getName(), e.getGuild());
+		sendMessage(e.getMember().getAsMention() + " left voice channel `" + e.getChannelLeft().getName() + '`', e.getGuild());
 	}
 	
 	public static void log(GuildVoiceMoveEvent e) {
-		sendMessage(e.getMember().getAsMention() + " moved from voice channel " + e.getChannelLeft().getName() + " to " + e.getChannelJoined().getName(), e.getGuild());
+		sendMessage(e.getMember().getAsMention() + " moved from voice channel `" + e.getChannelLeft().getName() + "` to `" + e.getChannelJoined().getName() + '`', e.getGuild());
 	}
 	
 	/*

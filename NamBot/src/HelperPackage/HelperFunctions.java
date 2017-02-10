@@ -9,6 +9,8 @@ import java.util.Random;
 import org.json.JSONObject;
 
 import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Role;
+import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
@@ -62,7 +64,13 @@ public class HelperFunctions {
 	public static String convertMentions(MessageReceivedEvent event) {
 		String msg = event.getMessage().getContent();
 		for (User u : event.getMessage().getMentionedUsers()) {
-			msg = msg.replace("@" + event.getGuild().getMember(u).getEffectiveName(), u.getAsMention());
+			msg = msg.replaceAll("@" + event.getGuild().getMember(u).getEffectiveName(), u.getAsMention());
+		}
+		for (Role r : event.getMessage().getMentionedRoles()) {
+			msg = msg.replaceAll("@" + r.getName(), r.getAsMention());
+		}
+		for (TextChannel tc : event.getMessage().getMentionedChannels()) {
+			msg = msg.replaceAll("#" + tc.getName(), tc.getAsMention());
 		}
 		return msg;
 	}

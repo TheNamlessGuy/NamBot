@@ -1,6 +1,4 @@
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import Commands.*;
@@ -23,20 +21,13 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageDeleteEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import static HelperPackage.GlobalVars.*;
-//import static HelperPackage.HelperFunctions.*;
+import static HelperPackage.HelperFunctions.*;
 import static HelperPackage.Logger.*;
 import static HelperPackage.FightingFunctions.*;
 import static HelperPackage.SendingFunctions.*;
 
 public class MessageListener extends ListenerAdapter {	
 	private static Map<String, Method> calls = new HashMap<String, Method>();
-	
-	private static List<String> hiddenCommands = Arrays.asList(prefix + "bv",
-															   prefix + "test",
-															   prefix + "help",
-															   prefix + "spam",
-															   prefix + "stopspam",
-															   prefix + "setloggerchannel");
 	
 	public MessageListener() throws Exception {
 		@SuppressWarnings("rawtypes")
@@ -50,6 +41,7 @@ public class MessageListener extends ListenerAdapter {
 		calls.put(prefix + "stopspam", AdminCommands.class.getMethod("stopspam", param));
 		calls.put(prefix + "getinfo", AdminCommands.class.getMethod("getinfo", param));
 		calls.put(prefix + "setloggerchannel", AdminCommands.class.getMethod("setloggerchannel", param));
+		calls.put(prefix + "removeloggerchannel", AdminCommands.class.getMethod("removeloggerchannel", param));
 
 		/*
 		 * USER COMMANDS
@@ -72,6 +64,9 @@ public class MessageListener extends ListenerAdapter {
 		calls.put(prefix + "shut", ReactionCommands.class.getMethod("shut", param));
 		calls.put(prefix + "lmao", ReactionCommands.class.getMethod("lmao", param));
 		calls.put(prefix + "dab", ReactionCommands.class.getMethod("dab", param));
+		calls.put(prefix + "say", ReactionCommands.class.getMethod("say", param));
+		calls.put(prefix + "salute", ReactionCommands.class.getMethod("salute", param));
+		calls.put(prefix + "reee", ReactionCommands.class.getMethod("reee", param));
 		
 		/*
 		 * IMAGE COMMANDS
@@ -79,6 +74,7 @@ public class MessageListener extends ListenerAdapter {
 		calls.put(prefix + "pat", ImageCommands.class.getMethod("pat", param));
 		calls.put(prefix + "sorryaboutexisting", ImageCommands.class.getMethod("sorryaboutexisting", param));
 		calls.put(prefix + "ship", ImageCommands.class.getMethod("ship", param));
+		calls.put(prefix + "highfive", ImageCommands.class.getMethod("highfive", param));
 		
 		/*
 		 * BACKGROUND COMMANDS
@@ -86,6 +82,7 @@ public class MessageListener extends ListenerAdapter {
 		calls.put(prefix + "bv", BackgroundCommands.class.getMethod("botvote", param));
 		
 		calls.put(prefix + "help", MessageListener.class.getMethod("help", param));
+		calls.put(prefix + "testlog", MessageListener.class.getMethod("testlog", param));
 	}
 	
 	@Override
@@ -95,16 +92,13 @@ public class MessageListener extends ListenerAdapter {
 		if (!msg.startsWith(prefix)) { return; }
 		
 		if (event.isFromType(ChannelType.TEXT)) {
-			for (String key : calls.keySet()) {
-				if (msg.startsWith(key)) {
-					try {
-						calls.get(key).invoke(null, event, msg.replace(key, "").trim());
-					} catch (Exception e) {
-						sendMsg(event.getChannel(), "Running call '" + msg + "' failed");
-						e.printStackTrace();
-					}
-					return;
-				}
+			String call = msg.split("\\s")[0];
+			try {
+				if (calls.get(call) != null)
+					calls.get(call).invoke(null, event, msg.replace(call, "").trim());
+			} catch (Exception e) {
+				sendMsg(event.getChannel(), "Running call '" + msg + "' failed:\n`" + e.getMessage() + '`');
+				e.printStackTrace();
 			}
 		} else if (event.isFromType(ChannelType.PRIVATE)) {
 			if (msg.startsWith(prefix + "hit") || msg.startsWith(prefix + "block") || msg.startsWith(prefix + "giveup")) {
@@ -113,14 +107,12 @@ public class MessageListener extends ListenerAdapter {
 		}
 	}
 	
-	public static void help(MessageReceivedEvent event, String call) {		
-		String str = "```\nAvailable commands:\n\n";
-		for (String key : calls.keySet()) {
-			if (hiddenCommands.contains(key)) { continue; }
-			str += key.substring(2) + "\n";
-		}
-		str += "```";
-		sendMsg(event.getChannel(), str);
+	public static void help(MessageReceivedEvent event, String call) {
+		sendMsg(event.getChannel(), "For a list of available commands, check:\nhttps://github.com/TheNamlessGuy/NamBot");
+	}
+	
+	public static void testlog(MessageReceivedEvent event, String call) {
+		debug("'" + event.getAuthor().getName() + "' on '" + event.getGuild().getName() + "' test: " + call);
 	}
 	
 	@Override

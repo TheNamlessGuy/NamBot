@@ -6,12 +6,10 @@ import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 import static HelperPackage.HelperFunctions.*;
-import static HelperPackage.GlobalVars.*;
 import static HelperPackage.SendingFunctions.*;
 
 import java.time.format.DateTimeFormatter;
 
-import HelperPackage.Logger;
 import HelperPackage.ServerSettings;
 
 public class AdminCommands {
@@ -46,33 +44,18 @@ public class AdminCommands {
 		}
 	}
 	
-	static boolean sendSpam = true;
 	/*
 	 * SPAM
 	 */
 	public static void spam(MessageReceivedEvent event, String call) {
-		if (!isNambot(event.getAuthor())) {
-			Logger.log(event.getAuthor().getAsMention() + " started a spamfest", event.getGuild());
-		}
 		
-		if (sendSpam) {
-			sendMsg(event.getChannel(), prefix + "spam");
-		}
 	}
 	
 	/*
 	 * STOP SPAM
 	 */
 	public static void stopspam(MessageReceivedEvent event, String call) {
-		if (isNamless(event.getAuthor()) || getSettings(event.getGuild()).isAdmin(event.getMember())) {
-			sendSpam = false;
-			
-			setTimeout(() -> {
-				sendSpam = true;
-			}, 5000);
-		} else {
-			sendMsg(event.getChannel(), "Nope");
-		}
+		
 	}
 	
 	/*
@@ -80,6 +63,10 @@ public class AdminCommands {
 	 */
 	public static void getinfo(MessageReceivedEvent event, String call) {
 		User u = getFirstMentionOrAuthor(event);
+		if (isNambot(u)) {
+			sendMsg(event.getChannel(), "https://github.com/TheNamlessGuy/NamBot");
+			return;
+		}
 		Member m = event.getGuild().getMember(u);
 		
 		String msg = "```\n";
@@ -108,6 +95,20 @@ public class AdminCommands {
 			sendMsg(event.getChannel(), "This channel successfully set to logger channel");
 		} else {
 			sendMsg(event.getChannel(), "You do not have permissions to set this to logger channel");
+		}
+	}
+	
+	/*
+	 * REMOVE LOGGER CHANNEL
+	 */
+	public static void removeloggerchannel(MessageReceivedEvent event, String call) {
+		ServerSettings s = getSettings(event.getGuild());
+		
+		if (s.isAdmin(event.getMember())) {
+			s.loggerChannel = "";
+			sendMsg(event.getChannel(), "Logger channel disabled");
+		} else {
+			sendMsg(event.getChannel(), "You do not have permissions to remove the logger channel");
 		}
 	}
 }

@@ -26,7 +26,7 @@ public class UserCommands {
 		if (isNamless(member.getUser())) {
 			sendMsg(event.getChannel(), member.getAsMention() + " is my creator, the coolest guy ever! :sunglasses: <-- Literally him");
 		} else if (isNambot(member.getUser())) {
-			sendMsg(event.getChannel(), "That's me");
+			sendMsg(event.getChannel(), "https://github.com/TheNamlessGuy/NamBot");
 		} else {
 			String msg = "You are " + member.getEffectiveName() + "(a.k.a. " + member.getUser().getName() + ")";
 			if (member.getRoles().size() > 0) {

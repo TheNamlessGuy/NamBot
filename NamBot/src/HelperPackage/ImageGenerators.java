@@ -15,6 +15,39 @@ import javax.imageio.stream.ImageOutputStream;
 
 public class ImageGenerators {
 	/*
+	 * GIF TO BYTES
+	 */
+	public static byte[] gifToBytes(BufferedImage[] images, int frameTime) throws IOException {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ImageOutputStream out = ImageIO.createImageOutputStream(baos);
+		
+		GifSequenceWriter gif = new GifSequenceWriter(out, images[0].getType(), frameTime, true);
+		for (BufferedImage i : images) {
+			gif.writeToSequence(i);
+		}
+		gif.close();
+		out.flush();
+		byte[] arr = baos.toByteArray();
+		out.close();
+		baos.close();
+		return arr;
+	}
+	
+	/*
+	 * READ FOLDER
+	 */
+	public static BufferedImage[] readFolder(String url) throws IOException {
+		File[] files = new File(url).listFiles();
+		BufferedImage[] array = new BufferedImage[files.length];
+		
+		for (int i = 0; i < files.length; i++) {
+			array[i] = ImageIO.read(files[i]);
+		}
+		
+		return array;
+	}
+	
+	/*
 	 * GET AVATAR
 	 */
 	public static BufferedImage getAvatar(String avatarURL) throws MalformedURLException, IOException {
@@ -28,32 +61,19 @@ public class ImageGenerators {
 	 */
 	public static byte[] getPatGif(String mentionedAvatarURL, String authorAvatarURL) {
 		try {
-			BufferedImage pat0 = ImageIO.read(new File("res/images/templates/pat0.jpg"));
-			BufferedImage pat1 = ImageIO.read(new File("res/images/templates/pat1.jpg"));
 			BufferedImage mentionedAvatar = getAvatar(mentionedAvatarURL);
 			BufferedImage writingAvatar = getAvatar(authorAvatarURL);
+			BufferedImage[] gif = readFolder("res/images/templates/pat");
 			
-			pat0.getGraphics().drawImage(mentionedAvatar, 70, 160, 50, 50, null);
-			pat1.getGraphics().drawImage(mentionedAvatar, 70, 160, 50, 50, null);
+			gif[0].getGraphics().drawImage(mentionedAvatar, 70, 160, 50, 50, null);
+			gif[1].getGraphics().drawImage(mentionedAvatar, 70, 160, 50, 50, null);
 			
-			pat0.getGraphics().drawImage(writingAvatar, 150, 80, 50, 50, null);
-			pat1.getGraphics().drawImage(writingAvatar, 150, 80, 50, 50, null);
+			gif[0].getGraphics().drawImage(writingAvatar, 150, 80, 50, 50, null);
+			gif[1].getGraphics().drawImage(writingAvatar, 150, 80, 50, 50, null);
 			
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ImageOutputStream out = ImageIO.createImageOutputStream(baos);
-
-			GifSequenceWriter writer = new GifSequenceWriter(out, pat0.getType(), 150, true);
-			writer.writeToSequence(pat0);
-			writer.writeToSequence(pat1);
-			
-			writer.close();
-			out.flush();
-			byte[] arr = baos.toByteArray();
-			out.close();
-			baos.close();
-			return arr;
+			return gifToBytes(gif, 150);
 		} catch (Exception e) {
-			HelperFunctions.debug(e.getMessage());
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -81,7 +101,7 @@ public class ImageGenerators {
 			baos.close();
 			return arr;
 		} catch (Exception e) {
-			HelperFunctions.debug(e.getMessage());
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -105,7 +125,40 @@ public class ImageGenerators {
 			baos.close();
 			return arr;
 		} catch (Exception e) {
-			HelperFunctions.debug(e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/*
+	 * HIGHFIVE
+	 */
+	public static byte[] getHighfiveGif(String u1, String u2) {
+		try {
+			BufferedImage a1 = getAvatar(u1);
+			BufferedImage a2 = getAvatar(u2);
+			BufferedImage[] gif = readFolder("res/images/templates/highfive");
+
+			gif[0].getGraphics().drawImage(a1, 70, 50, 80, 80, null);
+			gif[0].getGraphics().drawImage(a2, 365, 90, 60, 60, null);
+			
+			gif[1].getGraphics().drawImage(a1, 68, 48, 80, 80, null);
+			gif[1].getGraphics().drawImage(a2, 366, 90, 60, 60, null);
+			
+			gif[2].getGraphics().drawImage(a1, 66, 46, 80, 80, null);
+			gif[2].getGraphics().drawImage(a2, 367, 90, 60, 60, null);
+			
+			gif[3].getGraphics().drawImage(a1, 60, 40, 80, 80, null);
+			gif[3].getGraphics().drawImage(a2, 370, 90, 60, 60, null);
+			
+			for (int i = 4; i < 10; i++) {
+				gif[i].getGraphics().drawImage(a1, 59, 39, 80, 80, null);
+				gif[i].getGraphics().drawImage(a2, 371, 90, 60, 60, null);
+			}
+			
+			return gifToBytes(gif, 100);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return null;
 	}

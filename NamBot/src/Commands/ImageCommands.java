@@ -44,7 +44,7 @@ public class ImageCommands {
 	}
 	
 	/*
-	 * SORRY FOR EXISTING
+	 * SORRY ABOUT EXISTING
 	 */
 	public static void sorryaboutexisting(MessageReceivedEvent event, String call) {
 		User u = getFirstMentionOrAuthor(event);
@@ -55,7 +55,6 @@ public class ImageCommands {
 		}
 		
 		sendImage(event.getChannel(), getSorryAboutExistingImage(u.getEffectiveAvatarUrl()), "sorryaboutexisting.png");
-		//event.getChannel().sendFile(getSorryAboutExistingImage(u.getEffectiveAvatarUrl()), "sorryaboutexisting.png", new MessageBuilder().append("aa").build()).queue();
 	}
 	
 	/*
@@ -77,6 +76,35 @@ public class ImageCommands {
 		
 		String msg = "**" + getEffectiveNickname(event, event.getAuthor()) + "** shipped **" + getEffectiveNickname(event, jack) + "** with **" + getEffectiveNickname(event, rose) + "**";
 		sendImage(event.getChannel(), getShipImage(jack.getEffectiveAvatarUrl(), rose.getEffectiveAvatarUrl()), "ship.jpg", msg);
-		//sendImage(event.getChannel(), getShipImage(jack.getEffectiveAvatarUrl(), rose.getEffectiveAvatarUrl()), msg);
+	}
+	
+	/*
+	 * HIGHFIVE
+	 */
+	public static void highfive(MessageReceivedEvent event, String call) {
+		if (event.getMessage().getMentionedUsers().size() == 0) {
+			sendMsg(event.getChannel(), "You have to mention a user");
+			return;
+		}
+		
+		User u1 = event.getAuthor();
+		User u2 = event.getMessage().getMentionedUsers().get(0);
+		
+		if (isNambot(u2) && !isNamless(u1)) {
+			sendMsg(event.getChannel(), "Sorry, I only highfive cool people");
+			return;
+		} else if (u1.getId().equals(u2.getId())) {
+			sendMsg(event.getChannel(), "You can't highfive yourself dude");
+			return;
+		}
+		
+		String msg = "**" + getEffectiveNickname(event, u1) + "** highfives **" + getEffectiveNickname(event, u2) + "**";
+		call = call.replace("@" + getEffectiveNickname(event, u2), "").trim();
+		if (!call.equals("")) {
+			msg += " and says **" + call + "**";
+		}
+		
+		event.getMessage().deleteMessage().queue();
+		sendImage(event.getChannel(), getHighfiveGif(u1.getEffectiveAvatarUrl(), u2.getEffectiveAvatarUrl()), "highfive.gif", msg);
 	}
 }

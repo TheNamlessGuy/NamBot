@@ -31,7 +31,6 @@ public class Main {
 			boolean running = true;
 			
 			while(running) {
-				System.out.print("> ");
 				input = scanner.nextLine();
 				parseInput(input);
 			}
