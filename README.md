@@ -3,7 +3,8 @@
 A shitty bot built for Discord in Java.  
 
 ## Commands
-These are just ordered in a way I found made sense when I implemented them, no real thought went into it
+These are just ordered in a way I found made sense when I implemented them, no real thought went into it  
+ALL THE COMMANDS ARE USED WITH THE PREFIX "::"  
 ###### Admin Commands
 `cleanup (0-99 | "max")` -> removes 0-99 of the last messages in the current text chat  
 `getinfo [@user]` -> Retrieves info about that user (roles, snowflake, avatar URL, join date, etc)  
@@ -29,6 +30,7 @@ These are just ordered in a way I found made sense when I implemented them, no r
 `say phrase` -> Repeats phrase  
 `salute` -> Sends picture salute.jpg  
 `reee` -> Sends "REEE" with enough "E" to fill up the max length of a message  
+`/wrist` -> Sends :knife: :hand_splayed: :sweat_drops:  
 
 ###### User Commands
 `whoami [@user]` -> Gets the name and role of that user  

@@ -38,8 +38,6 @@ public class MessageListener extends ListenerAdapter {
 		 * ADMIN COMMANDS
 		 */
 		calls.put(prefix + "cleanup", AdminCommands.class.getMethod("cleanup", param));
-		calls.put(prefix + "spam", AdminCommands.class.getMethod("spam", param));
-		calls.put(prefix + "stopspam", AdminCommands.class.getMethod("stopspam", param));
 		calls.put(prefix + "getinfo", AdminCommands.class.getMethod("getinfo", param));
 		calls.put(prefix + "setloggerchannel", AdminCommands.class.getMethod("setloggerchannel", param));
 		calls.put(prefix + "removeloggerchannel", AdminCommands.class.getMethod("removeloggerchannel", param));
@@ -67,6 +65,7 @@ public class MessageListener extends ListenerAdapter {
 		calls.put(prefix + "say", ReactionCommands.class.getMethod("say", param));
 		calls.put(prefix + "salute", ReactionCommands.class.getMethod("salute", param));
 		calls.put(prefix + "reee", ReactionCommands.class.getMethod("reee", param));
+		calls.put(prefix + "/wrist", ReactionCommands.class.getMethod("slashwrist", param));
 		
 		/*
 		 * IMAGE COMMANDS
