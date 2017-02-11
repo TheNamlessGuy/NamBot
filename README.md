@@ -37,7 +37,10 @@ These are just ordered in a way I found made sense when I implemented them, no r
 `ratecoolness [@user]` -> Rates the coolness of the user on a 0-10 scale  
 `vote phrase` -> Puts the phrase up for vote (by thumbs up/down reactions)  
 `meme [search term]` -> Generates a random meme if no search term is specified, tries to find the searched for meme otherwise  
+
+###### Mini Game Commands
 `fight @user` -> Starts a fight between the user who types the command and the mentioned user. Fight takes place in PMs.  
+`tictactoe @user` -> Plays a round of tic tac toe with the user. Game takes place in PMs.  
 
 ## Library/Dependencies
 Uses the library JDA (https://github.com/DV8FromTheWorld/JDA)  
