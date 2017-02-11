@@ -1,7 +1,8 @@
 package Commands;
 
 import static HelperPackage.GlobalVars.*;
-import static HelperPackage.SendingFunctions.sendMsg;
+import static HelperPackage.HelperFunctions.*;
+import static HelperPackage.SendingFunctions.*;
 
 import HelperPackage.FightingPair;
 import HelperPackage.TicTacToePair;
@@ -20,7 +21,7 @@ public class MiniGameCommands {
 		
 		User mentionedUser = event.getMessage().getMentionedUsers().get(0);
 		User author = event.getAuthor();
-		if (mentionedUser.getId().equals(author.getId())) {
+		if (isSame(mentionedUser, author)) {
 			sendMsg(event.getChannel(), "How are you gonna fight yourself, " + mentionedUser.getAsMention() + "?");
 			return;
 		}
@@ -63,8 +64,8 @@ public class MiniGameCommands {
 		
 		User mentionedUser = event.getMessage().getMentionedUsers().get(0);
 		User author = event.getAuthor();
-		if (mentionedUser.getId().equals(author.getId())) {
-			sendMsg(event.getChannel(), "How are you gonna fight yourself, " + mentionedUser.getAsMention() + "?");
+		if (isSame(mentionedUser, author)) {
+			sendMsg(event.getChannel(), "How are you gonna play with yourself, " + mentionedUser.getAsMention() + "?");
 			return;
 		}
 

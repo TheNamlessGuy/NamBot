@@ -74,6 +74,7 @@ public class MessageListener extends ListenerAdapter {
 		calls.put(prefix + "sorryaboutexisting", ImageCommands.class.getMethod("sorryaboutexisting", param));
 		calls.put(prefix + "ship", ImageCommands.class.getMethod("ship", param));
 		calls.put(prefix + "highfive", ImageCommands.class.getMethod("highfive", param));
+		calls.put(prefix + "stab", ImageCommands.class.getMethod("stab", param));
 		
 		/*
 		 * MINIGAME COMMANDS

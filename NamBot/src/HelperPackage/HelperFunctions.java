@@ -53,6 +53,10 @@ public class HelperFunctions {
 		return u.getId().equals(GlobalVars.snowflakes.get("Namless"));
 	}
 	
+	public static boolean isSame(User u1, User u2) {
+		return u1.getId().equals(u2.getId());
+	}
+	
 	public static User getFirstMentionOrAuthor(MessageReceivedEvent event) {
 		if (event.getMessage().getMentionedUsers().size() == 0) {
 			return event.getAuthor();

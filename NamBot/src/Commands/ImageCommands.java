@@ -13,11 +13,7 @@ public class ImageCommands {
 	 */
 	public static void pat(MessageReceivedEvent event, String call) {
 		if (event.getMessage().getMentionedUsers().size() == 0) {
-			if (isNamless(event.getAuthor())) {
-				sendMsg(event.getChannel(), "Oh no, master! You have to mention a user as well!");
-			} else {
-				sendMsg(event.getChannel(), "You have to mention a user, you massive cumstain");
-			}
+			sendMsg(event.getChannel(), "You have to mention a user");
 			return;
 		}
 		User mentionedUser = event.getMessage().getMentionedUsers().get(0);
@@ -25,7 +21,7 @@ public class ImageCommands {
 		if (isNambot(mentionedUser)) {
 			sendMsg(event.getChannel(), "Don't pat me you creepy fucker");
 			return;
-		} else if (mentionedUser.getId().equals(event.getAuthor().getId())) {
+		} else if (isSame(mentionedUser, event.getAuthor())) {
 			sendMsg(event.getChannel(), "Patting yourself is kinda sad, " + mentionedUser.getAsMention());
 			event.getMessage().deleteMessage().queue();
 			return;
@@ -93,7 +89,7 @@ public class ImageCommands {
 		if (isNambot(u2) && !isNamless(u1)) {
 			sendMsg(event.getChannel(), "Sorry, I only highfive cool people");
 			return;
-		} else if (u1.getId().equals(u2.getId())) {
+		} else if (isSame(u1, u2)) {
 			sendMsg(event.getChannel(), "You can't highfive yourself dude");
 			return;
 		}
@@ -106,5 +102,34 @@ public class ImageCommands {
 		
 		event.getMessage().deleteMessage().queue();
 		sendImage(event.getChannel(), getHighfiveGif(u1.getEffectiveAvatarUrl(), u2.getEffectiveAvatarUrl()), "highfive.gif", msg);
+	}
+	
+	/*
+	 * STAB
+	 */
+	public static void stab(MessageReceivedEvent event, String call) {
+		if (event.getMessage().getMentionedUsers().size() == 0) {
+			sendMsg(event.getChannel(), "You have to mention a user");
+			return;
+		}
+		
+		User u1 = event.getAuthor();
+		User u2 = event.getMessage().getMentionedUsers().get(0);
+		
+		if (isNambot(u2)) {
+			sendMsg(event.getChannel(), "Don't stab me you weirdo");
+			return;
+		} else if (isSame(u1, u2)) {
+			sendMsg(event.getChannel(), "Stabbing yourself? You should go see a psychiatrist");
+			return;
+		}
+		
+		call = call.replace("@" + getEffectiveNickname(event, u2), "").trim();
+		if (call.equals("")) {
+			sendImage(event.getChannel(), getStabGif(u1.getEffectiveAvatarUrl(), u2.getEffectiveAvatarUrl()), "stab.gif");
+		} else {
+			call = "**" + getEffectiveNickname(event, u1) + "**: " + call;
+			sendImage(event.getChannel(), getStabGif(u1.getEffectiveAvatarUrl(), u2.getEffectiveAvatarUrl()), "stab.gif", call);
+		}
 	}
 }

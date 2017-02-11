@@ -80,7 +80,6 @@ public class UserCommands {
 	 * MEME
 	 */
 	public static void meme(MessageReceivedEvent event, String call) {
-		
 		String msg = "**" + getEffectiveNickname(event, event.getAuthor()) + "** generated this meme:\n";
 		File[] memes = new File("res/memes/").listFiles();
 		int index = -1;

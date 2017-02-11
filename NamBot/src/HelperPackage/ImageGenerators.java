@@ -15,6 +15,28 @@ import javax.imageio.stream.ImageOutputStream;
 
 public class ImageGenerators {
 	/*
+	 * ROTATE IMAGE
+	 */
+	public static BufferedImage rotateImage(BufferedImage i, int degrees) {
+		AffineTransform at = new AffineTransform();
+		at.rotate(Math.toRadians(degrees), i.getWidth() / 2, i.getHeight() / 2);
+		AffineTransformOp op = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+		return op.filter(i, null);
+	}
+	
+	/*
+	 * IMAGE TO BYTES
+	 */
+	public static byte[] imageToBytes(BufferedImage image, String type) throws IOException {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ImageIO.write(image, type, baos);
+		baos.flush();
+		byte[] arr = baos.toByteArray();
+		baos.close();
+		return arr;
+	}
+	
+	/*
 	 * GIF TO BYTES
 	 */
 	public static byte[] gifToBytes(BufferedImage[] images, int frameTime) throws IOException {
@@ -83,23 +105,12 @@ public class ImageGenerators {
 	 */
 	public static byte[] getSorryAboutExistingImage(String avatarURL) {
 		try {
-			BufferedImage avatar = getAvatar(avatarURL);
+			BufferedImage avatar = rotateImage(getAvatar(avatarURL), -15);
 			BufferedImage baseimage = ImageIO.read(new File("res/images/templates/sorryaboutexisting.png"));
 			
-			AffineTransform at = new AffineTransform();
-			// #2: rotate
-			at.rotate(Math.toRadians(-15), avatar.getWidth() / 2, avatar.getHeight() / 2);
-			// #1: scale
-			at.scale(1.5, 1.5);
-			AffineTransformOp op = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
-			baseimage.getGraphics().drawImage(op.filter(avatar, null), 50, 50, null);
+			baseimage.getGraphics().drawImage(avatar, 50, 50, 225, 225, null);
 			
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ImageIO.write(baseimage, "PNG", baos);
-			baos.flush();
-			byte[] arr = baos.toByteArray();
-			baos.close();
-			return arr;
+			return imageToBytes(baseimage, "PNG");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -118,12 +129,7 @@ public class ImageGenerators {
 			base.getGraphics().drawImage(jack, 325, 85, 100, 100, null);
 			base.getGraphics().drawImage(rose, 425, 95, 100, 100, null);
 			
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ImageIO.write(base, "JPG", baos);
-			baos.flush();
-			byte[] arr = baos.toByteArray();
-			baos.close();
-			return arr;
+			return imageToBytes(base, "JPG");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -154,6 +160,27 @@ public class ImageGenerators {
 			for (int i = 4; i < 10; i++) {
 				gif[i].getGraphics().drawImage(a1, 59, 39, 80, 80, null);
 				gif[i].getGraphics().drawImage(a2, 371, 90, 60, 60, null);
+			}
+			
+			return gifToBytes(gif, 100);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/*
+	 * STAB
+	 */
+	public static byte[] getStabGif(String u1, String u2) {
+		try {
+			BufferedImage a1 = getAvatar(u1);
+			BufferedImage a2 = rotateImage(getAvatar(u2), 90);
+			BufferedImage[] gif = readFolder("res/images/templates/stab");
+			
+			for (int i = 0; i < 5; i++) {
+				gif[i].getGraphics().drawImage(a1, 73, 28, 70, 70, null);
+				gif[i].getGraphics().drawImage(a2, 177, 149, 62, 62, null);
 			}
 			
 			return gifToBytes(gif, 100);
