@@ -6,8 +6,6 @@ A shitty bot built for Discord in Java.
 These are just ordered in a way I found made sense when I implemented them, no real thought went into it
 ###### Admin Commands
 `cleanup (0-99 | "max")` -> removes 0-99 of the last messages in the current text chat  
-`spam` -> N/A  
-`stopspam`-> N/A  
 `getinfo [@user]` -> Retrieves info about that user (roles, snowflake, avatar URL, join date, etc)  
 `setloggerchannel` -> Sets the current text chat to a logger chat  
 `removeloggerchannel`-> Removes the current logger channel from the server  
