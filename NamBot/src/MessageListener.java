@@ -23,8 +23,9 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import static HelperPackage.GlobalVars.*;
 import static HelperPackage.HelperFunctions.*;
 import static HelperPackage.Logger.*;
-import static HelperPackage.FightingFunctions.*;
 import static HelperPackage.SendingFunctions.*;
+import static HelperPackage.FightingFunctions.handleFighting;
+import static HelperPackage.TicTacToeFunctions.handleTicTacToe;
 
 public class MessageListener extends ListenerAdapter {	
 	private static Map<String, Method> calls = new HashMap<String, Method>();
@@ -50,7 +51,6 @@ public class MessageListener extends ListenerAdapter {
 		calls.put(prefix + "ratecoolness", UserCommands.class.getMethod("ratecoolness", param));
 		calls.put(prefix + "vote", UserCommands.class.getMethod("vote", param));
 		calls.put(prefix + "meme", UserCommands.class.getMethod("meme", param));
-		calls.put(prefix + "fight", UserCommands.class.getMethod("fight", param));
 		
 		/*
 		 * REACTION COMMANDS
@@ -77,6 +77,12 @@ public class MessageListener extends ListenerAdapter {
 		calls.put(prefix + "highfive", ImageCommands.class.getMethod("highfive", param));
 		
 		/*
+		 * MINIGAME COMMANDS
+		 */
+		calls.put(prefix + "fight", MiniGameCommands.class.getMethod("fight", param));
+		calls.put(prefix + "tictactoe", MiniGameCommands.class.getMethod("tictactoe", param));
+		
+		/*
 		 * BACKGROUND COMMANDS
 		 */
 		calls.put(prefix + "bv", BackgroundCommands.class.getMethod("botvote", param));
@@ -101,8 +107,11 @@ public class MessageListener extends ListenerAdapter {
 				e.printStackTrace();
 			}
 		} else if (event.isFromType(ChannelType.PRIVATE)) {
-			if (msg.startsWith(prefix + "hit") || msg.startsWith(prefix + "block") || msg.startsWith(prefix + "giveup")) {
+			if (msg.startsWith(prefix + "hit") || msg.startsWith(prefix + "block") || msg.startsWith(prefix + "giveupfight")) {
 				handleFighting(event, msg);
+			}
+			if (msg.startsWith(prefix + "place") || msg.startsWith(prefix + "giveuptic")) {
+				handleTicTacToe(event, msg);
 			}
 		}
 	}

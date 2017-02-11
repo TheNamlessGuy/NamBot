@@ -11,7 +11,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import HelperPackage.FightingPair;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -118,48 +117,5 @@ public class UserCommands {
 				// no
 			}
 		}
-	}
-	
-	/*
-	 * FIGHT
-	 */
-	public static void fight(MessageReceivedEvent event, String call) {
-		if (event.getMessage().getMentionedUsers().size() == 0) {
-			sendMsg(event.getChannel(), "You can't fight nobody, fuccboi");
-			return;
-		}
-		
-		User mentionedUser = event.getMessage().getMentionedUsers().get(0);
-		User author = event.getAuthor();
-		if (mentionedUser.getId().equals(author.getId())) {
-			sendMsg(event.getChannel(), "How are you gonna fight yourself, " + mentionedUser.getAsMention() + "?");
-			return;
-		}
-		
-		for (FightingPair p : fightingPeople) {
-			if (p.contains(mentionedUser)) {
-				sendMsg(event.getChannel(), mentionedUser.getAsMention() + " is already in a fight, let him get it over with");
-				return;
-			} else if (p.contains(author)) {
-				sendMsg(event.getChannel(), author.getAsMention() + " is already in a fight, let him get it over with");
-				return;
-			}
-		}
-
-		mentionedUser.openPrivateChannel().queue((mentionedChannel) -> {
-			author.openPrivateChannel().queue((authorChannel) -> {
-				fightingPeople.add(new FightingPair(author, mentionedUser, event.getChannel()));
-				authorChannel.sendMessage("You challenged " + mentionedUser.getName() + " to a fight! " +
-										  "This system works by each turn, one of you choose to hit high or low, and the other chooses whether to block high or low!\n" +
-										  "One of you will win once they land a hit the other didn't block\n" + 
-										  "The following commands are available: ```\n" + prefix + "hit [high|low]\n" + prefix + "block [high|low]\n" + prefix + "giveup```\n" +
-										  "It is currently your turn to hit. This will switch to block next turn, then hit the turn after that, etc").queue();
-				mentionedChannel.sendMessage("You were challenged to a fight by " + author.getName() + "! " +
-											 "This system works by each turn, one of you choose to hit high or low, and the other chooses whether to block high or low!\n" +
-											 "One of you will win once they land a hit the other didn't block\n" + 
-											  "The following commands are available: ```\n" + prefix + "hit [high|low]\n" + prefix + "block [high|low]\n" + prefix + "giveup```\n" +
-											 "It is currently your turn to block. This will switch to hit next turn, then block the turn after that, etc").queue();
-			});
-		});
 	}
 }

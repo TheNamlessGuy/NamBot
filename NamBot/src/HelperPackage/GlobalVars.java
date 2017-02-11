@@ -16,6 +16,7 @@ public class GlobalVars {
 	public static JDA nambot;
 	public static String prefix = "::";
 	public static ArrayList<FightingPair> fightingPeople = new ArrayList<FightingPair>();
+	public static ArrayList<TicTacToePair> ticTacToePairs = new ArrayList<TicTacToePair>();
 	
 	public static Map<String, String> snowflakes;
 	public static Map<String, ServerSettings> serversettings;

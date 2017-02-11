@@ -49,7 +49,7 @@ public class FightingFunctions {
 				fightingPeople.remove(p);
 			}
 			
-		} else if (call.startsWith(prefix + "giveup")) {
+		} else if (call.startsWith(prefix + "giveupfight")) {
 			FightingPair p = findPairWith(u);
 			if (p == null) {
 				event.getPrivateChannel().sendMessage("You aren't fighting anyone").queue();
