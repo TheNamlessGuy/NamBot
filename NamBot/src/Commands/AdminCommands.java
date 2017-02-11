@@ -17,7 +17,7 @@ public class AdminCommands {
 	 * CLEANUP
 	 */
 	public static void cleanup(MessageReceivedEvent event, String call) {
-		if (!(getSettings(event.getGuild()).isAdmin(event.getMember()) || isNamless(event.getAuthor()))) {
+		if (!(getSettings(event.getGuild()).isAdmin(event.getMember()))) {
 			sendMsg(event.getChannel(), "You don't have enough badges to train me");
 			return;
 		}
@@ -42,20 +42,6 @@ public class AdminCommands {
 		} catch (Exception e) {
 			sendMsg(event.getChannel(), "Couldn't run _::cleanup " + call + "_:\n" + e.getLocalizedMessage());
 		}
-	}
-	
-	/*
-	 * SPAM
-	 */
-	public static void spam(MessageReceivedEvent event, String call) {
-		
-	}
-	
-	/*
-	 * STOP SPAM
-	 */
-	public static void stopspam(MessageReceivedEvent event, String call) {
-		
 	}
 	
 	/*
