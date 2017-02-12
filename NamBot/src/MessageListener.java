@@ -42,6 +42,8 @@ public class MessageListener extends ListenerAdapter {
 		calls.put(prefix + "getinfo", AdminCommands.class.getMethod("getinfo", param));
 		calls.put(prefix + "setloggerchannel", AdminCommands.class.getMethod("setloggerchannel", param));
 		calls.put(prefix + "removeloggerchannel", AdminCommands.class.getMethod("removeloggerchannel", param));
+		calls.put(prefix + "addcustom", AdminCommands.class.getMethod("addcustom", param));
+		calls.put(prefix + "removecustom", AdminCommands.class.getMethod("removecustom", param));
 
 		/*
 		 * USER COMMANDS
@@ -102,12 +104,17 @@ public class MessageListener extends ListenerAdapter {
 		if (event.isFromType(ChannelType.TEXT)) {
 			String call = msg.split("\\s")[0];
 			try {
-				if (calls.get(call) != null)
+				if (calls.get(call) != null) {
 					calls.get(call).invoke(null, event, msg.replace(call, "").trim());
+					return;
+				}
 			} catch (Exception e) {
-				sendMsg(event.getChannel(), "Running call '" + msg + "' failed:\n`" + e.getMessage() + '`');
+				sendMsg(event.getChannel(), "Running call '" + msg + "' failed:\n`" + e.getClass().getName() + ": " + e.getMessage() + '`');
 				e.printStackTrace();
 			}
+			
+			// Check custom commands
+			getSettings(event.getGuild()).executeCommand(event, call);
 		} else if (event.isFromType(ChannelType.PRIVATE)) {
 			if (msg.startsWith(prefix + "hit") || msg.startsWith(prefix + "block") || msg.startsWith(prefix + "giveupfight")) {
 				handleFighting(event, msg);

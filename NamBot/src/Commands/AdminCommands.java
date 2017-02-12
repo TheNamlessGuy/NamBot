@@ -6,10 +6,13 @@ import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 import static HelperPackage.HelperFunctions.*;
+import static HelperPackage.GlobalVars.*;
 import static HelperPackage.SendingFunctions.*;
 
 import java.time.format.DateTimeFormatter;
 
+import CustomCommandClasses.ChangeRoles;
+import CustomCommandClasses.SayCommand;
 import HelperClasses.ServerSettings;
 
 public class AdminCommands {
@@ -96,5 +99,50 @@ public class AdminCommands {
 		} else {
 			sendMsg(event.getChannel(), "You do not have permissions to remove the logger channel");
 		}
+	}
+
+	/*
+	 * ADD CUSTOM COMMAND
+	 */
+	public static void addcustom(MessageReceivedEvent event, String call) {
+		ServerSettings s = getSettings(event.getGuild());
+		if (!s.isAdmin(event.getMember())) {
+			sendMsg(event.getChannel(), "You do not have permissions to set custom commands");
+			return;
+		}
+		
+		if (call.startsWith("help") || call.equals("")) {
+			if (call.equals("help") || call.equals("")) {
+				sendMsg(event.getChannel(), "Following commands are availabe (run " + prefix + "addcustom help [command] for more help):\n```\nroles\nsay\n```");
+			} else if (call.contains("roles")) {
+				sendMsg(event.getChannel(), "Usage: `" + prefix + "addcustom roles [name of command] (+|-)[name of roles]`\nExample: `" + prefix + "addcustom roles adminify -@Normal +@Admin`");
+			} else if (call.contains("say")) {
+				sendMsg(event.getChannel(), "Usage: `" + prefix + "addcustom say [name of command] [what to say]`\nExample: `" + prefix + "addcustom say goaway GO AWAY`");
+			}
+			return;
+		} else if (call.startsWith("roles")) {
+			String name = call.replace("roles", "").trim().split(" ")[0];
+			s.addCustomCommand(name, new ChangeRoles(event));
+		} else if (call.startsWith("say")) {
+			call = call.replace("say", "").trim();
+			String name = call.split(" ")[0];
+			call = call.replace(name, "").trim();
+			s.addCustomCommand(name, new SayCommand(call));
+		}
+		event.getChannel().sendMessage("Command successfully saved").queue();
+	}
+	
+	/*
+	 * REMOVE CUSTOM COMMAND
+	 */
+	public static void removecustom(MessageReceivedEvent event, String call) {
+		ServerSettings s = getSettings(event.getGuild());
+		if (!s.isAdmin(event.getMember())) {
+			sendMsg(event.getChannel(), "You do not have permissions to remove custom commands");
+			return;
+		}
+		
+		s.removeCustomCommand(call);
+		event.getChannel().sendMessage("Command successfully removed").queue();
 	}
 }

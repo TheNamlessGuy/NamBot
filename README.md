@@ -10,6 +10,8 @@ ALL THE COMMANDS ARE USED WITH THE PREFIX "::"
 `getinfo [@user]` -> Retrieves info about that user (roles, snowflake, avatar URL, join date, etc)  
 `setloggerchannel` -> Sets the current text chat to a logger chat  
 `removeloggerchannel`-> Removes the current logger channel from the server  
+`addcustom` -> Adds custom commands. See `addcustom help` for detailed info  
+`removecustom command` -> Removes a custom command by the name "command"  
 
 ###### Image Commands
 `pat @user` -> Pats that user (creates gif)  

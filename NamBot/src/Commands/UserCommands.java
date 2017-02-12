@@ -71,6 +71,7 @@ public class UserCommands {
 	 * VOTE
 	 */
 	public static void vote(MessageReceivedEvent event, String call) {
+		call = convertMentions(event).replace(prefix + "vote", "").trim();
 		call = "**" + event.getMember().getEffectiveName() + " asks:**\n" + call;
 		sendMsg(event.getChannel(), prefix + "bv\n" + call);
 		event.getMessage().deleteMessage().queue();

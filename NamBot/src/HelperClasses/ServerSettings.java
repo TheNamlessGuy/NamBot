@@ -1,13 +1,19 @@
 package HelperClasses;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import CustomCommandClasses.CustomCommand;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
+import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+
+import static HelperPackage.GlobalVars.*;
 
 public class ServerSettings {
 	public String loggerChannel;
@@ -15,13 +21,20 @@ public class ServerSettings {
 	private ArrayList<String> adminRoles;
 	private ArrayList<String> elevatedUserRoles;
 	
+	private Map<String, CustomCommand> customCommands;
+	
 	public ServerSettings() {
+		loggerChannel = "";
+		
 		adminRoles = new ArrayList<String>();
 		elevatedUserRoles = new ArrayList<String>();
-		loggerChannel = "";
+		
+		customCommands = new HashMap<String, CustomCommand>();
 	}
 	
 	public ServerSettings(JSONObject obj) {
+		loggerChannel = obj.getString("loggerChannel");
+		
 		adminRoles = new ArrayList<String>();
 		JSONArray arr = obj.getJSONArray("adminRoles");
 		for (int i = 0; i < arr.length(); i++) {
@@ -34,7 +47,7 @@ public class ServerSettings {
 			elevatedUserRoles.add(arr.getString(i));
 		}
 		
-		loggerChannel = obj.getString("loggerChannel");
+		customCommands = new HashMap<String, CustomCommand>();
 	}
 	
 	public boolean isAdmin(Member m) {
@@ -73,6 +86,23 @@ public class ServerSettings {
 			return true;
 		}
 		return false;
+	}
+	
+	public void addCustomCommand(String name, CustomCommand c) {
+		customCommands.put(name, c);
+	}
+	
+	public void removeCustomCommand(String name) {
+		customCommands.remove(name);
+	}
+	
+	public void executeCommand(MessageReceivedEvent event, String call) {
+		for (String s : customCommands.keySet()) {
+			if (call.startsWith(prefix + s)) {
+				customCommands.get(s).execute(event);
+				return;
+			}
+		}
 	}
 	
 	public JSONObject toJSON() {
