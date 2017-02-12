@@ -1,5 +1,6 @@
 package HelperPackage;
 
+import HelperClasses.ServerSettings;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;

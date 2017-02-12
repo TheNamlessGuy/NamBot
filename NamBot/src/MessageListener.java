@@ -24,8 +24,9 @@ import static HelperPackage.GlobalVars.*;
 import static HelperPackage.HelperFunctions.*;
 import static HelperPackage.Logger.*;
 import static HelperPackage.SendingFunctions.*;
-import static HelperPackage.FightingFunctions.handleFighting;
-import static HelperPackage.TicTacToeFunctions.handleTicTacToe;
+import static MiniGames.FightingFunctions.handleFighting;
+import static MiniGames.TicTacToeFunctions.handleTicTacToe;
+import static MiniGames.RockPaperScissorsFunctions.handleRockPaperScissors;
 
 public class MessageListener extends ListenerAdapter {	
 	private static Map<String, Method> calls = new HashMap<String, Method>();
@@ -81,6 +82,7 @@ public class MessageListener extends ListenerAdapter {
 		 */
 		calls.put(prefix + "fight", MiniGameCommands.class.getMethod("fight", param));
 		calls.put(prefix + "tictactoe", MiniGameCommands.class.getMethod("tictactoe", param));
+		calls.put(prefix + "rpc", MiniGameCommands.class.getMethod("rpc", param));
 		
 		/*
 		 * BACKGROUND COMMANDS
@@ -109,9 +111,10 @@ public class MessageListener extends ListenerAdapter {
 		} else if (event.isFromType(ChannelType.PRIVATE)) {
 			if (msg.startsWith(prefix + "hit") || msg.startsWith(prefix + "block") || msg.startsWith(prefix + "giveupfight")) {
 				handleFighting(event, msg);
-			}
-			if (msg.startsWith(prefix + "place") || msg.startsWith(prefix + "giveuptic")) {
+			} else if (msg.startsWith(prefix + "place") || msg.startsWith(prefix + "giveuptic")) {
 				handleTicTacToe(event, msg);
+			} else if (msg.startsWith(prefix + "rock") || msg.startsWith(prefix + "paper") || msg.startsWith(prefix + "scissors") || msg.startsWith(prefix + "giveuprpc")) {
+				handleRockPaperScissors(event, msg);
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-package HelperPackage;
+package HelperClasses;
 
 public class Pair<A, B> {
 	protected A first;

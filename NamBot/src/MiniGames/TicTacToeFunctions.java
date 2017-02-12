@@ -1,4 +1,4 @@
-package HelperPackage;
+package MiniGames;
 
 import static HelperPackage.GlobalVars.*;
 

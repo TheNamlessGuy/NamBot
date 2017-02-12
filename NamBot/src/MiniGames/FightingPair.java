@@ -1,10 +1,10 @@
-package HelperPackage;
+package MiniGames;
 
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.PrivateChannel;
 import net.dv8tion.jda.core.entities.User;
 
-public class FightingPair extends Pair<User, User> {
+public class FightingPair extends MiniGamePair {
 	public static final short NONE = 0;
 	public static final short HIGH = 1;
 	public static final short LOW = 2;
@@ -13,14 +13,12 @@ public class FightingPair extends Pair<User, User> {
 	public static final boolean SECOND = true;
 	
 	private boolean turn;
-	private MessageChannel channel;
 	private short firstAction;
 	private short secondAction;
 	
 	public FightingPair(User first, User second, MessageChannel originalChannel) {
-		super(first, second);
+		super(first, second, originalChannel);
 		turn = true;
-		channel = originalChannel;
 		firstAction = NONE;
 		secondAction = NONE;
 	}
@@ -88,10 +86,6 @@ public class FightingPair extends Pair<User, User> {
 		secondAction = NONE;
 	}
 	
-	public boolean contains(User u) {
-		return (first.getId().equals(u.getId()) || second.getId().equals(u.getId()));
-	}
-	
 	public void giveup(User u) {
 		// If first user gives up, second user wins (turn = false), else (turn = true)
 		if (whichUserIs(u) == FIRST) {
@@ -104,6 +98,11 @@ public class FightingPair extends Pair<User, User> {
 	
 	public void win(String winmessage, String losemessage, boolean forfeit) {
 		if (turn) {
+			win(first, second, forfeit, " in their fight");
+		} else {
+			win(second, first, forfeit, " in their fight");
+		}
+		/*if (turn) {
 			first.openPrivateChannel().queue((channel) -> {
 				channel.sendMessage(winmessage).queue();
 			});
@@ -125,6 +124,6 @@ public class FightingPair extends Pair<User, User> {
 				channel.sendMessage(second.getAsMention() + " won the fight between him/her and " + first.getAsMention() + ", since " + first.getAsMention() + " forfeited!").queue();
 			else
 				channel.sendMessage(second.getAsMention() + " won the fight between him/her and " + first.getAsMention() + "!").queue();
-		}
+		}*/
 	}
 }

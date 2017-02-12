@@ -9,14 +9,19 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
+import HelperClasses.ServerSettings;
+import MiniGames.FightingPair;
+import MiniGames.RockPaperScissorsPair;
+import MiniGames.TicTacToePair;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
 
 public class GlobalVars {
 	public static JDA nambot;
 	public static String prefix = "::";
-	public static ArrayList<FightingPair> fightingPeople = new ArrayList<FightingPair>();
+	public static ArrayList<FightingPair> fightingPairs = new ArrayList<FightingPair>();
 	public static ArrayList<TicTacToePair> ticTacToePairs = new ArrayList<TicTacToePair>();
+	public static ArrayList<RockPaperScissorsPair> rockPaperScissorsPairs = new ArrayList<RockPaperScissorsPair>();
 	
 	public static Map<String, String> snowflakes;
 	public static Map<String, ServerSettings> serversettings;

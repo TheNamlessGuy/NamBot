@@ -1,9 +1,9 @@
-package HelperPackage;
+package MiniGames;
 
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.User;
 
-public class TicTacToePair extends Pair<User, User> {
+public class TicTacToePair extends MiniGamePair {
 	public static final boolean P1 = false;
 	public static final boolean P2 = true;
 	
@@ -12,7 +12,6 @@ public class TicTacToePair extends Pair<User, User> {
 	public static final short O = 2;
 	
 	private boolean turn;
-	private MessageChannel channel;
 	
 	private short[][] board;
 	/*
@@ -24,9 +23,8 @@ public class TicTacToePair extends Pair<User, User> {
 	 */
 	
 	public TicTacToePair(User first, User second, MessageChannel originalChannel) {
-		super(first, second);
+		super(first, second, originalChannel);
 		turn = P1;
-		channel = originalChannel;
 		board = new short[3][3];
 		
 		for (int row = 0; row < 3; row++) {
@@ -116,32 +114,11 @@ public class TicTacToePair extends Pair<User, User> {
 	}
 	
 	public void win(boolean forfeit) {
-		User winner;
-		User loser;
 		if (turn == P1) { // P1 won
-			winner = first;
-			loser = second;
+			win(first, second, forfeit, " in their game of tic tac toe");
 		} else { // P2 won
-			winner = second;
-			loser = first;
+			win(second, first, forfeit, " in their game of tic tac toe");
 		}
-		
-		winner.openPrivateChannel().queue((ch) -> {
-			if (forfeit) { ch.sendMessage("You won by forfeit!").queue(); }
-			else { ch.sendMessage("You won!").queue(); }
-		});
-		loser.openPrivateChannel().queue((ch) -> {
-			if (forfeit) { ch.sendMessage("You forfeited").queue(); }
-			else { ch.sendMessage("You lost").queue(); }
-		});
-		
-		String msg = winner.getAsMention() + " won over " + loser.getAsMention() + " in their game of tic tac toe";
-		if (forfeit) { msg += " due to " + loser.getAsMention() + " forfeiting"; }
-		channel.sendMessage(msg).queue();
-	}
-	
-	public boolean contains(User u) {
-		return (first.getId().equals(u.getId()) || second.getId().equals(u.getId()));
 	}
 	
 	public void sendBoard() {

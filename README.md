@@ -42,6 +42,7 @@ ALL THE COMMANDS ARE USED WITH THE PREFIX "::"
 ###### Mini Game Commands
 `fight @user` -> Starts a fight between the user who types the command and the mentioned user. Fight takes place in PMs.  
 `tictactoe @user` -> Plays a round of tic tac toe with the user. Game takes place in PMs.  
+`rpc @user` -> Plays a round of rock paper scissors with the user. Game takes place in PMs.  
 
 ## Library/Dependencies
 Uses the library JDA (https://github.com/DV8FromTheWorld/JDA)  

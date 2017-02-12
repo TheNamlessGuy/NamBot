@@ -10,7 +10,7 @@ import static HelperPackage.SendingFunctions.*;
 
 import java.time.format.DateTimeFormatter;
 
-import HelperPackage.ServerSettings;
+import HelperClasses.ServerSettings;
 
 public class AdminCommands {
 	/*

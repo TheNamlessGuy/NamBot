@@ -1,4 +1,4 @@
-package HelperPackage;
+package MiniGames;
 
 import static HelperPackage.GlobalVars.*;
 
@@ -7,7 +7,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class FightingFunctions {
 	public static FightingPair findPairWith(User u) {
-		for (FightingPair p : fightingPeople) {
+		for (FightingPair p : fightingPairs) {
 			if (p.contains(u)) {
 				return p;
 			}
@@ -46,7 +46,7 @@ public class FightingFunctions {
 			}
 			
 			if (p.takeTurn(p.whichUserIs(u), action, event.getPrivateChannel())) { // Fight is over
-				fightingPeople.remove(p);
+				fightingPairs.remove(p);
 			}
 			
 		} else if (call.startsWith(prefix + "giveupfight")) {
@@ -57,7 +57,7 @@ public class FightingFunctions {
 			}
 			
 			p.giveup(u);
-			fightingPeople.remove(p);
+			fightingPairs.remove(p);
 		} else { // block
 			FightingPair p = findPairWith(u);
 			if (p == null) {
@@ -77,7 +77,7 @@ public class FightingFunctions {
 			}
 			
 			if (p.takeTurn(p.whichUserIs(u), action, event.getPrivateChannel())) { // Fight is over
-				fightingPeople.remove(p);
+				fightingPairs.remove(p);
 			}
 		}
 	}

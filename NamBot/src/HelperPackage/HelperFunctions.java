@@ -8,6 +8,7 @@ import java.util.Random;
 
 import org.json.JSONObject;
 
+import HelperClasses.ServerSettings;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
