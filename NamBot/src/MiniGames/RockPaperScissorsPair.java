@@ -34,9 +34,17 @@ public class RockPaperScissorsPair extends MiniGamePair {
 			p2Move = move;
 		}
 		
-		if (p1Move == NONE || p2Move == NONE) { return false; }
+		if (p1Move == NONE || p2Move == NONE) {
+			getOtherUser(u).openPrivateChannel().queue((channel) -> {
+				channel.sendMessage("The other player has chosen their action").queue();
+			});
+			return false;
+		}
 		
-		if (p1Move > p2Move || p1Move == ROCK && p2Move == SCISSORS) {
+		if (p1Move == p2Move) {
+			draw();
+			return false;
+		} else if (p1Move > p2Move || p1Move == ROCK && p2Move == SCISSORS) {
 			// p1 won
 			win(true, false);
 		} else {
@@ -60,5 +68,16 @@ public class RockPaperScissorsPair extends MiniGamePair {
 		} else {
 			win(second, first, forfeit, " in their game of rock paper scissors");
 		}			
+	}
+	
+	public void draw() {
+		first.openPrivateChannel().queue((ch) -> {
+			ch.sendMessage("You both chose the same thing, try again!").queue();
+		});
+		second.openPrivateChannel().queue((ch) -> {
+			ch.sendMessage("You both chose the same thing, try again!").queue();
+		});
+		p1Move = NONE;
+		p2Move = NONE;
 	}
 }

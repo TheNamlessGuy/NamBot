@@ -48,10 +48,6 @@ public class RockPaperScissorsFunctions {
 			
 			if (p.takeTurn(u, move)) {
 				rockPaperScissorsPairs.remove(p);
-			} else {
-				p.getOtherUser(u).openPrivateChannel().queue((channel) -> {
-					channel.sendMessage("The other player has chosen their action").queue();
-				});
 			}
 		}
 	}
