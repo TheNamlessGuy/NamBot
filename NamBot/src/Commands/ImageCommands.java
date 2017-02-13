@@ -27,6 +27,8 @@ public class ImageCommands {
 			return;
 		}
 		
+		sendTyping(event.getChannel());
+		
 		String msg = mentionedUser.getAsMention();
 		msg += " gets a pat from ";
 		msg += event.getAuthor().getAsMention();
@@ -50,6 +52,7 @@ public class ImageCommands {
 			return;
 		}
 		
+		sendTyping(event.getChannel());		
 		sendImage(event.getChannel(), getSorryAboutExistingImage(u.getEffectiveAvatarUrl()), "sorryaboutexisting.png");
 	}
 	
@@ -69,7 +72,8 @@ public class ImageCommands {
 			sendMsg(event.getChannel(), "I'm a strong independent black bot who don't need no ship");
 			return;
 		}
-		
+
+		sendTyping(event.getChannel());
 		String msg = "**" + getEffectiveNickname(event, event.getAuthor()) + "** shipped **" + getEffectiveNickname(event, jack) + "** with **" + getEffectiveNickname(event, rose) + "**";
 		sendImage(event.getChannel(), getShipImage(jack.getEffectiveAvatarUrl(), rose.getEffectiveAvatarUrl()), "ship.jpg", msg);
 	}
@@ -93,6 +97,8 @@ public class ImageCommands {
 			sendMsg(event.getChannel(), "You can't highfive yourself dude");
 			return;
 		}
+
+		sendTyping(event.getChannel());
 		
 		String msg = "**" + getEffectiveNickname(event, u1) + "** highfives **" + getEffectiveNickname(event, u2) + "**";
 		call = call.replace("@" + getEffectiveNickname(event, u2), "").trim();
@@ -123,6 +129,8 @@ public class ImageCommands {
 			sendMsg(event.getChannel(), "Stabbing yourself? You should go see a psychiatrist");
 			return;
 		}
+
+		sendTyping(event.getChannel());
 		
 		call = call.replace("@" + getEffectiveNickname(event, u2), "").trim();
 		if (call.equals("")) {

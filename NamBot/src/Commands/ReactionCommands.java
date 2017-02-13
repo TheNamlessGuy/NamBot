@@ -26,12 +26,19 @@ public class ReactionCommands {
 	public static void beangery(MessageReceivedEvent event, String call) {
 		sendMsg(event.getChannel(), ":rage:");
 	}
-	
+
 	/*
 	 * LAUGH
 	 */
 	public static void laugh(MessageReceivedEvent event, String call) {
 		sendMsg(event.getChannel(), ":joy:");
+	}
+	
+	/*
+	 * CRY
+	 */
+	public static void cry(MessageReceivedEvent event, String call) {
+		sendMsg(event.getChannel(), ":sob:");
 	}
 	
 	/*

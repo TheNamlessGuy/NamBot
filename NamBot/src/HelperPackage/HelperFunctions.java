@@ -16,6 +16,10 @@ import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class HelperFunctions {
+	public static void debug(Object msg) {
+		System.out.println(msg);
+	}
+	
 	public static Random random = new Random();
 	
 	public static int randomInt(int min, int max) {
@@ -40,10 +44,6 @@ public class HelperFunctions {
 	
 	public static String getEffectiveNickname(MessageReceivedEvent event, User u) {
 		return event.getGuild().getMember(u).getEffectiveName();
-	}
-	
-	public static void debug(Object msg) {
-		System.out.println(msg);
 	}
 	
 	public static boolean isNambot(User u) {

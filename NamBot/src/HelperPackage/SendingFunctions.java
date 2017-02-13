@@ -8,6 +8,10 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 
 public class SendingFunctions {
+	public static void sendTyping(MessageChannel channel) {
+		channel.sendTyping().queue();
+	}
+	
 	public static void sendMsg(MessageChannel channel, String msg) {
 		channel.sendMessage(msg).queue();
 	}

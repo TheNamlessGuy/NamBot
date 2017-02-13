@@ -57,6 +57,7 @@ public class MessageListener extends ListenerAdapter {
 		 * REACTION COMMANDS
 		 */
 		calls.put(prefix + "laugh", ReactionCommands.class.getMethod("laugh", param));
+		calls.put(prefix + "cry", ReactionCommands.class.getMethod("cry", param));
 		calls.put(prefix + "becool", ReactionCommands.class.getMethod("becool", param));
 		calls.put(prefix + "beangery", ReactionCommands.class.getMethod("beangery", param));
 		calls.put(prefix + "beanormie", ReactionCommands.class.getMethod("beanormie", param));
