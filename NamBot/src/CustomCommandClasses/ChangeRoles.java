@@ -11,7 +11,8 @@ public class ChangeRoles extends CustomCommand {
 	private ArrayList<Role> remove;
 	private ArrayList<Role> add;
 	
-	public ChangeRoles(MessageReceivedEvent event) {
+	public ChangeRoles(MessageReceivedEvent event, boolean deleteMessage) {
+		this.deleteMessage = deleteMessage;
 		remove = new ArrayList<Role>();
 		add = new ArrayList<Role>();
 		
@@ -34,5 +35,8 @@ public class ChangeRoles extends CustomCommand {
 		for (User u : event.getMessage().getMentionedUsers()) {
 			gc.modifyMemberRoles(event.getGuild().getMember(u), add, remove).queue();
 		}
+		
+		if (deleteMessage)
+			event.getMessage().deleteMessage().queue();
 	}
 }

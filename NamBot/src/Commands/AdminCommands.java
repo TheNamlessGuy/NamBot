@@ -111,23 +111,26 @@ public class AdminCommands {
 			return;
 		}
 		
+		boolean deleteMessage = call.contains("--delete");
+		call = call.replace("--delete", "").trim();
+		
 		if (call.startsWith("help") || call.equals("")) {
 			if (call.equals("help") || call.equals("")) {
-				sendMsg(event.getChannel(), "Following commands are availabe (run " + prefix + "addcustom help [command] for more help):\n```\nroles\nsay\n```");
+				sendMsg(event.getChannel(), "Following commands are availabe (run `" + prefix + "addcustom help [command]` for more help):\n```\nroles\nsay\n```\nAdd `--delete` to any command to have it remove the calling message");
 			} else if (call.contains("roles")) {
-				sendMsg(event.getChannel(), "Usage: `" + prefix + "addcustom roles [name of command] (+|-)[name of roles]`\nExample: `" + prefix + "addcustom roles adminify -@Normal +@Admin`");
+				sendMsg(event.getChannel(), "Usage: `" + prefix + "addcustom roles [name of command] (+|-)[name of roles] [--delete]`\nExample: `" + prefix + "addcustom roles adminify -@Normal +@Admin`");
 			} else if (call.contains("say")) {
-				sendMsg(event.getChannel(), "Usage: `" + prefix + "addcustom say [name of command] [what to say]`\nExample: `" + prefix + "addcustom say goaway GO AWAY`");
+				sendMsg(event.getChannel(), "Usage: `" + prefix + "addcustom say [name of command] [what to say] [--delete]`\nExample: `" + prefix + "addcustom say goaway GO AWAY`");
 			}
 			return;
 		} else if (call.startsWith("roles")) {
 			String name = call.replace("roles", "").trim().split(" ")[0];
-			s.addCustomCommand(name, new ChangeRoles(event));
+			s.addCustomCommand(name, new ChangeRoles(event, deleteMessage));
 		} else if (call.startsWith("say")) {
 			call = call.replace("say", "").trim();
 			String name = call.split(" ")[0];
 			call = call.replace(name, "").trim();
-			s.addCustomCommand(name, new SayCommand(call));
+			s.addCustomCommand(name, new SayCommand(call, deleteMessage));
 		}
 		event.getChannel().sendMessage("Command successfully saved").queue();
 	}

@@ -41,8 +41,6 @@ public class GlobalVars {
 		snowflakes.put("Namless", "115877868113756162");
 		snowflakes.put("Nambot", "248928488025882625");
 		snowflakes.put("Asspants", "255087181784154114");
-		snowflakes.put("S-ASSPANTS", "271260334269005824");
-		snowflakes.put("S-NAMTEST", "248950421165441025");
 	}
 	
 	private static void init_serversettings() {
