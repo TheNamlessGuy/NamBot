@@ -5,6 +5,9 @@ import static HelperPackage.HelperFunctions.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class BackgroundCommands {
+	/*
+	 * BV
+	 */
 	public static void botvote(MessageReceivedEvent event, String call) {
 		if (!isNambot(event.getAuthor())) {
 			return;
