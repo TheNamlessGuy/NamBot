@@ -1,5 +1,8 @@
 package HelperPackage;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -185,6 +188,29 @@ public class ImageGenerators {
 			
 			return gifToBytes(gif, 100);
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/*
+	 * RIP
+	 */
+	public static byte[] getRIPImage(String text, String aURL) {
+		try {
+			BufferedImage base = ImageIO.read(new File("res/images/templates/rip.png"));
+			
+			Graphics2D g = (Graphics2D) base.getGraphics();
+			int width = g.getFontMetrics().stringWidth(text);
+			g.setFont(new Font(g.getFont().getFontName(), Font.BOLD, 36));
+			g.setColor(Color.black);
+			g.drawString(text, 200 - (width / 2), 325);
+			if (!aURL.equals("")) {
+				g.drawImage(getAvatar(aURL), 140, 370, 180, 180, null);
+			}
+			
+			return imageToBytes(base, "PNG");
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return null;

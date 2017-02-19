@@ -19,7 +19,8 @@ ALL THE COMMANDS ARE USED WITH THE PREFIX "::"
 `sorryaboutexisting [@user]` -> Makes the user say sorry about existing (creates an image)  
 `ship [@user @user]` -> If two users are mentioned, ships those users (creates an image)  
 `highfive @user` -> Highfives that user (creates gif)  
-`stab @user` -> Stabs that user (creates gif)
+`stab @user` -> Stabs that user (creates gif)  
+`rip (@user | TEXT)` -> Creates a tombstone for the mentioned user or the text  
 
 ###### Reaction Commands
 `becool` -> sends :sunglasses:  

@@ -140,4 +140,23 @@ public class ImageCommands {
 			sendImage(event.getChannel(), getStabGif(u1.getEffectiveAvatarUrl(), u2.getEffectiveAvatarUrl()), "stab.gif", call);
 		}
 	}
+	
+	/*
+	 * RIP
+	 */
+	public static void rip(MessageReceivedEvent event, String call) {
+		if (call.length() == 0) {
+			sendMsg(event.getChannel(), "You need to mention a user or a short phrase");
+			return;
+		}
+		
+		sendTyping(event.getChannel());
+		
+		if (event.getMessage().getMentionedUsers().size() > 0) {
+			User u = event.getMessage().getMentionedUsers().get(0);
+			sendImage(event.getChannel(), getRIPImage(getEffectiveNickname(event, u), u.getEffectiveAvatarUrl()), "rip.png");
+		} else {
+			sendImage(event.getChannel(), getRIPImage(call, ""), "rip.png");
+		}
+	}
 }
