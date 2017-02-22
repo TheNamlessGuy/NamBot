@@ -118,4 +118,34 @@ public class UserCommands {
 			}
 		}
 	}
+	
+	/*
+	 * FLIP
+	 */
+	private static String[] fliparray = {"ɐ", "q", "ɔ", "p", "ǝ", "ɟ", "ƃ", "ɥ", "ᴉ", "ɾ", "ʞ", "l", "ɯ", "u", "o", "d", "b", "ɹ", "s", "ʇ", "n", "ʌ", "ʍ", "x", "ʎ", "z"};
+	public static void flip(MessageReceivedEvent event, String call) {
+		if (call.length() == 0) { return; }
+		call = call.toLowerCase();
+		boolean reverse = false;
+		if (call.contains("--reverse")) {
+			reverse = true;
+			call = call.replace("--reverse", "").trim();
+		}
+		
+		String msg = "";
+		for (int i = 0; i < call.length(); i++) {
+			int index = ((int) call.charAt(i)) - 97;
+			if (index < 0 || index > 25) {
+				msg += call.charAt(i);
+			} else {
+				msg += fliparray[index];
+			}
+		}
+		
+		if (reverse) {
+			msg = new StringBuilder(msg).reverse().toString();
+		}
+		
+		sendMsg(event.getChannel(), msg);
+	}
 }

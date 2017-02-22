@@ -42,6 +42,7 @@ ALL THE COMMANDS ARE USED WITH THE PREFIX "::"
 `ratecoolness [@user]` -> Rates the coolness of the user on a 0-10 scale  
 `vote phrase` -> Puts the phrase up for vote (by thumbs up/down reactions)  
 `meme [search term]` -> Generates a random meme if no search term is specified, tries to find the searched for meme otherwise  
+`flip term [--reverse]` -> Flips the term upside down (and reverses it if the reverse flag is present)  
 
 ###### Mini Game Commands
 `fight @user` -> Starts a fight between the user who types the command and the mentioned user. Fight takes place in PMs.  

@@ -52,6 +52,7 @@ public class MessageListener extends ListenerAdapter {
 		calls.put(prefix + "ratecoolness", UserCommands.class.getMethod("ratecoolness", param));
 		calls.put(prefix + "vote", UserCommands.class.getMethod("vote", param));
 		calls.put(prefix + "meme", UserCommands.class.getMethod("meme", param));
+		calls.put(prefix + "flip", UserCommands.class.getMethod("flip", param));
 		
 		/*
 		 * REACTION COMMANDS
