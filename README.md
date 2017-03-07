@@ -26,6 +26,7 @@ ALL THE COMMANDS ARE USED WITH THE PREFIX "::"
 `becool` -> sends :sunglasses:  
 `beangery`-> sends :rage:  
 `laugh`-> sends :joy:  
+`cry` -> sends :sob:  
 `beanormie` -> sends a randomized string of 5-10 emojis from a certain set of emojis.  
 `shut [@user+]` -> Mentions all the users (if any), and posts "SHUT"  
 `lmao` -> Sends "LMAO"  
