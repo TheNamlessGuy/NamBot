@@ -74,7 +74,7 @@ public class UserCommands {
 		call = convertMentions(event).replace(prefix + "vote", "").trim();
 		call = "**" + event.getMember().getEffectiveName() + " asks:**\n" + call;
 		sendMsg(event.getChannel(), prefix + "bv\n" + call);
-		event.getMessage().deleteMessage().queue();
+		//event.getMessage().deleteMessage().queue();
 	}
 	
 	/*

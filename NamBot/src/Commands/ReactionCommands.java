@@ -70,7 +70,7 @@ public class ReactionCommands {
 		}
 		msg += "SHUT";
 		
-		event.getMessage().deleteMessage().queue();
+		//event.getMessage().deleteMessage().queue();
 		sendMsg(event.getChannel(), msg);
 	}
 	
@@ -78,7 +78,7 @@ public class ReactionCommands {
 	 * LMAO
 	 */
 	public static void lmao(MessageReceivedEvent event, String call) {
-		event.getMessage().deleteMessage().queue();
+		//event.getMessage().deleteMessage().queue();
 		sendMsg(event.getChannel(), "LMAO");
 	}
 	
@@ -93,7 +93,7 @@ public class ReactionCommands {
 		}
 		
 		sendImage(event.getChannel(), "feelsbadman.png", call);
-		event.getMessage().deleteMessage().queue();
+		//event.getMessage().deleteMessage().queue();
 	}
 	
 	/*
@@ -101,7 +101,7 @@ public class ReactionCommands {
 	 */
 	public static void arrogant(MessageReceivedEvent event, String call) {
 		sendImage(event.getChannel(), "arrogant.png");
-		event.getMessage().deleteMessage().queue();
+		//event.getMessage().deleteMessage().queue();
 	}
 	
 	/*
@@ -109,7 +109,7 @@ public class ReactionCommands {
 	 */
 	public static void dab(MessageReceivedEvent event, String call) {
 		sendImage(event.getChannel(), "dab.gif", "_**intense daberoni**_");
-		event.getMessage().deleteMessage().queue();
+		//event.getMessage().deleteMessage().queue();
 	}
 	
 	/*
@@ -117,7 +117,7 @@ public class ReactionCommands {
 	 */
 	public static void say(MessageReceivedEvent event, String call) {
 		if (call.equals("")) { return; }
-		call = convertMentions(event).replace(prefix + "say", "").trim();
+		call = convertMentions(event).replaceFirst(prefix + "say", "").trim();
 		for (Emote e : event.getMessage().getEmotes()) {
 			call = call.replace(':' + e.getName() + ':', e.getAsMention());
 			

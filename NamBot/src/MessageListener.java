@@ -3,6 +3,7 @@ import java.util.Map;
 
 import Commands.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import net.dv8tion.jda.core.entities.ChannelType;
@@ -90,10 +91,8 @@ public class MessageListener extends ListenerAdapter {
 		calls.put(prefix + "rpc", MiniGameCommands.class.getMethod("rpc", param));
 		
 		/*
-		 * BACKGROUND COMMANDS
+		 * GENERAL COMMANDS
 		 */
-		calls.put(prefix + "bv", BackgroundCommands.class.getMethod("botvote", param));
-		
 		calls.put(prefix + "help", MessageListener.class.getMethod("help", param));
 		calls.put(prefix + "testlog", MessageListener.class.getMethod("testlog", param));
 	}
@@ -106,11 +105,20 @@ public class MessageListener extends ListenerAdapter {
 		
 		if (event.isFromType(ChannelType.TEXT)) {
 			String call = msg.split("\\s")[0];
+			if (isNambot(event.getAuthor())) {
+				if (call.equals(prefix + "bv")) {
+					BackgroundCommands.botvote(event, msg.replace(call, "").trim());
+				}
+				return;
+			}
 			try {
 				if (calls.get(call) != null) {
 					calls.get(call).invoke(null, event, msg.replace(call, "").trim());
 					return;
 				}
+			} catch (InvocationTargetException e) {
+				sendMsg(event.getChannel(), "Running call '" + msg + "' failed:\n`" + e.getCause().getClass().getName() + ": " + e.getCause().getMessage() + '`');
+				e.printStackTrace();
 			} catch (Exception e) {
 				sendMsg(event.getChannel(), "Running call '" + msg + "' failed:\n`" + e.getClass().getName() + ": " + e.getMessage() + '`');
 				e.printStackTrace();

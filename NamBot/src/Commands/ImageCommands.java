@@ -23,7 +23,7 @@ public class ImageCommands {
 			return;
 		} else if (isSame(mentionedUser, event.getAuthor())) {
 			sendMsg(event.getChannel(), "Patting yourself is kinda sad, " + mentionedUser.getAsMention());
-			event.getMessage().deleteMessage().queue();
+			//event.getMessage().deleteMessage().queue();
 			return;
 		}
 		
@@ -37,7 +37,7 @@ public class ImageCommands {
 			msg += ", who says \"" + leftovers + "\"";
 		}
 		
-		event.getMessage().deleteMessage().queue();
+		//event.getMessage().deleteMessage().queue();
 		sendImage(event.getChannel(), getPatGif(mentionedUser.getEffectiveAvatarUrl(), event.getAuthor().getEffectiveAvatarUrl()), "pat.gif", msg);
 	}
 	
@@ -106,7 +106,7 @@ public class ImageCommands {
 			msg += " and says **" + call + "**";
 		}
 		
-		event.getMessage().deleteMessage().queue();
+		//event.getMessage().deleteMessage().queue();
 		sendImage(event.getChannel(), getHighfiveGif(u1.getEffectiveAvatarUrl(), u2.getEffectiveAvatarUrl()), "highfive.gif", msg);
 	}
 	

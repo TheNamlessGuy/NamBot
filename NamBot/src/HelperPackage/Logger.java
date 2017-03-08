@@ -84,14 +84,14 @@ public class Logger {
 		if (e.getRoles().size() == 1) {
 			sendMessage(e.getGuild(), new EmbedBuilder()
 					.setTitle(getTitle(e.getMember()))
-					.setDescription(e.getMember().getAsMention() + " was removed from the role " + roles)
+					.setDescription(e.getMember().getAsMention() + " was added to the role " + roles)
 					.setColor(Color.gray)
 					.setTimestamp(LocalDateTime.now().atOffset(ZoneOffset.UTC))
 					.build());
 		} else {
 			sendMessage(e.getGuild(), new EmbedBuilder()
 					.setTitle(getTitle(e.getMember()))
-					.setDescription(e.getMember().getAsMention() + " was removed from the role " + roles)
+					.setDescription(e.getMember().getAsMention() + " was added to the roles " + roles)
 					.setColor(Color.gray)
 					.setTimestamp(LocalDateTime.now().atOffset(ZoneOffset.UTC))
 					.build());
@@ -173,7 +173,7 @@ public class Logger {
 	 */
 	private static void sendMessage(Guild g, MessageEmbed me) {
 		ServerSettings s = HelperFunctions.getSettings(g);
-		if (s.loggerChannel.equals("")) { return; }
+		if (s == null || s.loggerChannel.equals("")) { return; }
 		
 		TextChannel tc = g.getTextChannelById(s.loggerChannel);
 		if (tc == null) { return; }
