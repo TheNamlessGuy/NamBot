@@ -50,7 +50,10 @@ public class GlobalVars {
 			String text = new String(Files.readAllBytes(Paths.get("serversettings.json")), StandardCharsets.UTF_8);
 			JSONObject obj = new JSONObject(text);
 			for (String snowflake : obj.keySet()) {
-				serversettings.put(snowflake, new ServerSettings(obj.getJSONObject(snowflake)));
+				Guild g = getGuild(snowflake);
+				if (g == null)
+					continue;
+				serversettings.put(snowflake, new ServerSettings(obj.getJSONObject(snowflake), g));
 			}
 			
 			for (Guild g : nambot.getGuilds()) {
@@ -61,5 +64,14 @@ public class GlobalVars {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private static Guild getGuild(String snowflake) {
+		for (Guild g : nambot.getGuilds()) {
+			if (g.getId().equals(snowflake)) {
+				return g;
+			}
+		}
+		return null;
 	}
 }

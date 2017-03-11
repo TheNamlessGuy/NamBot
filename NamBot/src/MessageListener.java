@@ -82,6 +82,7 @@ public class MessageListener extends ListenerAdapter {
 		calls.put(prefix + "highfive", ImageCommands.class.getMethod("highfive", param));
 		calls.put(prefix + "stab", ImageCommands.class.getMethod("stab", param));
 		calls.put(prefix + "rip", ImageCommands.class.getMethod("rip", param));
+		calls.put(prefix + "freddyspin", ImageCommands.class.getMethod("freddyspin", param));
 		
 		/*
 		 * MINIGAME COMMANDS
@@ -142,7 +143,7 @@ public class MessageListener extends ListenerAdapter {
 	}
 	
 	public static void testlog(MessageReceivedEvent event, String call) {
-		debug("'" + event.getAuthor().getName() + "' on '" + event.getGuild().getName() + "' test: " + call);
+		debug("'" + event.getAuthor().getName() + "' on '" + event.getGuild().getName() + "': " + call);
 	}
 	
 	@Override

@@ -140,7 +140,7 @@ public class ReactionCommands {
 	}
 	
 	/*
-	 * 
+	 * WRIST
 	 */
 	public static void slashwrist(MessageReceivedEvent event, String call) {
 		sendMsg(event.getChannel(), ":knife: :hand_splayed: :sweat_drops:");

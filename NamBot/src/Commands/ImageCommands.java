@@ -159,4 +159,12 @@ public class ImageCommands {
 			sendImage(event.getChannel(), getRIPImage(call, ""), "rip.png");
 		}
 	}
+	
+	/*
+	 * FREDDYSPIN
+	 */
+	public static void freddyspin(MessageReceivedEvent event, String call) {
+		sendTyping(event.getChannel());
+		sendImage(event.getChannel(), "freddy.gif", "<@115469753019138057>");
+	}
 }

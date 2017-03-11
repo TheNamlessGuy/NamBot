@@ -55,7 +55,7 @@ public class ConsoleInputParser {
 	
 	private static void shutdown(String[] in) {
 		GlobalVars.nambot.shutdown(true);
-		HelperFunctions.saveSettings();		
+		HelperFunctions.saveSettings();
 		System.exit(0);
 	}
 	
