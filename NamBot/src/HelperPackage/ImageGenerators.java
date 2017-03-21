@@ -16,6 +16,8 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageOutputStream;
 
+import net.dv8tion.jda.core.entities.MessageChannel;
+
 public class ImageGenerators {
 	/*
 	 * ROTATE IMAGE
@@ -84,7 +86,7 @@ public class ImageGenerators {
 	/*
 	 * PAT GIF
 	 */
-	public static byte[] getPatGif(String mentionedAvatarURL, String authorAvatarURL) {
+	public static byte[] getPatGif(MessageChannel c, String mentionedAvatarURL, String authorAvatarURL) {
 		try {
 			BufferedImage mentionedAvatar = getAvatar(mentionedAvatarURL);
 			BufferedImage writingAvatar = getAvatar(authorAvatarURL);
@@ -98,7 +100,8 @@ public class ImageGenerators {
 			
 			return gifToBytes(gif, 150);
 		} catch (Exception e) {
-			e.printStackTrace();
+			HelperFunctions.err(c, e, "");
+			//e.printStackTrace();
 		}
 		return null;
 	}
@@ -106,7 +109,7 @@ public class ImageGenerators {
 	/*
 	 * SORRY ABOUT EXISTING IMAGE
 	 */
-	public static byte[] getSorryAboutExistingImage(String avatarURL) {
+	public static byte[] getSorryAboutExistingImage(MessageChannel c, String avatarURL) {
 		try {
 			BufferedImage avatar = rotateImage(getAvatar(avatarURL), -15);
 			BufferedImage baseimage = ImageIO.read(new File("res/images/templates/sorryaboutexisting.png"));
@@ -115,7 +118,8 @@ public class ImageGenerators {
 			
 			return imageToBytes(baseimage, "PNG");
 		} catch (Exception e) {
-			e.printStackTrace();
+			HelperFunctions.err(c, e, "");
+			//e.printStackTrace();
 		}
 		return null;
 	}
@@ -123,7 +127,7 @@ public class ImageGenerators {
 	/*
 	 * SHIP
 	 */
-	public static byte[] getShipImage(String jackURL, String roseURL) {
+	public static byte[] getShipImage(MessageChannel c, String jackURL, String roseURL) {
 		try {
 			BufferedImage jack = getAvatar(jackURL);
 			BufferedImage rose = getAvatar(roseURL);
@@ -134,7 +138,8 @@ public class ImageGenerators {
 			
 			return imageToBytes(base, "JPG");
 		} catch (Exception e) {
-			e.printStackTrace();
+			HelperFunctions.err(c, e, "");
+			//e.printStackTrace();
 		}
 		return null;
 	}
@@ -142,7 +147,7 @@ public class ImageGenerators {
 	/*
 	 * HIGHFIVE
 	 */
-	public static byte[] getHighfiveGif(String u1, String u2) {
+	public static byte[] getHighfiveGif(MessageChannel c, String u1, String u2) {
 		try {
 			BufferedImage a1 = getAvatar(u1);
 			BufferedImage a2 = getAvatar(u2);
@@ -167,7 +172,8 @@ public class ImageGenerators {
 			
 			return gifToBytes(gif, 100);
 		} catch (Exception e) {
-			e.printStackTrace();
+			HelperFunctions.err(c, e, "");
+			//e.printStackTrace();
 		}
 		return null;
 	}
@@ -175,7 +181,7 @@ public class ImageGenerators {
 	/*
 	 * STAB
 	 */
-	public static byte[] getStabGif(String u1, String u2) {
+	public static byte[] getStabGif(MessageChannel c, String u1, String u2) {
 		try {
 			BufferedImage a1 = getAvatar(u1);
 			BufferedImage a2 = rotateImage(getAvatar(u2), 90);
@@ -188,7 +194,8 @@ public class ImageGenerators {
 			
 			return gifToBytes(gif, 100);
 		} catch (Exception e) {
-			e.printStackTrace();
+			HelperFunctions.err(c, e, "");
+			//e.printStackTrace();
 		}
 		return null;
 	}
@@ -196,7 +203,7 @@ public class ImageGenerators {
 	/*
 	 * RIP
 	 */
-	public static byte[] getRIPImage(String text, String aURL) {
+	public static byte[] getRIPImage(MessageChannel c, String text, String aURL) {
 		try {
 			BufferedImage base = ImageIO.read(new File("res/images/templates/rip.png"));
 			
@@ -211,7 +218,8 @@ public class ImageGenerators {
 			
 			return imageToBytes(base, "PNG");
 		} catch (IOException e) {
-			e.printStackTrace();
+			HelperFunctions.err(c, e, "");
+			//e.printStackTrace();
 		}
 		return null;
 	}

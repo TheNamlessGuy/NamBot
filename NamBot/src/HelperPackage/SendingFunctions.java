@@ -21,6 +21,7 @@ public class SendingFunctions {
 			channel.sendFile(file, msg).queue();
 		} catch (IOException e) {
 			// no
+			HelperFunctions.err(channel, e, "");
 		}
 	}
 	
@@ -55,6 +56,7 @@ public class SendingFunctions {
 			channel.sendFile(bytes, name, msg).queue();
 		} catch (Exception e) {
 			// no
+			HelperFunctions.err(channel, e, "");
 		}
 	}
 	

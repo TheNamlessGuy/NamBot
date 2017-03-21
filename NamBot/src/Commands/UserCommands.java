@@ -115,6 +115,7 @@ public class UserCommands {
 				sendMsg(event.getChannel(), msg);
 			} catch (IOException e) {
 				// no
+				err(event.getChannel(), e, prefix + "meme " + call);
 			}
 		}
 	}

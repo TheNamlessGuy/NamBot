@@ -118,11 +118,9 @@ public class MessageListener extends ListenerAdapter {
 					return;
 				}
 			} catch (InvocationTargetException e) {
-				sendMsg(event.getChannel(), "Running call '" + msg + "' failed:\n`" + e.getCause().getClass().getName() + ": " + e.getCause().getMessage() + '`');
-				e.printStackTrace();
+				err(event.getChannel(), e.getCause(), msg);
 			} catch (Exception e) {
-				sendMsg(event.getChannel(), "Running call '" + msg + "' failed:\n`" + e.getClass().getName() + ": " + e.getMessage() + '`');
-				e.printStackTrace();
+				err(event.getChannel(), e, msg);
 			}
 			
 			// Check custom commands

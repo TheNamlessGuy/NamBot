@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import HelperClasses.ServerSettings;
 import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
@@ -18,6 +19,18 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 public class HelperFunctions {
 	public static void debug(Object msg) {
 		System.out.println(msg);
+	}
+	
+	public static void err(MessageChannel c, Exception e, String msg) {
+		if (c != null)
+			SendingFunctions.sendMsg(c, "Running call '" + msg + "' failed:\n`" + e.getClass().getName() + ": " + e.getMessage() + '`');
+		e.printStackTrace();
+	}
+	
+	public static void err(MessageChannel c, Throwable e, String msg) {
+		if (c != null)
+			SendingFunctions.sendMsg(c, "Running call '" + msg + "' failed:\n`" + e.getCause().getClass().getName() + ": " + e.getCause().getMessage() + '`');
+		e.printStackTrace();
 	}
 	
 	public static Random random = new Random();
@@ -36,7 +49,7 @@ public class HelperFunctions {
 	            Thread.sleep(delay);
 	            runnable.run();
 	        }
-	        catch (Exception e){
+	        catch (Exception e) {
 	        	// no
 	        }
 	    }).start();

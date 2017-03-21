@@ -38,7 +38,7 @@ public class ImageCommands {
 		}
 		
 		//event.getMessage().deleteMessage().queue();
-		sendImage(event.getChannel(), getPatGif(mentionedUser.getEffectiveAvatarUrl(), event.getAuthor().getEffectiveAvatarUrl()), "pat.gif", msg);
+		sendImage(event.getChannel(), getPatGif(event.getChannel(), mentionedUser.getEffectiveAvatarUrl(), event.getAuthor().getEffectiveAvatarUrl()), "pat.gif", msg);
 	}
 	
 	/*
@@ -53,7 +53,7 @@ public class ImageCommands {
 		}
 		
 		sendTyping(event.getChannel());		
-		sendImage(event.getChannel(), getSorryAboutExistingImage(u.getEffectiveAvatarUrl()), "sorryaboutexisting.png");
+		sendImage(event.getChannel(), getSorryAboutExistingImage(event.getChannel(), u.getEffectiveAvatarUrl()), "sorryaboutexisting.png");
 	}
 	
 	/*
@@ -75,7 +75,7 @@ public class ImageCommands {
 
 		sendTyping(event.getChannel());
 		String msg = "**" + getEffectiveNickname(event, event.getAuthor()) + "** shipped **" + getEffectiveNickname(event, jack) + "** with **" + getEffectiveNickname(event, rose) + "**";
-		sendImage(event.getChannel(), getShipImage(jack.getEffectiveAvatarUrl(), rose.getEffectiveAvatarUrl()), "ship.jpg", msg);
+		sendImage(event.getChannel(), getShipImage(event.getChannel(), jack.getEffectiveAvatarUrl(), rose.getEffectiveAvatarUrl()), "ship.jpg", msg);
 	}
 	
 	/*
@@ -107,7 +107,7 @@ public class ImageCommands {
 		}
 		
 		//event.getMessage().deleteMessage().queue();
-		sendImage(event.getChannel(), getHighfiveGif(u1.getEffectiveAvatarUrl(), u2.getEffectiveAvatarUrl()), "highfive.gif", msg);
+		sendImage(event.getChannel(), getHighfiveGif(event.getChannel(), u1.getEffectiveAvatarUrl(), u2.getEffectiveAvatarUrl()), "highfive.gif", msg);
 	}
 	
 	/*
@@ -134,10 +134,10 @@ public class ImageCommands {
 		
 		call = call.replace("@" + getEffectiveNickname(event, u2), "").trim();
 		if (call.equals("")) {
-			sendImage(event.getChannel(), getStabGif(u1.getEffectiveAvatarUrl(), u2.getEffectiveAvatarUrl()), "stab.gif");
+			sendImage(event.getChannel(), getStabGif(event.getChannel(), u1.getEffectiveAvatarUrl(), u2.getEffectiveAvatarUrl()), "stab.gif");
 		} else {
 			call = "**" + getEffectiveNickname(event, u1) + "**: " + call;
-			sendImage(event.getChannel(), getStabGif(u1.getEffectiveAvatarUrl(), u2.getEffectiveAvatarUrl()), "stab.gif", call);
+			sendImage(event.getChannel(), getStabGif(event.getChannel(), u1.getEffectiveAvatarUrl(), u2.getEffectiveAvatarUrl()), "stab.gif", call);
 		}
 	}
 	
@@ -154,9 +154,9 @@ public class ImageCommands {
 		
 		if (event.getMessage().getMentionedUsers().size() > 0) {
 			User u = event.getMessage().getMentionedUsers().get(0);
-			sendImage(event.getChannel(), getRIPImage(getEffectiveNickname(event, u), u.getEffectiveAvatarUrl()), "rip.png");
+			sendImage(event.getChannel(), getRIPImage(event.getChannel(), getEffectiveNickname(event, u), u.getEffectiveAvatarUrl()), "rip.png");
 		} else {
-			sendImage(event.getChannel(), getRIPImage(call, ""), "rip.png");
+			sendImage(event.getChannel(), getRIPImage(event.getChannel(), call, ""), "rip.png");
 		}
 	}
 	

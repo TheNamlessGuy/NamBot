@@ -43,7 +43,8 @@ public class AdminCommands {
 				}
 			});
 		} catch (Exception e) {
-			sendMsg(event.getChannel(), "Couldn't run _::cleanup " + call + "_:\n" + e.getLocalizedMessage());
+			err(event.getChannel(), e, prefix + "cleanup " + call);
+			//sendMsg(event.getChannel(), "Couldn't run _::cleanup " + call + "_:\n" + e.getLocalizedMessage());
 		}
 	}
 	
