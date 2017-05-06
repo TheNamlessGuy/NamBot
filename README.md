@@ -28,13 +28,7 @@ ALL THE COMMANDS ARE USED WITH THE PREFIX "::"
 `laugh`-> sends :joy:  
 `cry` -> sends :sob:  
 `beanormie` -> sends a randomized string of 5-10 emojis from a certain set of emojis.  
-`shut [@user+]` -> Mentions all the users (if any), and posts "SHUT"  
-`lmao` -> Sends "LMAO"  
-`feelsbadman [phrase]` -> Sends picture feelsbadman.png, with eventual "phrase" if specified  
-`arrogant` -> Sends picture arrogant.png  
-`dab` -> Sends gif dab.gif  
 `say phrase` -> Repeats phrase  
-`salute` -> Sends picture salute.jpg  
 `reee` -> Sends "REEE" with enough "E" to fill up the max length of a message  
 `/wrist` -> Sends :knife: :hand_splayed: :sweat_drops:  
 
