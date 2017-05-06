@@ -22,22 +22,20 @@ public class ImageCommands {
 			sendMsg(event.getChannel(), "Don't pat me you creepy fucker");
 			return;
 		} else if (isSame(mentionedUser, event.getAuthor())) {
-			sendMsg(event.getChannel(), "Patting yourself is kinda sad, " + mentionedUser.getAsMention());
-			//event.getMessage().deleteMessage().queue();
+			sendMsg(event.getChannel(), "Patting yourself is kinda sad, **" + getEffectiveNickname(event, mentionedUser) + "**");
 			return;
 		}
 		
 		sendTyping(event.getChannel());
 		
-		String msg = mentionedUser.getAsMention();
+		String msg = "**" + getEffectiveNickname(event, mentionedUser) + "**";
 		msg += " gets a pat from ";
-		msg += event.getAuthor().getAsMention();
+		msg += "**" + getEffectiveNickname(event, event.getAuthor()) + "**";
 		String leftovers = call.replace("@" + getEffectiveNickname(event, mentionedUser), "").trim();
 		if (!leftovers.equals("")) {
 			msg += ", who says \"" + leftovers + "\"";
 		}
 		
-		//event.getMessage().deleteMessage().queue();
 		sendImage(event.getChannel(), getPatGif(event.getChannel(), mentionedUser.getEffectiveAvatarUrl(), event.getAuthor().getEffectiveAvatarUrl()), "pat.gif", msg);
 	}
 	
@@ -106,7 +104,6 @@ public class ImageCommands {
 			msg += " and says **" + call + "**";
 		}
 		
-		//event.getMessage().deleteMessage().queue();
 		sendImage(event.getChannel(), getHighfiveGif(event.getChannel(), u1.getEffectiveAvatarUrl(), u2.getEffectiveAvatarUrl()), "highfive.gif", msg);
 	}
 	

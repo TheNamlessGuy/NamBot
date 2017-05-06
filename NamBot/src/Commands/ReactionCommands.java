@@ -9,7 +9,6 @@ import java.util.List;
 import static HelperPackage.GlobalVars.*;
 
 import net.dv8tion.jda.core.entities.Emote;
-import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class ReactionCommands {
@@ -50,66 +49,11 @@ public class ReactionCommands {
 															 ":heart_eyes:");
 	public static void beanormie(MessageReceivedEvent event, String call) {
 		String msg = "";
-		int amount = randomInt(5, 10);
+		int amount = randomInt(5, 15);
 		for (int i = 0; i < amount; i++) {
 			msg += normieEmotes.get(randomInt(0, normieEmotes.size() - 1));
 		}
 		sendMsg(event.getChannel(), msg);
-	}
-	
-	/*
-	 * SHUT
-	 */
-	public static void shut(MessageReceivedEvent event, String call) {
-		String msg = "";
-		if (event.getMessage().getMentionedUsers().size() > 0) {
-			for (User u : event.getMessage().getMentionedUsers()) {
-				msg += u.getAsMention() + ", ";
-			}
-			msg = msg.substring(0, msg.length() - 2) + " ";
-		}
-		msg += "SHUT";
-		
-		//event.getMessage().deleteMessage().queue();
-		sendMsg(event.getChannel(), msg);
-	}
-	
-	/*
-	 * LMAO
-	 */
-	public static void lmao(MessageReceivedEvent event, String call) {
-		//event.getMessage().deleteMessage().queue();
-		sendMsg(event.getChannel(), "LMAO");
-	}
-	
-	/*
-	 * FEELS BAD MAN
-	 */
-	public static void feelsbadman(MessageReceivedEvent event, String call) {
-		call = convertMentions(event);
-		call = call.replace(prefix + "feelsbadman", "").trim();
-		if (!call.equals("")) {
-			call = "**" + getEffectiveNickname(event, event.getAuthor()) + "**: " + call;
-		}
-		
-		sendImage(event.getChannel(), "feelsbadman.png", call);
-		//event.getMessage().deleteMessage().queue();
-	}
-	
-	/*
-	 * ARROGANT
-	 */
-	public static void arrogant(MessageReceivedEvent event, String call) {
-		sendImage(event.getChannel(), "arrogant.png");
-		//event.getMessage().deleteMessage().queue();
-	}
-	
-	/*
-	 * DAB
-	 */
-	public static void dab(MessageReceivedEvent event, String call) {
-		sendImage(event.getChannel(), "dab.gif", "_**intense daberoni**_");
-		//event.getMessage().deleteMessage().queue();
 	}
 	
 	/*
@@ -123,13 +67,6 @@ public class ReactionCommands {
 			
 		}
 		sendMsg(event.getChannel(), call);
-	}
-	
-	/*
-	 * SALUTE
-	 */
-	public static void salute(MessageReceivedEvent event, String call) {
-		sendImage(event.getChannel(), "salute.jpg");
 	}
 	
 	/*

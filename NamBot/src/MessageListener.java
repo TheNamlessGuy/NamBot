@@ -1,13 +1,32 @@
-import java.util.HashMap;
-import java.util.Map;
-
-import Commands.*;
+import static HelperPackage.ConsoleInputParser.parseInput;
+import static HelperPackage.GlobalVars.*;
+import static HelperPackage.HelperFunctions.debug;
+import static HelperPackage.HelperFunctions.err;
+import static HelperPackage.HelperFunctions.getSettings;
+import static HelperPackage.HelperFunctions.isNambot;
+import static HelperPackage.HelperFunctions.isNamless;
+import static HelperPackage.Logger.log;
+import static HelperPackage.SendingFunctions.sendMsg;
+import static MiniGames.FightingFunctions.handleFighting;
+import static MiniGames.RockPaperScissorsFunctions.handleRockPaperScissors;
+import static MiniGames.TicTacToeFunctions.handleTicTacToe;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
+import Commands.AdminCommands;
+import Commands.BackgroundCommands;
+import Commands.ImageCommands;
+import Commands.MiniGameCommands;
+import Commands.ReactionCommands;
+import Commands.UserCommands;
+import HelperClasses.ServerSettings;
 import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.events.guild.GuildBanEvent;
+import net.dv8tion.jda.core.events.guild.GuildJoinEvent;
+import net.dv8tion.jda.core.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.core.events.guild.GuildUnbanEvent;
 import net.dv8tion.jda.core.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.core.events.guild.member.GuildMemberLeaveEvent;
@@ -20,14 +39,6 @@ import net.dv8tion.jda.core.events.guild.voice.GuildVoiceMoveEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageDeleteEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
-
-import static HelperPackage.GlobalVars.*;
-import static HelperPackage.HelperFunctions.*;
-import static HelperPackage.Logger.*;
-import static HelperPackage.SendingFunctions.*;
-import static MiniGames.FightingFunctions.handleFighting;
-import static MiniGames.TicTacToeFunctions.handleTicTacToe;
-import static MiniGames.RockPaperScissorsFunctions.handleRockPaperScissors;
 
 public class MessageListener extends ListenerAdapter {	
 	private static Map<String, Method> calls = new HashMap<String, Method>();
@@ -63,13 +74,7 @@ public class MessageListener extends ListenerAdapter {
 		calls.put(prefix + "becool", ReactionCommands.class.getMethod("becool", param));
 		calls.put(prefix + "beangery", ReactionCommands.class.getMethod("beangery", param));
 		calls.put(prefix + "beanormie", ReactionCommands.class.getMethod("beanormie", param));
-		calls.put(prefix + "feelsbadman", ReactionCommands.class.getMethod("feelsbadman", param));
-		calls.put(prefix + "arrogant", ReactionCommands.class.getMethod("arrogant", param));
-		calls.put(prefix + "shut", ReactionCommands.class.getMethod("shut", param));
-		calls.put(prefix + "lmao", ReactionCommands.class.getMethod("lmao", param));
-		calls.put(prefix + "dab", ReactionCommands.class.getMethod("dab", param));
 		calls.put(prefix + "say", ReactionCommands.class.getMethod("say", param));
-		calls.put(prefix + "salute", ReactionCommands.class.getMethod("salute", param));
 		calls.put(prefix + "reee", ReactionCommands.class.getMethod("reee", param));
 		calls.put(prefix + "/wrist", ReactionCommands.class.getMethod("slashwrist", param));
 		
@@ -132,6 +137,8 @@ public class MessageListener extends ListenerAdapter {
 				handleTicTacToe(event, msg);
 			} else if (msg.startsWith(prefix + "rock") || msg.startsWith(prefix + "paper") || msg.startsWith(prefix + "scissors") || msg.startsWith(prefix + "giveuprpc")) {
 				handleRockPaperScissors(event, msg);
+			} else if (msg.startsWith(prefix + "command") && isNamless(event.getAuthor())) {
+				parseInput(msg.replace(prefix + "command", "").trim(), event.getChannel());
 			}
 		}
 	}
@@ -144,6 +151,12 @@ public class MessageListener extends ListenerAdapter {
 		debug("'" + event.getAuthor().getName() + "' on '" + event.getGuild().getName() + "': " + call);
 	}
 	
+	@Override
+	public void onGuildJoin(GuildJoinEvent e) { serversettings.put(e.getGuild().getId(), new ServerSettings()); }
+	@Override
+	public void onGuildLeave(GuildLeaveEvent e) { debug("Left server: " + e.getGuild().getName()); serversettings.remove(e.getGuild().getId()); }
+	
+	// Log functions
 	@Override
 	public void onGuildVoiceJoin(GuildVoiceJoinEvent e) { log(e); }
 	@Override
