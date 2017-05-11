@@ -138,7 +138,7 @@ public class MessageListener extends ListenerAdapter {
 			} else if (msg.startsWith(prefix + "rock") || msg.startsWith(prefix + "paper") || msg.startsWith(prefix + "scissors") || msg.startsWith(prefix + "giveuprpc")) {
 				handleRockPaperScissors(event, msg);
 			} else if (msg.startsWith(prefix + "command") && isNamless(event.getAuthor())) {
-				parseInput(msg.replace(prefix + "command", "").trim(), event.getChannel());
+				parseInput(event, msg.replace(prefix + "command", "").trim());
 			}
 		}
 	}

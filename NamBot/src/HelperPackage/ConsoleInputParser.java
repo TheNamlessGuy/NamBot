@@ -1,33 +1,45 @@
 package HelperPackage;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.util.List;
+
 import org.json.JSONObject;
 
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class ConsoleInputParser {
-	public static void parseInput(String in, MessageChannel channel) {
+	public static void parseInput(MessageReceivedEvent event, String in) {
 		if (in.startsWith("say")) {
-			say(supersplit(in, "say"), channel);
+			say(supersplit(in, "say"), event == null ? null : event.getChannel());
 		} else if (in.startsWith("memberinfo")) {
-			memberinfo(supersplit(in, "memberinfo"), channel);
+			memberinfo(supersplit(in, "memberinfo"), event == null ? null : event.getChannel());
 		} else if (in.startsWith("guildinfo")) {
-			guildinfo(supersplit(in, "guildinfo"), channel);
+			guildinfo(supersplit(in, "guildinfo"), event == null ? null : event.getChannel());
 		} else if (in.startsWith("shutdown")) {
-			shutdown(supersplit(in, "shutdown"), channel);
+			shutdown(supersplit(in, "shutdown"), event == null ? null : event.getChannel());
 		} else if (in.startsWith("leave")) {
-			leave(supersplit(in, "leave"), channel);
+			leave(supersplit(in, "leave"), event == null ? null : event.getChannel());
 		} else if (in.startsWith("save")) {
-			save(supersplit(in, "save"), channel);
+			save(supersplit(in, "save"), event == null ? null : event.getChannel());
 		} else if (in.startsWith("getsettings")) {
-			getsettings(supersplit(in, "getsettings"), channel);
+			getsettings(supersplit(in, "getsettings"), event == null ? null : event.getChannel());
+		} else if (in.startsWith("addmeme")) {
+			addmeme(supersplit(in, "addmeme"), event == null ? null : event);
+		} else if (in.startsWith("removememe")) {
+			removememe(supersplit(in, "removememe"), event == null? null : event.getChannel());
 		}
 	}
 	
 	public static void parseInput(String in) {
-		parseInput(in, null);
+		parseInput(null, in);
 	}
 	
 	private static void say(String[] in, MessageChannel channel) {
@@ -113,6 +125,58 @@ public class ConsoleInputParser {
 			HelperFunctions.debug("SETTINGS:\n" + obj.toString());
 		else
 			channel.sendMessage("SETTINGS:\n" + obj.toString()).queue();
+	}
+	
+	private static void addmeme(String[] in, MessageReceivedEvent event) {
+		if (event == null) return;
+		
+		if (in.length == 1 && in[0].equals("")) { // Assume image
+			List<Message.Attachment> attachments = event.getMessage().getAttachments();
+			File file = null;
+			for (Message.Attachment attachment : attachments) {
+				String name = attachment.getFileName();
+				file = new File("res/memes/" + name);
+				if (file.exists()) {
+					event.getChannel().sendMessage("ERROR: File '" + name + "' already exists").queue();
+				} else {
+					attachment.download(file);
+					event.getChannel().sendMessage("Added meme '" + name + "' successfully").queue();
+				}
+			}
+		} else if (in.length >= 2) {
+			String name = in[0];
+			String rest = concat(in, 1, " ").trim();
+			File file = new File("res/memes/" + name + ".txt");
+			
+			if (file.exists()) {
+				event.getChannel().sendMessage("ERROR: File '" + name + ".txt' already exists").queue();
+			} else {
+				try {
+					BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "utf-8"));
+					writer.write(rest);
+					writer.close();
+					event.getChannel().sendMessage("Added meme '" + name + ".txt' successfully").queue();
+				} catch(Exception e) {
+					HelperFunctions.err(event.getChannel(), e, "");
+				}
+			}
+		} else {
+			event.getChannel().sendMessage("Either no extra text and append image, or at least 2 words extra").queue();
+		}
+	}
+	
+	private static void removememe(String[] in, MessageChannel channel) {
+		if (in.length == 1 && in[0].equals("")) return;
+		
+		String meme = concat(in, 0, " ").trim();
+		File file = new File("res/memes/" + meme);
+		
+		if (file.exists()) {
+			file.delete();
+			channel.sendMessage("Meme '" + meme + "' deleted successfully").queue();
+		} else {
+			channel.sendMessage("No meme by the name '" + meme + "' found").queue();
+		}
 	}
 	
 	/*
