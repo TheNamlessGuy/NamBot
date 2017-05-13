@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import CustomCommandClasses.ChangeRoles;
 import CustomCommandClasses.CustomCommand;
+import CustomCommandClasses.PostImageCommand;
 import CustomCommandClasses.SayCommand;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Guild;
@@ -48,6 +49,9 @@ public class ServerSettings {
 				break;
 			case "SayCommand":
 				customCommands.put(o.getString("NAME"), new SayCommand(o));
+				break;
+			case "PostImageCommand":
+				customCommands.put(o.getString("NAME"), new PostImageCommand(o));
 				break;
 			default:
 				break;
