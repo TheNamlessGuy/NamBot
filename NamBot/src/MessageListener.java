@@ -56,6 +56,7 @@ public class MessageListener extends ListenerAdapter {
 		calls.put(prefix + "removeloggerchannel", AdminCommands.class.getMethod("removeloggerchannel", param));
 		calls.put(prefix + "addcustom", AdminCommands.class.getMethod("addcustom", param));
 		calls.put(prefix + "removecustom", AdminCommands.class.getMethod("removecustom", param));
+		calls.put(prefix + "customlist", AdminCommands.class.getMethod("customlist", param));
 
 		/*
 		 * USER COMMANDS

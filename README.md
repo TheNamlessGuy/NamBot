@@ -13,6 +13,7 @@ ALL THE COMMANDS ARE USED WITH THE PREFIX "::"
 `removeloggerchannel`-> Removes the current logger channel from the server  
 `addcustom` -> Adds custom commands. See `addcustom help` for detailed info  
 `removecustom command` -> Removes a custom command by the name "command"  
+`customlist` -> Lists all the current custom commands  
 
 ###### Image Commands
 `pat @user` -> Pats that user (creates gif)  
