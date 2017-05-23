@@ -113,7 +113,7 @@ public class AdminCommands {
 		}
 		
 		boolean deleteMessage = call.contains("--delete");
-		call = call.replace("--delete", "").trim();
+		call = call.replaceFirst("--delete", "").trim();
 		
 		if (call.startsWith("help") || call.equals("")) {
 			if (call.equals("help") || call.equals("")) {
@@ -130,7 +130,7 @@ public class AdminCommands {
 			String name = call.replaceFirst("roles", "").trim().split(" ")[0];
 			s.addCustomCommand(name, new ChangeRoles(event, deleteMessage));
 		} else if (call.startsWith("say")) {
-			call = call.replaceFirst("say", "").trim();
+			call = convertMentions(event).replaceFirst(prefix + "addcustom", "").replaceFirst("--delete", "").replaceFirst("say", "").trim();
 			String name = call.split(" ")[0];
 			call = call.replaceFirst(name, "").trim();
 			s.addCustomCommand(name, new SayCommand(call, deleteMessage));

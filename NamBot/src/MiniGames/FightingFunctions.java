@@ -35,13 +35,13 @@ public class FightingFunctions {
 			}
 			
 			if (!p.isUsersTurnToAttack(u)) {
-				event.getPrivateChannel().sendMessage("It's not your turn to hit, try using the ::block command instead!").queue();
+				event.getPrivateChannel().sendMessage("It's not your turn to hit, try using the " + prefix + "block command instead!").queue();
 				return;
 			}
 			
-			short action = parseCall(call.replace("::hit", "").trim());
+			short action = parseCall(call.replaceFirst(prefix + "hit", "").trim());
 			if (action == FightingPair.NONE) {
-				event.getPrivateChannel().sendMessage("You have to specify 'high' or 'low' with your ::hit command!").queue();
+				event.getPrivateChannel().sendMessage("You have to specify 'high' or 'low' with your " + prefix + "hit command!").queue();
 				return;
 			}
 			
@@ -66,13 +66,13 @@ public class FightingFunctions {
 			}
 			
 			if (p.isUsersTurnToAttack(u)) {
-				event.getPrivateChannel().sendMessage("It's not your turn to block, try using the ::hit command instead!").queue();
+				event.getPrivateChannel().sendMessage("It's not your turn to block, try using the " + prefix + "hit command instead!").queue();
 				return;
 			}
 			
-			short action = parseCall(call.replace("::block", "").trim());
+			short action = parseCall(call.replaceFirst(prefix + "block", "").trim());
 			if (action == FightingPair.NONE) {
-				event.getPrivateChannel().sendMessage("You have to specify 'high' or 'low' with your ::block command!").queue();
+				event.getPrivateChannel().sendMessage("You have to specify 'high' or 'low' with your " + prefix + "block command!").queue();
 				return;
 			}
 			

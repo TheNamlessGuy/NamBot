@@ -31,7 +31,7 @@ public class ImageCommands {
 		String msg = "**" + getEffectiveNickname(event, mentionedUser) + "**";
 		msg += " gets a pat from ";
 		msg += "**" + getEffectiveNickname(event, event.getAuthor()) + "**";
-		String leftovers = call.replace("@" + getEffectiveNickname(event, mentionedUser), "").trim();
+		String leftovers = call.replaceFirst("@" + getEffectiveNickname(event, mentionedUser), "").trim();
 		if (!leftovers.equals("")) {
 			msg += ", who says \"" + leftovers + "\"";
 		}
@@ -99,7 +99,7 @@ public class ImageCommands {
 		sendTyping(event.getChannel());
 		
 		String msg = "**" + getEffectiveNickname(event, u1) + "** highfives **" + getEffectiveNickname(event, u2) + "**";
-		call = call.replace("@" + getEffectiveNickname(event, u2), "").trim();
+		call = call.replaceFirst("@" + getEffectiveNickname(event, u2), "").trim();
 		if (!call.equals("")) {
 			msg += " and says **" + call + "**";
 		}
@@ -129,7 +129,7 @@ public class ImageCommands {
 
 		sendTyping(event.getChannel());
 		
-		call = call.replace("@" + getEffectiveNickname(event, u2), "").trim();
+		call = call.replaceFirst("@" + getEffectiveNickname(event, u2), "").trim();
 		if (call.equals("")) {
 			sendImage(event.getChannel(), getStabGif(event.getChannel(), u1.getEffectiveAvatarUrl(), u2.getEffectiveAvatarUrl()), "stab.gif");
 		} else {

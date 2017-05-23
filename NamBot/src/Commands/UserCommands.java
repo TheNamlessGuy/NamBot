@@ -71,7 +71,7 @@ public class UserCommands {
 	 * VOTE
 	 */
 	public static void vote(MessageReceivedEvent event, String call) {
-		call = convertMentions(event).replace(prefix + "vote", "").trim();
+		call = convertMentions(event).replaceFirst(prefix + "vote", "").trim();
 		call = "**" + event.getMember().getEffectiveName() + " asks:**\n" + call;
 		sendMsg(event.getChannel(), prefix + "bv\n" + call);
 	}
@@ -88,7 +88,7 @@ public class UserCommands {
 		} else if (call.equals("<LIST>")) {
 			msg = "```\nAvailable memes:\n\n";
 			for (File f : memes) {
-				msg += f.getName().replace("." + getFileEnd(f), "") + "\n";
+				msg += f.getName().replaceFirst("." + getFileEnd(f), "") + "\n";
 			}
 			msg += "```";
 			sendMsg(event.getChannel(), msg);
@@ -123,29 +123,50 @@ public class UserCommands {
 	 * FLIP
 	 */
 	private static String[] fliparray = {"ɐ", "q", "ɔ", "p", "ǝ", "ɟ", "ƃ", "ɥ", "ᴉ", "ɾ", "ʞ", "l", "ɯ", "u", "o", "d", "b", "ɹ", "s", "ʇ", "n", "ʌ", "ʍ", "x", "ʎ", "z"};
+	private static String _flip(String s) {
+		s = s.toLowerCase();
+		String retval = "";
+		for (int i = 0; i < s.length(); i++) {
+			int index = ((int) s.charAt(i)) - 97;
+			if (index < 0 || index > 25) {
+				retval += s.charAt(i);
+			} else {
+				retval += fliparray[index];
+			}
+		}
+		return retval;
+	}
+	
 	public static void flip(MessageReceivedEvent event, String call) {
 		if (call.length() == 0) { return; }
-		call = call.toLowerCase();
+		
 		boolean reverse = false;
 		if (call.contains("--reverse")) {
 			reverse = true;
-			call = call.replace("--reverse", "").trim();
+			call = call.replaceFirst("--reverse", "").trim();
 		}
 		
-		String msg = "";
-		for (int i = 0; i < call.length(); i++) {
-			int index = ((int) call.charAt(i)) - 97;
-			if (index < 0 || index > 25) {
-				msg += call.charAt(i);
-			} else {
-				msg += fliparray[index];
-			}
-		}
+		call = _flip(call);
 		
 		if (reverse) {
-			msg = new StringBuilder(msg).reverse().toString();
+			call = new StringBuilder(call).reverse().toString();
 		}
 		
-		sendMsg(event.getChannel(), msg);
+		sendMsg(event.getChannel(), call);
+	}
+	
+	/*
+	 * REVERSE
+	 */
+	public static void reverse(MessageReceivedEvent event, String call) {
+		if (call.length() == 0) { return; }
+		
+		if (call.contains("--flip")) {
+			call = call.replaceFirst("--flip", "").trim();
+			call = _flip(call);
+		}
+		call = new StringBuilder(call).reverse().toString();
+		
+		sendMsg(event.getChannel(), call);
 	}
 }

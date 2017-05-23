@@ -36,7 +36,7 @@ public class TicTacToeFunctions {
 				return;
 			}
 			
-			int[] coords = parseCall(call.replace(prefix + "place", "").trim());
+			int[] coords = parseCall(call.replaceFirst(prefix + "place", "").trim());
 			if (coords == null) {
 				event.getPrivateChannel().sendMessage("That was not the name of an empty tile").queue();
 				return;

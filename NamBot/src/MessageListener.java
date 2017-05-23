@@ -66,6 +66,7 @@ public class MessageListener extends ListenerAdapter {
 		calls.put(prefix + "vote", UserCommands.class.getMethod("vote", param));
 		calls.put(prefix + "meme", UserCommands.class.getMethod("meme", param));
 		calls.put(prefix + "flip", UserCommands.class.getMethod("flip", param));
+		calls.put(prefix + "reverse", UserCommands.class.getMethod("reverse", param));
 		
 		/*
 		 * REACTION COMMANDS
@@ -114,13 +115,13 @@ public class MessageListener extends ListenerAdapter {
 			String call = msg.split("\\s")[0];
 			if (isNambot(event.getAuthor())) {
 				if (call.equals(prefix + "bv")) {
-					BackgroundCommands.botvote(event, msg.replace(call, "").trim());
+					BackgroundCommands.botvote(event, msg.replaceFirst(call, "").trim());
 				}
 				return;
 			}
 			try {
 				if (calls.get(call) != null) {
-					calls.get(call).invoke(null, event, msg.replace(call, "").trim());
+					calls.get(call).invoke(null, event, msg.replaceFirst(call, "").trim());
 					return;
 				}
 			} catch (InvocationTargetException e) {
@@ -139,7 +140,7 @@ public class MessageListener extends ListenerAdapter {
 			} else if (msg.startsWith(prefix + "rock") || msg.startsWith(prefix + "paper") || msg.startsWith(prefix + "scissors") || msg.startsWith(prefix + "giveuprpc")) {
 				handleRockPaperScissors(event, msg);
 			} else if (msg.startsWith(prefix + "command") && isNamless(event.getAuthor())) {
-				parseInput(event, msg.replace(prefix + "command", "").trim());
+				parseInput(event, msg.replaceFirst(prefix + "command", "").trim());
 			}
 		}
 	}

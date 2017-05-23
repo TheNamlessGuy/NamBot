@@ -183,7 +183,7 @@ public class ConsoleInputParser {
 	 * HELPER FUNCTIONS
 	 */
 	private static String[] supersplit(String in, String command) {
-		return in.replace(command, "").trim().split(" ");
+		return in.replaceFirst(command, "").trim().split(" ");
 	}
 	
 	private static TextChannel getChannel(Guild g, String name) {

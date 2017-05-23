@@ -63,7 +63,7 @@ public class ReactionCommands {
 		if (call.equals("")) { return; }
 		call = convertMentions(event).replaceFirst(prefix + "say", "").trim();
 		for (Emote e : event.getMessage().getEmotes()) {
-			call = call.replace(':' + e.getName() + ':', e.getAsMention());
+			call = call.replaceAll(':' + e.getName() + ':', e.getAsMention());
 			
 		}
 		sendMsg(event.getChannel(), call);
