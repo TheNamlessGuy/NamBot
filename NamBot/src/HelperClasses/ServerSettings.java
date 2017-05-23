@@ -87,12 +87,22 @@ public class ServerSettings {
 	}
 	
 	public void executeCommand(MessageReceivedEvent event, String call) {
+		String command = call.split(" ")[0].replaceFirst(prefix, "");
 		for (String s : customCommands.keySet()) {
-			if (call.startsWith(prefix + s)) {
+			if (command.equals(s)) {
 				customCommands.get(s).execute(event);
 				return;
 			}
 		}
+	}
+	
+	public String getCommandList() {
+		String retval = "Custom commands:\n```\n";
+		for (String s : customCommands.keySet()) {
+			retval += s + "\n";
+		}
+		retval += "\n```";
+		return retval;
 	}
 	
 	public JSONObject toJSON() {

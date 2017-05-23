@@ -127,15 +127,15 @@ public class AdminCommands {
 			}
 			return;
 		} else if (call.startsWith("roles")) {
-			String name = call.replace("roles", "").trim().split(" ")[0];
+			String name = call.replaceFirst("roles", "").trim().split(" ")[0];
 			s.addCustomCommand(name, new ChangeRoles(event, deleteMessage));
 		} else if (call.startsWith("say")) {
-			call = call.replace("say", "").trim();
+			call = call.replaceFirst("say", "").trim();
 			String name = call.split(" ")[0];
-			call = call.replace(name, "").trim();
+			call = call.replaceFirst(name, "").trim();
 			s.addCustomCommand(name, new SayCommand(call, deleteMessage));
 		} else if (call.startsWith("image")) {
-			call = call.replace("image", "").trim();
+			call = call.replaceFirst("image", "").trim();
 			String name = call.split(" ")[0];
 			call = call.replaceFirst(name, "").trim();
 			String toSay = "";
@@ -160,5 +160,12 @@ public class AdminCommands {
 		
 		s.removeCustomCommand(call);
 		event.getChannel().sendMessage("Command successfully removed").queue();
+	}
+	
+	/*
+	 * CUSTOM LIST
+	 */
+	public static void customlist(MessageReceivedEvent event, String call) {
+		event.getChannel().sendMessage(getSettings(event.getGuild()).getCommandList()).queue();
 	}
 }
