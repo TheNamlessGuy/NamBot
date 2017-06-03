@@ -5,6 +5,7 @@ import static HelperPackage.HelperFunctions.err;
 import static HelperPackage.HelperFunctions.getSettings;
 import static HelperPackage.HelperFunctions.isNambot;
 import static HelperPackage.HelperFunctions.isNamless;
+import static HelperPackage.HelperFunctions.mentionsAtStart;
 import static HelperPackage.Logger.log;
 import static HelperPackage.SendingFunctions.sendMsg;
 import static MiniGames.FightingFunctions.handleFighting;
@@ -109,7 +110,12 @@ public class MessageListener extends ListenerAdapter {
 	public void onMessageReceived(MessageReceivedEvent event) {
 		String msg = event.getMessage().getContent();
 		
-		if (!msg.startsWith(prefix)) { return; }
+		if (!msg.startsWith(prefix)) {
+			if (mentionsAtStart(snowflakes.get("Nambot"), event)) {
+				sendMsg(event.getChannel(), "https://www.youtube.com/watch?v=zf8SSNRCmQ8");
+			}
+			return;
+		}
 		
 		if (event.isFromType(ChannelType.TEXT)) {
 			String call = msg.split("\\s")[0];

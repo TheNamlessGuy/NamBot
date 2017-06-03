@@ -125,4 +125,8 @@ public class HelperFunctions {
 	public static ServerSettings getSettings(Guild g) {
 		return GlobalVars.serversettings.get(g.getId());
 	}
+	
+	public static boolean mentionsAtStart(String snowflake, MessageReceivedEvent event) {
+		return event.getMessage().getContent().startsWith("@" + event.getGuild().getMemberById(snowflake).getEffectiveName());
+	}
 }
