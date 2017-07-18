@@ -91,6 +91,7 @@ public class MessageListener extends ListenerAdapter {
 		calls.put(prefix + "stab", ImageCommands.class.getMethod("stab", param));
 		calls.put(prefix + "rip", ImageCommands.class.getMethod("rip", param));
 		calls.put(prefix + "freddyspin", ImageCommands.class.getMethod("freddyspin", param));
+		calls.put(prefix + "civilwar", ImageCommands.class.getMethod("civilwar", param));
 		
 		/*
 		 * MINIGAME COMMANDS

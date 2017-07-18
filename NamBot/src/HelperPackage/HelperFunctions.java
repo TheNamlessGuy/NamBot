@@ -93,6 +93,20 @@ public class HelperFunctions {
 		return msg;
 	}
 	
+	public static String removeAllMentions(MessageReceivedEvent event) {
+		String msg = event.getMessage().getContent();
+		for (User u : event.getMessage().getMentionedUsers()) {
+			msg = msg.replaceAll("@" + getEffectiveNickname(event, u), "");
+		}
+		for (Role r : event.getMessage().getMentionedRoles()) {
+			msg = msg.replaceAll("@" + r.getName(), "");
+		}
+		for (TextChannel tc : event.getMessage().getMentionedChannels()) {
+			msg = msg.replaceAll("#" + tc.getName(), "");
+		}
+		return msg.trim();
+	}
+	
 	public static String getFileEnd(File f) {
 		int i = f.getName().lastIndexOf('.');
 		if (i > 0) {

@@ -3,6 +3,9 @@ package HelperPackage;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -81,6 +84,22 @@ public class ImageGenerators {
 		HttpURLConnection connection = (HttpURLConnection) new URL(avatarURL).openConnection();
 		connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.65 Safari/537.31");
 		return ImageIO.read(connection.getInputStream());
+	}
+	
+	/*
+	 * RENDER TEXT
+	 */
+	public static Graphics2D renderText(Graphics2D g, String t, int x, int y, int w, int h, int margin) {
+		Rectangle rect = new Rectangle(x + margin, y + margin, w - margin, h - margin);
+		TextLayout tl = new TextLayout(t, g.getFont(), g.getFontRenderContext());
+		AffineTransform transform = new AffineTransform();
+		transform.setToTranslation(rect.getX(), rect.getY());
+		double scaleY = rect.getHeight() / (double) (tl.getOutline(null).getBounds().getMaxY() - tl.getOutline(null).getBounds().getMinY());
+		transform.scale(rect.getWidth() / (double) g.getFontMetrics().stringWidth(t), scaleY);
+		Shape shape = tl.getOutline(transform);
+		g.setClip(shape);
+		g.fill(shape.getBounds());
+		return g;
 	}
 	
 	/*
@@ -219,7 +238,30 @@ public class ImageGenerators {
 			return imageToBytes(base, "PNG");
 		} catch (IOException e) {
 			HelperFunctions.err(c, e, "");
-			//e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/*
+	 * CIVIL WAR
+	 */
+	public static byte[] getCivilWarImage(MessageChannel c, String a1, String t1, String a2, String t2, String serverName) {
+		try {
+			BufferedImage base = ImageIO.read(new File("res/images/templates/civilwar.jpg"));
+			
+			Graphics2D g = (Graphics2D) base.getGraphics();
+			g.drawImage(getAvatar(a1), 109, 35, 330, 330, null);
+			g.drawImage(getAvatar(a2), 182, 490, 280, 280, null);
+			
+			g.setFont(new Font(g.getFont().getFontName(), Font.BOLD, 36));
+			g.setColor(Color.BLACK);
+			g = renderText(g, t1, 20, 435, 589, 43, 3);
+			g = renderText(g, t2, 20, 875, 589, 43, 3);
+			g = renderText(g, serverName, 145, 1010, 315, 40, 3);
+			
+			return imageToBytes(base, "JPG");
+		} catch (IOException e) {
+			HelperFunctions.err(c, e, "");
 		}
 		return null;
 	}

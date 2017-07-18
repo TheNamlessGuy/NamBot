@@ -3,6 +3,9 @@ package Commands;
 import static HelperPackage.HelperFunctions.*;
 import static HelperPackage.ImageGenerators.*;
 import static HelperPackage.SendingFunctions.*;
+import static HelperPackage.GlobalVars.*;
+
+import org.apache.commons.lang3.StringUtils;
 
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -155,6 +158,29 @@ public class ImageCommands {
 		} else {
 			sendImage(event.getChannel(), getRIPImage(event.getChannel(), call, ""), "rip.png");
 		}
+	}
+	
+	/*
+	 * CIVIL WAR
+	 */
+	public static void civilwar(MessageReceivedEvent event, String call) {
+		if (event.getMessage().getMentionedUsers().size() != 2) {
+			sendMsg(event.getChannel(), "Usage: `civilwar [mention] [mention] [text] | [text]`");
+			return;
+		}
+		
+		call = removeAllMentions(event).replace(prefix + "civilwar", "").trim();
+		if (StringUtils.countMatches(call, "|") != 1) {
+			sendMsg(event.getChannel(), "Usage: `civilwar [mention] [mention] [text] | [text]`");
+			return;
+		}
+
+		String a1 = event.getMessage().getMentionedUsers().get(0).getEffectiveAvatarUrl();
+		String a2 = event.getMessage().getMentionedUsers().get(1).getEffectiveAvatarUrl();
+		String[] split = call.split("\\|");
+		
+		sendTyping(event.getChannel());
+		sendImage(event.getChannel(), getCivilWarImage(event.getChannel(), a1, split[0].trim(), a2, split[1].trim(), event.getGuild().getName()), "civilwar.jpg");
 	}
 	
 	/*
