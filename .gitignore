@@ -1,16 +1,14 @@
 # MY FILES
-Nambot/res/images/generated/
-Nambot/res/JDA*
-Nambot/serversettings.json
 token.txt
 .metadata/
 .metadata\
 .recommenders/
 .recommenders\
-NamBot/bin/
 NamBot/.settings/
 NamBot/.classpath
 NamBot/.project
+*.jar
+*.json
 
 # Windows image file caches
 Thumbs.db
