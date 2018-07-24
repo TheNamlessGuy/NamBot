@@ -128,8 +128,8 @@ public class Help {
 		userHelp.put("drop", "drop [(<amount>) <item>|--all]");
 
 		userHelp.put("use", "use (<amount>) <item> (<parameters>)");
-		userHelp.put("use tomato", "use tomato <user mention>");
-		userHelp.put("use rock", "use rock <user mention>");
+		userHelp.put("use tomato", "use (<amount>) tomato <user mention>");
+		userHelp.put("use rock", "use (<amount>) rock <user mention>");
 
 		/* Admin */
 		adminHelp.put("setprefix", "setprefix <prefix>");

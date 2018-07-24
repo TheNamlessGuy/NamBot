@@ -45,7 +45,7 @@ public class General {
 		int amount = 1;
 		String item = params[0];
 		if (isInt(item)) {
-			if (params.length != 2) {
+			if (params.length < 2) {
 				Help.sendCommandUser(e.getChannel(), "use");
 				return;
 			}
@@ -104,7 +104,7 @@ public class General {
 		if (item.equals("--all")) {
 			item = null;
 		} else if (isInt(item)) {
-			if (params.length != 2) {
+			if (params.length < 2) {
 				Help.sendCommandUser(e.getChannel(), "drop");
 				return;
 			}
@@ -144,7 +144,7 @@ public class General {
 		int amount = 1;
 		String item = params[0];
 		if (isInt(item)) {
-			if (params.length != 2) {
+			if (params.length < 2) {
 				Help.sendCommandUser(e.getChannel(), "buy");
 				return;
 			}
