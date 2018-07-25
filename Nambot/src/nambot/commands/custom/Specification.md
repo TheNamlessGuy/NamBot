@@ -71,6 +71,11 @@ Users can not specify custom functions, and can only use the functions that are 
 `~` denotes character access of variables.  
 Generally, all lower case and symbol combinations can be considered reserved. Only use upper case variable names for custom variables.
 
+## Default variables
+`args` are the args passed to the program.  
+`mentions` is a list of all the user mentions that were passed as args.  
+`caller` is a mention of the caller of the program.
+
 ## Built in functions
 ### if
 The if statement is very simple. It starts the function call with a boolean operation, followed by one or several expressions (separated by `;`) which will be executed if the boolean operation is true.  
@@ -133,4 +138,61 @@ low(VALUE)
 ```
 low(args)
 low("ABC")
+```
+
+### Get name
+Gets the name of a mention. Note that the mention has to be of the format `<@[SNOWFLAKE]>` or `<@![SNOWFLAKE]>`, and not `@[USER]`.
+
+#### Structure
+```
+gn(VALUE)
+```
+
+#### Example usage
+```
+gn(caller)
+gn(mention0)
+```
+
+### Get nickname
+Gets the nickname of a mention. Note that the mention has to be of the format `<@[SNOWFLAKE]>` or `<@![SNOWFLAKE]>`, and not `@[USER]`.
+
+#### Structure
+```
+gnn(VALUE)
+```
+
+#### Example usage
+```
+gnn(caller)
+gnn(mention0)
+```
+
+### Get ID
+Gets the snowflake of a mention. Note that the mention has to be of the format `<@[SNOWFLAKE]>` or `<@![SNOWFLAKE]>`, and not `@[USER]`.
+
+#### Structure
+```
+gi(VALUE)
+```
+
+#### Example usage
+```
+gi(caller)
+gi(mention0)
+```
+
+### Random
+Randomly choses one of its parameters to display/return.
+
+#### Structure
+```
+ra(VALUE,VALUE,VALUE)
+ra(VALUE)
+```
+
+#### Example usage
+```
+https://i.imgur.com/`ra("6j3yOTH","JG75ivQ")`.jpg
+ra(caller,mention0)
 ```

@@ -23,7 +23,7 @@ public class MessageListener extends ListenerAdapter {
 		ownerCommands = new HashMap<String, Method>();
 		@SuppressWarnings("rawtypes") Class[] userClasses = { nambot.commands.user.Help.class, nambot.commands.user.General.class,
 				nambot.commands.user.Info.class, nambot.commands.user.api.General.class, nambot.commands.user.store.General.class,
-				nambot.commands.user.Zalgo.class };
+				nambot.commands.user.Zalgo.class, nambot.commands.custom.General.class };
 
 		for (@SuppressWarnings("rawtypes") Class c : userClasses) {
 			for (Method m : c.getMethods()) {
@@ -82,6 +82,8 @@ public class MessageListener extends ListenerAdapter {
 				adminCommands.get(messageArray[0]).invoke(null, e, message, gs);
 			} else if (isNamless(e.getMember()) && ownerCommands.containsKey(messageArray[0])) {
 				ownerCommands.get(messageArray[0]).invoke(null, e, message);
+			} else if (gs.customCommands.containsKey(messageArray[0])) {
+				gs.customCommands.get(messageArray[0]).invoke(e, message);
 			}
 		} catch (Exception ex) {
 			Send.error(e.getChannel(), ex);

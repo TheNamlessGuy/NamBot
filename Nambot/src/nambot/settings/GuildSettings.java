@@ -2,8 +2,12 @@ package nambot.settings;
 
 import static nambot.helpers.General.isNamless;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.json.JSONObject;
 
+import nambot.commands.custom.CustomCommand;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageChannel;
@@ -12,6 +16,8 @@ public class GuildSettings {
 	public Guild guild;
 	public MessageChannel logChannel;
 	public String prefix;
+
+	public Map<String, CustomCommand> customCommands;
 
 	public boolean isAdmin(Member m) {
 		if (m.isOwner() || isNamless(m)) {
@@ -28,6 +34,8 @@ public class GuildSettings {
 		guild = g;
 		logChannel = null;
 		prefix = "-";
+
+		customCommands = new HashMap<>();
 	}
 
 	public GuildSettings(JSONObject o, Guild g) {
@@ -38,6 +46,8 @@ public class GuildSettings {
 		}
 
 		prefix = o.getString("prefix");
+
+		customCommands = new HashMap<>();
 	}
 
 	public JSONObject save() {
