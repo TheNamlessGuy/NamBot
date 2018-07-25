@@ -21,13 +21,6 @@ public class Parser {
 
 	public TopNode parse(String function) {
 		tokens = Tokenizer.tokenize(function);
-
-		System.out.println("-----------");
-		for (Token t : tokens) {
-			System.out.println(t);
-		}
-		System.out.println("-----------");
-
 		nodes = new ArrayList<>();
 		isFunc = false;
 
