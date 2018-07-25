@@ -6,9 +6,9 @@ public class LoopNode extends Node {
 	private Node exprs;
 	private boolean characcess;
 
-	public LoopNode(Node var, Node lvar, Node exprs) {
+	public LoopNode(Node var, Node lvar, Node exprs, boolean characcess) {
 		this.var = var;
-		this.characcess = (var instanceof CharAccessNode);
+		this.characcess = characcess;
 		this.lvar = lvar;
 		this.exprs = exprs;
 	}

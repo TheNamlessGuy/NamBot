@@ -32,21 +32,28 @@ ABC     DEF
 ### Array access
 If you want to only access the first parameter (for example), you have to use array access. This is fortunately very easy:
 ```
-`args0`
+`args$0`
 ```
-will print the first argument sent to the program. That is to say, appending a number to the end of a variable name will get you the array values.  
-Note that it always splits on whitespace, unless it is a character access, in which case it splits up the entire string character for character.
+will print the first argument sent to the program. That is to say, appending `$` and a number to the end of a variable name will get you the array values.  
+Note that it always splits on whitespace, unless it is a character access, in which case it splits up the entire string character for character.  
+Array indexes can come from anywhere and doesn't have to be hardcoded values. For example, the following is acceptable:
+```
+`args$args~$"4"`
+```
+Which, for the input "p4 p1", will result in "p4".
 
 Arrays are always zero-indexed.
 
 ### Character access
-Character access is a very specialized syntax which can only be used in 2 ways: either as the first parameter to a loop, or as the variable name to an array:
+Character access is a very specialized syntax which can only be used in 3 situations: on the first parameter of a loop, on a variable in an array access, or on the parameter to a "random value" function call:
 ```
 `l(args~,char,char;char)`
-`args~0`
+`args~$0`
+`rv(args~)`
 ```
 The above loop will, for the input "abc", produce "aabbcc".  
-The above array access, for the input "abc", produce "a".
+The above array access, for the input "abc", produce "a".  
+The "random value" call will, for the input "abc", produce either "a", "b" or "c".
 
 ### Function calls
 Function calls are for more advanced things in the language.  
@@ -57,6 +64,7 @@ FUNCTION_NAME(PARAMETERS)
 Users can not specify custom functions, and can only use the functions that are built in to the language.
 
 ## Reserved symbols
+`$` is used to for array access. 
 `;` is used to separate expressions.  
 `,` is used to separate parameters to functions.  
 `(` denotes a function call start.  
@@ -78,7 +86,7 @@ Generally, all lower case and symbol combinations can be considered reserved. On
 
 ## Built in functions
 ### if
-The if statement is very simple. It starts the function call with a boolean operation, followed by one or several expressions (separated by `;`) which will be executed if the boolean operation is true.  
+The if statement is very simple. It starts the function call with a boolean operation, followed by one or several expressions which will be executed if the boolean operation is true.  
 After that segment there is room for an optional "else"-expression list, which will be executed if the boolean operation is false.
 
 #### Structure
@@ -89,8 +97,8 @@ if(VALUE COMPARATOR VALUE,EXPRESSIONS,EXPRESSIONS)
 
 #### Example usage
 ```
-if(args0 == "hello","goodbye")
-if(A!=B,B,A)
+if(args$0 == "hello","goodbye")
+if(A!=B,B,A;B)
 ```
 
 ### Loop
@@ -108,6 +116,10 @@ l(VALUE,VARIABLE,EXPRESSIONS)
 ```
 l(args,arg,arg; ;arg)
 l(args~,char,char;char)
+l(args$0,a,"<";a;">")
+l(args$0~,a,"<";a;">")
+l(args~$0,a,"<";a;">")
+l(args~$0~,a,"<";a;">")
 ```
 
 ### Replace
@@ -151,7 +163,7 @@ gn(VALUE)
 #### Example usage
 ```
 gn(caller)
-gn(mention0)
+gn(mention$0)
 ```
 
 ### Get nickname
@@ -165,7 +177,7 @@ gnn(VALUE)
 #### Example usage
 ```
 gnn(caller)
-gnn(mention0)
+gnn(mention$0)
 ```
 
 ### Get ID
@@ -179,7 +191,7 @@ gi(VALUE)
 #### Example usage
 ```
 gi(caller)
-gi(mention0)
+gi(mention$0)
 ```
 
 ### Random
@@ -195,4 +207,19 @@ ra(VALUE)
 ```
 https://i.imgur.com/`ra("6j3yOTH","JG75ivQ")`.jpg
 ra(caller,mention0)
+```
+
+### Random value
+Like Random, but instead of choosing between its parameters, it splits the value in its singular parameter.  
+Can be used with characcess.
+
+#### Structure
+```
+rv(VALUE)
+```
+
+#### Example usage
+```
+https://i.imgur.com/`rv("6j3yOTH JG75ivQ")`.jpg
+rv(args~)
 ```

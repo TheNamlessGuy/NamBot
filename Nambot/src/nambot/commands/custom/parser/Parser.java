@@ -21,6 +21,13 @@ public class Parser {
 
 	public TopNode parse(String function) {
 		tokens = Tokenizer.tokenize(function);
+
+		System.out.println("-----------");
+		for (Token t : tokens) {
+			System.out.println(t);
+		}
+		System.out.println("-----------");
+
 		nodes = new ArrayList<>();
 		isFunc = false;
 
@@ -29,7 +36,7 @@ public class Parser {
 
 		while (tokens.size() > 0) {
 			topNode();
-			if (peek(0).type == TokenType.EOF || peek(0).type == TokenType.ERROR) {
+			if (peek(0).type == TokenType.EOF) {
 				break;
 			}
 		}

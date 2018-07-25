@@ -1,9 +1,9 @@
 package nambot.commands.custom.parser;
 
 import nambot.commands.custom.TokenType;
+import nambot.commands.custom.Tokenizer.Token;
 import nambot.commands.custom.nodes.ArrayAccessNode;
 import nambot.commands.custom.nodes.BooleanExpressionNode;
-import nambot.commands.custom.nodes.CharAccessNode;
 import nambot.commands.custom.nodes.ConstantNode;
 import nambot.commands.custom.nodes.ExprsNode;
 import nambot.commands.custom.nodes.GetIDNode;
@@ -63,11 +63,11 @@ public class ParserGetter {
 
 	public Retval expr(int i) {
 		Retval rv = null;
-		if ((rv = setvar(i)) != null) {
+		if ((rv = arrayaccess(i)) != null) {
+			return rv;
+		} else if ((rv = setvar(i)) != null) {
 			return rv;
 		} else if ((rv = getvar(i)) != null) {
-			return rv;
-		} else if ((rv = arrayaccess(i)) != null) {
 			return rv;
 		} else if ((rv = strConst(i)) != null) {
 			return rv;
@@ -94,6 +94,8 @@ public class ParserGetter {
 		} else if ((rv = getid(i)) != null) {
 			return rv;
 		} else if ((rv = random(i)) != null) {
+			return rv;
+		} else if ((rv = randomvalue(i)) != null) {
 			return rv;
 		}
 		return null;
@@ -149,7 +151,41 @@ public class ParserGetter {
 		}
 		offset += rv.consumed;
 
-		return new Retval(new RandomNode(val), offset);
+		return new Retval(new RandomNode(val, false), offset);
+	}
+
+	public Retval randomvalue(int i) {
+		int offset = 0;
+		Retval rv = null;
+		boolean characcess = false;
+
+		if (p.peek(i).type != TokenType.RANDOMVALUE) {
+			return null;
+		}
+		++offset;
+
+		if ((rv = callStart(i + offset)) == null) {
+			return null;
+		}
+		offset += rv.consumed;
+
+		if ((rv = value(i + offset)) == null) {
+			return null;
+		}
+		Node val = rv.value;
+		offset += rv.consumed;
+
+		if ((rv = characcess(i + offset)) != null) {
+			characcess = true;
+			offset += rv.consumed;
+		}
+
+		if ((rv = callEnd(i + offset)) == null) {
+			return null;
+		}
+		offset += rv.consumed;
+
+		return new Retval(new RandomNode(val, characcess), offset);
 	}
 
 	public Retval getname(int i) {
@@ -289,6 +325,7 @@ public class ParserGetter {
 	public Retval loop(int i) {
 		int offset = 0;
 		Retval rv = null;
+		boolean characcess = false;
 
 		if (p.peek(i).type != TokenType.LOOP) {
 			return null;
@@ -300,11 +337,16 @@ public class ParserGetter {
 		}
 		offset += rv.consumed;
 
-		if ((rv = value(i + offset)) == null && (rv = characcess(i + offset)) == null) {
+		if ((rv = value(i + offset)) == null) {
 			return null;
 		}
 		Node var = rv.value;
 		offset += rv.consumed;
+
+		if ((rv = characcess(i + offset)) != null) {
+			characcess = true;
+			offset += rv.consumed;
+		}
 
 		if ((rv = paramSep(i + offset)) == null) {
 			return null;
@@ -333,7 +375,7 @@ public class ParserGetter {
 		}
 		offset += rv.consumed;
 
-		return new Retval(new LoopNode(var, lvar, exprs), offset);
+		return new Retval(new LoopNode(var, lvar, exprs, characcess), offset);
 	}
 
 	public Retval ifstmt(int i) {
@@ -419,6 +461,16 @@ public class ParserGetter {
 
 	public Retval value(int i) {
 		Retval rv = null;
+		if ((rv = arrayaccess(i)) != null) {
+			return rv;
+		} else if ((rv = valueNotArray(i)) != null) {
+			return rv;
+		}
+		return null;
+	}
+
+	public Retval valueNotArray(int i) {
+		Retval rv = null;
 		if ((rv = strConst(i)) != null) {
 			return rv;
 		} else if ((rv = getvar(i)) != null) {
@@ -427,8 +479,6 @@ public class ParserGetter {
 			return rv;
 		} else if ((rv = getid(i)) != null) {
 			return rv;
-		} else if ((rv = arrayaccess(i)) != null) {
-			return rv;
 		} else if ((rv = replace(i)) != null) {
 			return rv;
 		} else if ((rv = lower(i)) != null) {
@@ -436,6 +486,8 @@ public class ParserGetter {
 		} else if ((rv = whitespace(i)) != null) {
 			return rv;
 		} else if ((rv = random(i)) != null) {
+			return rv;
+		} else if ((rv = randomvalue(i)) != null) {
 			return rv;
 		}
 		return null;
@@ -484,15 +536,44 @@ public class ParserGetter {
 	}
 
 	public Retval arrayaccess(int i) {
-		if (p.peek(i).type == TokenType.ARRAYACCESS) {
-			return new Retval(new ArrayAccessNode(p.peek(i).value), 1);
+		int offset = 0;
+		Retval rv = null;
+		boolean characcess = false;
+
+		if ((rv = valueNotArray(i)) == null) {
+			return null;
 		}
-		return null;
+		Node val = rv.value;
+		offset += rv.consumed;
+
+		if ((rv = characcess(i + offset)) != null) {
+			characcess = true;
+			offset += rv.consumed;
+		}
+
+		Token t = p.peek(i + offset);
+		if (t.type != TokenType.ARRAYACCESS) {
+			return null;
+		}
+		++offset;
+
+		Node access = null;
+		if (t.value.length() > 1) {
+			access = new ConstantNode(t.value.substring(1));
+		} else {
+			if ((rv = value(i + offset)) == null) {
+				return null;
+			}
+			access = rv.value;
+			offset += rv.consumed;
+		}
+
+		return new Retval(new ArrayAccessNode(val, access, characcess), offset);
 	}
 
 	public Retval characcess(int i) {
 		if (p.peek(i).type == TokenType.CHARACCESS) {
-			return new Retval(new CharAccessNode(p.peek(i).value), 1);
+			return new Retval(null, 1);
 		}
 		return null;
 	}

@@ -97,6 +97,7 @@ public class Tokenizer {
 		matchers.add(createTokenMatcher("if", TokenType.IF));
 		matchers.add(createTokenMatcher("l", TokenType.LOOP));
 		matchers.add(createTokenMatcher("ra", TokenType.RANDOM));
+		matchers.add(createTokenMatcher("rv", TokenType.RANDOMVALUE));
 		matchers.add(createTokenMatcher("r", TokenType.REPLACE));
 		matchers.add(createTokenMatcher("gnn", TokenType.GETNICKNAME));
 		matchers.add(createTokenMatcher("gn", TokenType.GETNAME));
@@ -104,8 +105,8 @@ public class Tokenizer {
 		matchers.add(createTokenMatcher("==", TokenType.P_COMPARISON));
 		matchers.add(createTokenMatcher("!=", TokenType.N_COMPARISON));
 		matchers.add(createTokenMatcher("=", TokenType.ASSIGNMENT));
-		matchers.add(createTokenMatcher("([a-zA-Z]+[0-9]+|[a-zA-Z]+~[0-9]+)", TokenType.ARRAYACCESS));
-		matchers.add(createTokenMatcher("[a-zA-Z]+~", TokenType.CHARACCESS));
+		matchers.add(createTokenMatcher("\\$[0-9]*", TokenType.ARRAYACCESS));
+		matchers.add(createTokenMatcher("~", TokenType.CHARACCESS));
 		matchers.add(createTokenMatcher("[a-zA-Z]+", TokenType.VAR));
 		matchers.add(createTokenMatcher("\"[^\"]+\"", TokenType.CONSTANT_STRING));
 		matchers.add(createTokenMatcher("\\s+", TokenType.WHITESPACE));
