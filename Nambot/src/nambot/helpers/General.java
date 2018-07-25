@@ -3,6 +3,7 @@ package nambot.helpers;
 import static nambot.globals.Vars.guildSettings;
 import static nambot.globals.Vars.members;
 import static nambot.globals.Vars.random;
+import static nambot.helpers.Number.isInt;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -69,5 +70,13 @@ public class General {
 		NamMember nm = new NamMember(m.getUser());
 		members.put(m.getUser().getId(), nm);
 		return nm;
+	}
+
+	public static Member getMemberByMention(Guild g, String mention) {
+		mention = mention.substring(2, mention.length() - 1);
+		if (!isInt(mention)) {
+			mention = mention.substring(1);
+		}
+		return g.getMemberById(mention);
 	}
 }

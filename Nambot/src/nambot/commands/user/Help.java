@@ -130,6 +130,11 @@ public class Help {
 		userHelp.put("inv", "inv (<page>)");
 		userHelp.put("inventory", "inventory (<page>)");
 		userHelp.put("drop", "drop [(<amount>) <item>|--all]");
+		userHelp.put("pat", "pat <user>");
+		userHelp.put("stab", "stab <user>");
+		userHelp.put("slap", "slap <user>");
+		userHelp.put("hug", "hug <user>");
+		userHelp.put("civilwar", "civilwar <user> <user text> | <user> <user text>");
 
 		userHelp.put("use", "use (<amount>) <item> (<parameters>)");
 		userHelp.put("use tomato", "use (<amount>) tomato <user mention>");

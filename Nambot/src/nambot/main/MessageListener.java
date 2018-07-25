@@ -23,7 +23,10 @@ public class MessageListener extends ListenerAdapter {
 		ownerCommands = new HashMap<String, Method>();
 		@SuppressWarnings("rawtypes") Class[] userClasses = { nambot.commands.user.Help.class, nambot.commands.user.General.class,
 				nambot.commands.user.Info.class, nambot.commands.user.api.General.class, nambot.commands.user.store.General.class,
-				nambot.commands.user.Zalgo.class, nambot.commands.custom.General.class };
+				nambot.commands.user.Zalgo.class, nambot.commands.custom.General.class,
+
+				nambot.commands.images.Pat.class, nambot.commands.images.Stab.class, nambot.commands.images.Slap.class, nambot.commands.images.Hug.class,
+				nambot.commands.images.CivilWar.class };
 
 		for (@SuppressWarnings("rawtypes") Class c : userClasses) {
 			for (Method m : c.getMethods()) {
