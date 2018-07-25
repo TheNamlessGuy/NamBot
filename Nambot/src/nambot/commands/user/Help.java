@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import nambot.main.Send;
 import nambot.settings.GuildSettings;
@@ -58,6 +59,7 @@ public class Help {
 		list.addAll(ownerHelp.keySet());
 		list.sort(null);
 		list.add(0, "help");
+		list = list.stream().filter((x) -> !x.contains(" ")).collect(Collectors.toList());
 		Send.list(mc, page, list, "Command list", 10, "");
 	}
 
@@ -67,6 +69,7 @@ public class Help {
 		list.addAll(adminHelp.keySet());
 		list.sort(null);
 		list.add(0, "help");
+		list = list.stream().filter((x) -> !x.contains(" ")).collect(Collectors.toList());
 		Send.list(mc, page, list, "Command list", 10, "");
 	}
 
@@ -75,6 +78,7 @@ public class Help {
 		list.addAll(userHelp.keySet());
 		list.sort(null);
 		list.add(0, "help");
+		list = list.stream().filter((x) -> !x.contains(" ")).collect(Collectors.toList());
 		Send.list(mc, page, list, "Command list", 10, "");
 	}
 
@@ -121,7 +125,7 @@ public class Help {
 		userHelp.put("flip", "flip (--reverse) <phrase>");
 		userHelp.put("reverse", "reverse (--flip) <phrase>");
 		userHelp.put("generateavatar", "generateavatar [robot|robothead|alien|cat|face]");
-		userHelp.put("zalgo", "zalgo (--<fuckery level 1-10>) <phrase>");
+		userHelp.put("zalgo", "zalgo (--max|--mid|--min) <phrase>");
 		userHelp.put("buy", "buy [list (<page>)|(<amount>) <item>]");
 		userHelp.put("inv", "inv (<page>)");
 		userHelp.put("inventory", "inventory (<page>)");
@@ -130,6 +134,16 @@ public class Help {
 		userHelp.put("use", "use (<amount>) <item> (<parameters>)");
 		userHelp.put("use tomato", "use (<amount>) tomato <user mention>");
 		userHelp.put("use rock", "use (<amount>) rock <user mention>");
+		userHelp.put("use nicknamechanger", "use nicknamechanger <user mention> <new name>");
+
+		userHelp.put("cc", "cc [h(elp)|c(reate)|d(elete)|e(dit)|s(how)]");
+		userHelp.put("customcommand", "customcommand [h(elp)|c(reate)|d(elete)|e(dit)|s(how)|t(est)]");
+		userHelp.put("customcommand create", "customcommand create <command name> <contents>");
+		userHelp.put("customcommand delete", "customcommand delete <command name>");
+		userHelp.put("customcommand edit", "customcommand edit <command name> <contents>");
+		userHelp.put("customcommand show", "customcommand show <command name>");
+		userHelp.put("customcommand test", "customcommand test <contents>");
+		userHelp.put("customcommand help", "customcommand help");
 
 		/* Admin */
 		adminHelp.put("setprefix", "setprefix <prefix>");

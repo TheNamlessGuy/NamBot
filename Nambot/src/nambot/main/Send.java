@@ -17,7 +17,9 @@ public class Send {
 	}
 
 	public static void text(MessageChannel mc, String msg) {
-		if (msg.length() > 1999) {
+		if (msg.length() < 1) {
+			mc.sendMessage("`null`").queue();
+		} else if (msg.length() > 1999) {
 			mc.sendMessage("Resulting message is over 2000 characters in length, cannot be sent").queue();
 		} else {
 			mc.sendMessage(msg).queue();
@@ -25,7 +27,9 @@ public class Send {
 	}
 
 	public static Message rtext(MessageChannel mc, String msg) {
-		if (msg.length() > 1999) {
+		if (msg.length() < 1) {
+			return mc.sendMessage("`null`").complete();
+		} else if (msg.length() > 1999) {
 			return mc.sendMessage("Resulting message is over 2000 characters in length, cannot be sent").complete();
 		}
 		return mc.sendMessage(msg).complete();

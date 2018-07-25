@@ -8,7 +8,7 @@ import nambot.settings.NamMember;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class Throwables {
-	public static boolean throwtomato(MessageReceivedEvent e, Integer amount) {
+	public static boolean throwtomato(MessageReceivedEvent e, Integer amount, String param) {
 		if (e.getMessage().getMentionedMembers().size() != 1) {
 			Help.sendCommandUser(e.getChannel(), "use tomato");
 			return false;
@@ -26,7 +26,7 @@ public class Throwables {
 		return true;
 	}
 
-	public static boolean throwrock(MessageReceivedEvent e, Integer amount) {
+	public static boolean throwrock(MessageReceivedEvent e, Integer amount, String param) {
 		if (e.getMessage().getMentionedMembers().size() != 1) {
 			Help.sendCommandUser(e.getChannel(), "use rock");
 			return false;

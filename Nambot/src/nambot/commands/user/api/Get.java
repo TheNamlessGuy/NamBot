@@ -1,4 +1,4 @@
-package nambot.commands.admin;
+package nambot.commands.user.api;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;

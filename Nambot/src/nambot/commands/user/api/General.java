@@ -6,7 +6,6 @@ import static nambot.helpers.General.randomString;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
-import nambot.commands.admin.Get;
 import nambot.commands.user.Help;
 import nambot.main.Send;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;

@@ -5,6 +5,7 @@ import static nambot.globals.Vars.members;
 import static nambot.globals.Vars.random;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import nambot.globals.SNOWFLAKES;
 import nambot.settings.GuildSettings;
@@ -14,6 +15,16 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class General {
+	public static boolean isHigherRank(Member m) {
+		return m.getGuild().getMemberById(SNOWFLAKES.SELF).getRoles().get(0).compareTo(m.getRoles().get(0)) < 0;
+	}
+
+	private static Pattern userMention = Pattern.compile("^<@!?\\d+>$");
+
+	public static boolean isUserMention(String s) {
+		return userMention.matcher(s).matches();
+	}
+
 	public static GuildSettings getGuildSettings(Guild g) {
 		if (guildSettings.containsKey(g.getId())) {
 			return guildSettings.get(g.getId());

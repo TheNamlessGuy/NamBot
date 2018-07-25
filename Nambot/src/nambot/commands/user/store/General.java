@@ -52,11 +52,14 @@ public class General {
 
 			amount = lclamp(1, Integer.parseInt(item));
 			item = params[1];
+			param = param.substring(params[0].length() + params[1].length()).trim();
+		} else {
+			param = param.substring(item.length()).trim();
 		}
 		item = item.toLowerCase();
 
 		if (nm.inventory.contains(item)) {
-			if (useItem(item, amount, e)) {
+			if (useItem(item, e, amount, param)) {
 				nm.removeItem(item, amount);
 			}
 		} else {
@@ -84,7 +87,7 @@ public class General {
 			}
 			tmp.add(item);
 
-			list.add(item + " x" + Collections.frequency(nm.inventory, item));
+			list.add("**" + item + "** x" + Collections.frequency(nm.inventory, item));
 		}
 
 		Send.list(e.getChannel(), page, list, "Inventory of " + nm.getName() + " (size " + nm.inventory.size() + "/" + nm.inventorySize + ")", 10, "");
@@ -173,8 +176,8 @@ public class General {
 		}
 	}
 
-	private static boolean useItem(String item, int amount, MessageReceivedEvent e)
+	private static boolean useItem(String item, MessageReceivedEvent e, int amount, String param)
 			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		return (boolean) items.get(item).method.invoke(null, e, amount);
+		return (boolean) items.get(item).method.invoke(null, e, amount, param);
 	}
 }
