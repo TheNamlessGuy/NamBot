@@ -1,11 +1,21 @@
 package nambot.commands.custom;
 
+import static nambot.helpers.DiscordTransformers.getNameIndicator;
+import static nambot.helpers.General.getAuthorOrMentionedMember;
 import static nambot.helpers.General.getGuildSettings;
+import static nambot.helpers.Number.isInt;
+import static nambot.helpers.Number.lclamp;
+
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
 import nambot.commands.custom.parser.Parser;
 import nambot.commands.user.Help;
 import nambot.main.Send;
 import nambot.settings.GuildSettings;
+import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class General {
@@ -39,6 +49,14 @@ public class General {
 		case "t":
 		case "test":
 			test(e, params[1]);
+			break;
+		case "i":
+		case "info":
+			info(e, params[1]);
+			break;
+		case "l":
+		case "list":
+			list(e, params[1]);
 			break;
 		case "h":
 		case "help":
@@ -131,6 +149,44 @@ public class General {
 		}
 
 		Send.text(e.getChannel(), new Parser().parse(param).start(e, "p1 p2 p3 p4"));
+	}
+
+	private static void info(MessageReceivedEvent e, String param) {
+		if (param.equals("")) {
+			Help.sendCommandUser(e.getChannel(), "customcommand info");
+			return;
+		}
+
+		GuildSettings gs = getGuildSettings(e.getGuild());
+		if (!gs.customCommands.containsKey(param)) {
+			Send.text(e.getChannel(), "No command by the name '" + param + "' found");
+			return;
+		}
+
+		CustomCommand cc = gs.customCommands.get(param);
+		StringBuilder sb = new StringBuilder();
+		sb.append("**Author**: ").append(getNameIndicator(gs.guild.getMemberById(cc.ownerID))).append('\n');
+		Send.embed(e.getChannel(), new EmbedBuilder().setTitle("Custom command '" + cc.name + "'").setColor(Color.gray).setDescription(sb.toString()).build());
+	}
+
+	private static void list(MessageReceivedEvent e, String param) {
+		GuildSettings gs = getGuildSettings(e.getGuild());
+		Member m = gs.guild.getMemberById(getAuthorOrMentionedMember(0, e));
+		String[] params = param.split(" ");
+
+		List<String> list = new ArrayList<>();
+		for (CustomCommand cc : gs.customCommands.values()) {
+			if (m.getUser().getId().equals(cc.ownerID)) {
+				list.add(cc.name);
+			}
+		}
+
+		int page = 1;
+		if (isInt(params[params.length - 1])) {
+			page = lclamp(1, Integer.parseInt(params[params.length - 1]));
+		}
+
+		Send.list(e.getChannel(), page, list, "Custom command list for " + m.getUser().getName(), 10, "", ", ");
 	}
 
 	private static void help(MessageReceivedEvent e) {

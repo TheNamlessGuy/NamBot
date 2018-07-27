@@ -26,7 +26,7 @@ public class MessageListener extends ListenerAdapter {
 				nambot.commands.user.Zalgo.class, nambot.commands.custom.General.class,
 
 				nambot.commands.images.Pat.class, nambot.commands.images.Stab.class, nambot.commands.images.Slap.class, nambot.commands.images.Hug.class,
-				nambot.commands.images.CivilWar.class };
+				nambot.commands.images.CivilWar.class, nambot.commands.images.Ship.class };
 
 		for (@SuppressWarnings("rawtypes") Class c : userClasses) {
 			for (Method m : c.getMethods()) {

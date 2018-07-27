@@ -13,9 +13,11 @@ import nambot.commands.custom.nodes.IfNode;
 import nambot.commands.custom.nodes.LoopNode;
 import nambot.commands.custom.nodes.LowerNode;
 import nambot.commands.custom.nodes.Node;
+import nambot.commands.custom.nodes.NumberLoopNode;
 import nambot.commands.custom.nodes.OutputNode;
 import nambot.commands.custom.nodes.ParamListNode;
 import nambot.commands.custom.nodes.RandomNode;
+import nambot.commands.custom.nodes.RandomNumberNode;
 import nambot.commands.custom.nodes.ReplaceNode;
 import nambot.commands.custom.nodes.SetVarNode;
 
@@ -85,6 +87,8 @@ public class ParserGetter {
 			return rv;
 		} else if ((rv = loop(i)) != null) {
 			return rv;
+		} else if ((rv = numberloop(i)) != null) {
+			return rv;
 		} else if ((rv = replace(i)) != null) {
 			return rv;
 		} else if ((rv = lower(i)) != null) {
@@ -96,6 +100,44 @@ public class ParserGetter {
 		} else if ((rv = random(i)) != null) {
 			return rv;
 		} else if ((rv = randomvalue(i)) != null) {
+			return rv;
+		} else if ((rv = randomnumber(i)) != null) {
+			return rv;
+		}
+		return null;
+	}
+
+	public Retval value(int i) {
+		Retval rv = null;
+		if ((rv = arrayaccess(i)) != null) {
+			return rv;
+		} else if ((rv = valueNotArray(i)) != null) {
+			return rv;
+		}
+		return null;
+	}
+
+	public Retval valueNotArray(int i) {
+		Retval rv = null;
+		if ((rv = strConst(i)) != null) {
+			return rv;
+		} else if ((rv = getvar(i)) != null) {
+			return rv;
+		} else if ((rv = getname(i)) != null) {
+			return rv;
+		} else if ((rv = getid(i)) != null) {
+			return rv;
+		} else if ((rv = replace(i)) != null) {
+			return rv;
+		} else if ((rv = lower(i)) != null) {
+			return rv;
+		} else if ((rv = whitespace(i)) != null) {
+			return rv;
+		} else if ((rv = random(i)) != null) {
+			return rv;
+		} else if ((rv = randomvalue(i)) != null) {
+			return rv;
+		} else if ((rv = randomnumber(i)) != null) {
 			return rv;
 		}
 		return null;
@@ -186,6 +228,45 @@ public class ParserGetter {
 		offset += rv.consumed;
 
 		return new Retval(new RandomNode(val, characcess), offset);
+	}
+
+	public Retval randomnumber(int i) {
+		int offset = 0;
+		Retval rv = null;
+
+		if (p.peek(i).type != TokenType.RANDOMNUMBER) {
+			return null;
+		}
+		++offset;
+
+		if ((rv = callStart(i + offset)) == null) {
+			return null;
+		}
+		offset += rv.consumed;
+
+		if ((rv = value(i + offset)) == null) {
+			return null;
+		}
+		Node lval = rv.value;
+		offset += rv.consumed;
+
+		if ((rv = paramSep(i + offset)) == null) {
+			return null;
+		}
+		offset += rv.consumed;
+
+		if ((rv = value(i + offset)) == null) {
+			return null;
+		}
+		Node rval = rv.value;
+		offset += rv.consumed;
+
+		if ((rv = callEnd(i + offset)) == null) {
+			return null;
+		}
+		offset += rv.consumed;
+
+		return new Retval(new RandomNumberNode(lval, rval), offset);
 	}
 
 	public Retval getname(int i) {
@@ -320,6 +401,56 @@ public class ParserGetter {
 		offset += rv.consumed;
 
 		return new Retval(new ReplaceNode(val, toReplace, replaceWith), offset);
+	}
+
+	public Retval numberloop(int i) {
+		int offset = 0;
+		Retval rv = null;
+
+		if (p.peek(i).type != TokenType.NUMBERLOOP) {
+			return null;
+		}
+		++offset;
+
+		if ((rv = callStart(i + offset)) == null) {
+			return null;
+		}
+		offset += rv.consumed;
+
+		if ((rv = value(i + offset)) == null) {
+			return null;
+		}
+		Node var = rv.value;
+		offset += rv.consumed;
+
+		if ((rv = paramSep(i + offset)) == null) {
+			return null;
+		}
+		offset += rv.consumed;
+
+		if ((rv = var(i + offset)) == null) {
+			return null;
+		}
+		Node lvar = rv.value;
+		offset += rv.consumed;
+
+		if ((rv = paramSep(i + offset)) == null) {
+			return null;
+		}
+		offset += rv.consumed;
+
+		if ((rv = exprs(i + offset)) == null) {
+			return null;
+		}
+		Node exprs = rv.value;
+		offset += rv.consumed;
+
+		if ((rv = callEnd(i + offset)) == null) {
+			return null;
+		}
+		offset += rv.consumed;
+
+		return new Retval(new NumberLoopNode(var, lvar, exprs), offset);
 	}
 
 	public Retval loop(int i) {
@@ -457,40 +588,6 @@ public class ParserGetter {
 		offset += rv.consumed;
 
 		return new Retval(new BooleanExpressionNode(ln, comparator, rn), offset);
-	}
-
-	public Retval value(int i) {
-		Retval rv = null;
-		if ((rv = arrayaccess(i)) != null) {
-			return rv;
-		} else if ((rv = valueNotArray(i)) != null) {
-			return rv;
-		}
-		return null;
-	}
-
-	public Retval valueNotArray(int i) {
-		Retval rv = null;
-		if ((rv = strConst(i)) != null) {
-			return rv;
-		} else if ((rv = getvar(i)) != null) {
-			return rv;
-		} else if ((rv = getname(i)) != null) {
-			return rv;
-		} else if ((rv = getid(i)) != null) {
-			return rv;
-		} else if ((rv = replace(i)) != null) {
-			return rv;
-		} else if ((rv = lower(i)) != null) {
-			return rv;
-		} else if ((rv = whitespace(i)) != null) {
-			return rv;
-		} else if ((rv = random(i)) != null) {
-			return rv;
-		} else if ((rv = randomvalue(i)) != null) {
-			return rv;
-		}
-		return null;
 	}
 
 	public Retval setvar(int i) {

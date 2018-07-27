@@ -76,7 +76,15 @@ public class Send {
 		}
 	}
 
+	public static void list(MessageChannel mc, int page, List<String> list, String title, int pageSize) {
+		list(mc, page, list, title, pageSize, "");
+	}
+
 	public static void list(MessageChannel mc, int page, List<String> list, String title, int pageSize, String prefix) {
+		list(mc, page, list, title, pageSize, prefix, "\n");
+	}
+
+	public static void list(MessageChannel mc, int page, List<String> list, String title, int pageSize, String prefix, String separator) {
 		StringBuilder sb = new StringBuilder();
 		int entry = (page * pageSize) - pageSize;
 
@@ -84,7 +92,11 @@ public class Send {
 			if (i >= list.size()) {
 				break;
 			}
-			sb.append(prefix).append(list.get(i)).append('\n');
+			sb.append(prefix).append(list.get(i)).append(separator);
+		}
+
+		if (sb.length() > 0) {
+			sb.setLength(sb.length() - separator.length());
 		}
 
 		Send.embed(mc, new EmbedBuilder().setColor(Color.gray).setTitle(title + " (" + page + '/' + ((list.size() / pageSize) + 1) + ")")

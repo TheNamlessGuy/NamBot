@@ -60,7 +60,7 @@ public class Help {
 		list.sort(null);
 		list.add(0, "help");
 		list = list.stream().filter((x) -> !x.contains(" ")).collect(Collectors.toList());
-		Send.list(mc, page, list, "Command list", 10, "");
+		Send.list(mc, page, list, "Command list", 10);
 	}
 
 	private static void sendListAdmin(MessageChannel mc, int page) {
@@ -70,7 +70,7 @@ public class Help {
 		list.sort(null);
 		list.add(0, "help");
 		list = list.stream().filter((x) -> !x.contains(" ")).collect(Collectors.toList());
-		Send.list(mc, page, list, "Command list", 10, "");
+		Send.list(mc, page, list, "Command list", 10);
 	}
 
 	private static void sendListUser(MessageChannel mc, int page) {
@@ -79,7 +79,7 @@ public class Help {
 		list.sort(null);
 		list.add(0, "help");
 		list = list.stream().filter((x) -> !x.contains(" ")).collect(Collectors.toList());
-		Send.list(mc, page, list, "Command list", 10, "");
+		Send.list(mc, page, list, "Command list", 10);
 	}
 
 	public static void sendCommandOwner(MessageChannel mc, String function) {
@@ -116,7 +116,7 @@ public class Help {
 		ownerHelp = new HashMap<>();
 
 		/* User */
-		userHelp.put("info", "info [server|<user>|<role>|<channel>|<custom emote>|role <role name>|user <user name>]");
+		userHelp.put("info", "info ([server|<user>|<role>|<channel>|<custom emote>|role <role name>|user <user name>])");
 		userHelp.put("ping", "ping");
 		userHelp.put("joke", "joke");
 		userHelp.put("vote", "vote <phrase>");
@@ -127,28 +127,21 @@ public class Help {
 		userHelp.put("generateavatar", "generateavatar [robot|robothead|alien|cat|face]");
 		userHelp.put("zalgo", "zalgo (--max|--mid|--min) <phrase>");
 		userHelp.put("buy", "buy [list (<page>)|(<amount>) <item>]");
-		userHelp.put("inv", "inv (<page>)");
 		userHelp.put("inventory", "inventory (<page>)");
+		userHelp.put("inv", userHelp.get("inventory"));
 		userHelp.put("drop", "drop [(<amount>) <item>|--all]");
 		userHelp.put("pat", "pat <user>");
 		userHelp.put("stab", "stab <user>");
 		userHelp.put("slap", "slap <user>");
 		userHelp.put("hug", "hug <user>");
+		userHelp.put("ship", "ship <user> <user>");
 		userHelp.put("civilwar", "civilwar <user> <user text> | <user> <user text>");
+		setCustomCommandHelpTexts();
 
 		userHelp.put("use", "use (<amount>) <item> (<parameters>)");
 		userHelp.put("use tomato", "use (<amount>) tomato <user mention>");
 		userHelp.put("use rock", "use (<amount>) rock <user mention>");
 		userHelp.put("use nicknamechanger", "use nicknamechanger <user mention> <new name>");
-
-		userHelp.put("cc", "cc [h(elp)|c(reate)|d(elete)|e(dit)|s(how)]");
-		userHelp.put("customcommand", "customcommand [h(elp)|c(reate)|d(elete)|e(dit)|s(how)|t(est)]");
-		userHelp.put("customcommand create", "customcommand create <command name> <contents>");
-		userHelp.put("customcommand delete", "customcommand delete <command name>");
-		userHelp.put("customcommand edit", "customcommand edit <command name> <contents>");
-		userHelp.put("customcommand show", "customcommand show <command name>");
-		userHelp.put("customcommand test", "customcommand test <contents>");
-		userHelp.put("customcommand help", "customcommand help");
 
 		/* Admin */
 		adminHelp.put("setprefix", "setprefix <prefix>");
@@ -158,5 +151,50 @@ public class Help {
 		/* Owner */
 		ownerHelp.put("exit", "exit");
 		ownerHelp.put("save", "save");
+	}
+
+	private static void setCustomCommandHelpTexts() {
+		userHelp.put("customcommand", "customcommand [h(elp)|c(reate)|d(elete)|e(dit)|s(how)|t(est)|i(nfo)|l(ist)]");
+		userHelp.put("cc", userHelp.get("customcommand"));
+
+		userHelp.put("customcommand create", "customcommand create <command name> <contents>");
+		userHelp.put("customcommand c", userHelp.get("customcommand create"));
+		userHelp.put("cc create", userHelp.get("customcommand create"));
+		userHelp.put("cc c", userHelp.get("customcommand create"));
+
+		userHelp.put("customcommand delete", "customcommand delete <command name>");
+		userHelp.put("customcommand d", userHelp.get("customcommand delete"));
+		userHelp.put("cc delete", userHelp.get("customcommand delete"));
+		userHelp.put("cc d", userHelp.get("customcommand delete"));
+
+		userHelp.put("customcommand edit", "customcommand edit <command name> <contents>");
+		userHelp.put("customcommand e", userHelp.get("customcommand edit"));
+		userHelp.put("cc edit", userHelp.get("customcommand edit"));
+		userHelp.put("cc e", userHelp.get("customcommand edit"));
+
+		userHelp.put("customcommand show", "customcommand show <command name>");
+		userHelp.put("customcommand s", userHelp.get("customcommand show"));
+		userHelp.put("cc show", userHelp.get("customcommand show"));
+		userHelp.put("cc s", userHelp.get("customcommand show"));
+
+		userHelp.put("customcommand test", "customcommand test <contents>");
+		userHelp.put("customcommand t", userHelp.get("customcommand test"));
+		userHelp.put("cc test", userHelp.get("customcommand test"));
+		userHelp.put("cc t", userHelp.get("customcommand test"));
+
+		userHelp.put("customcommand info", "customcommand info <command name>");
+		userHelp.put("customcommand i", userHelp.get("customcommand info"));
+		userHelp.put("cc info", userHelp.get("customcommand info"));
+		userHelp.put("cc i", userHelp.get("customcommand info"));
+
+		userHelp.put("customcommand list", "customcommand list (<user>) (<page>)");
+		userHelp.put("customcommand l", userHelp.get("customcommand list"));
+		userHelp.put("cc list", userHelp.get("customcommand list"));
+		userHelp.put("cc l", userHelp.get("customcommand list"));
+
+		userHelp.put("customcommand help", "customcommand help");
+		userHelp.put("customcommand h", userHelp.get("customcommand help"));
+		userHelp.put("cc help", userHelp.get("customcommand help"));
+		userHelp.put("cc h", userHelp.get("customcommand help"));
 	}
 }

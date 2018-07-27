@@ -122,6 +122,20 @@ l(args~$0,a,"<";a;">")
 l(args~$0~,a,"<";a;">")
 ```
 
+### Number loop
+The number loop loops from 0 to its first parameter, with each number being set to the variable specified in the second parameter. Each iteration, the third parameter (the expression list) gets evaluated.
+
+#### Structure
+```
+ln(VALUE,VARIABLE,EXPRESSIONS)
+```
+
+#### Example usage
+```
+ln("10",i,i;i; )
+ln(rn("5","10"),i,"output ")
+```
+
 ### Replace
 The replace statement starts with a value which will have its contents replaced. This is followed by a value which details what should be replaced, and finally a second value detailing what the second value should be replaced with.
 
@@ -222,4 +236,18 @@ rv(VALUE)
 ```
 https://i.imgur.com/`rv("6j3yOTH JG75ivQ")`.jpg
 rv(args~)
+```
+
+### Random number
+Like Random, but instead of choosing between its parameters, it randomly generates a number between the two parameters (inclusive).
+
+#### Structure
+```
+rn(VALUE, VALUE)
+```
+
+#### Example usage
+```
+rn("0","10")
+rn(A,B)
 ```

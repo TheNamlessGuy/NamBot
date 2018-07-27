@@ -90,7 +90,7 @@ public class General {
 			list.add("**" + item + "** x" + Collections.frequency(nm.inventory, item));
 		}
 
-		Send.list(e.getChannel(), page, list, "Inventory of " + nm.getName() + " (size " + nm.inventory.size() + "/" + nm.inventorySize + ")", 10, "");
+		Send.list(e.getChannel(), page, list, "Inventory of " + nm.getName() + " (size " + nm.inventory.size() + "/" + nm.inventorySize + ")", 10);
 	}
 
 	public static void cmd_drop(MessageReceivedEvent e, String param) {
@@ -138,7 +138,7 @@ public class General {
 			list.add("**" + i.name + "** (" + i.price + " EXP)\n  " + i.description);
 		}
 
-		Send.list(e.getChannel(), page, list, "Store", 5, "");
+		Send.list(e.getChannel(), page, list, "Store", 5);
 	}
 
 	private static void buy(MessageReceivedEvent e, String[] params) {

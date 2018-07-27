@@ -4,7 +4,6 @@ import static nambot.helpers.DiscordTransformers.getNameIndicator;
 import static nambot.helpers.DiscordTransformers.getTimeFormattedString;
 import static nambot.helpers.DiscordTransformers.getTimePassedString;
 import static nambot.helpers.DiscordTransformers.getTimeString;
-import static nambot.helpers.General.getAuthorOrMentionedMember;
 
 import java.awt.Color;
 import java.time.OffsetDateTime;
@@ -23,19 +22,17 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class Info {
 	public static void cmd_info(MessageReceivedEvent e, String param) {
-		if (param.equals("")) {
-			Help.sendCommandUser(e.getChannel(), "info");
-			return;
-		}
 		MessageEmbed embed = null;
 		String[] params = param.split(" ", 2);
 
-		if (params[0].equals("server")) {
+		if (param.equals("")) {
+			embed = info_user(e.getMember());
+		} else if (params[0].equals("server")) {
 			embed = info_server(e);
 		} else if (params[0].equals("user") && params.length > 1) {
 			embed = info_user(e, params[1]);
 		} else if (e.getMessage().getMentionedMembers().size() > 0) {
-			embed = info_user(e.getGuild().getMemberById(getAuthorOrMentionedMember(0, e)));
+			embed = info_user(e.getMessage().getMentionedMembers().get(0));
 		} else if (params[0].equals("role") && params.length > 1) {
 			embed = info_role(e, params[1]);
 		} else if (e.getMessage().getMentionedRoles().size() > 0) {
