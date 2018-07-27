@@ -99,7 +99,7 @@ public class Send {
 			sb.setLength(sb.length() - separator.length());
 		}
 
-		Send.embed(mc, new EmbedBuilder().setColor(Color.gray).setTitle(title + " (" + page + '/' + ((list.size() / pageSize) + 1) + ")")
+		Send.embed(mc, new EmbedBuilder().setColor(Color.gray).setTitle(title + " (" + page + '/' + (((list.size() - 1) / pageSize) + 1) + ")")
 				.setDescription(sb.toString()).build());
 	}
 }

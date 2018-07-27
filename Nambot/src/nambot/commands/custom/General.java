@@ -186,7 +186,7 @@ public class General {
 			page = lclamp(1, Integer.parseInt(params[params.length - 1]));
 		}
 
-		Send.list(e.getChannel(), page, list, "Custom command list for " + m.getUser().getName(), 10, "", ", ");
+		Send.list(e.getChannel(), page, list, "Custom command list for " + m.getUser().getName(), 30, "", ", ");
 	}
 
 	private static void help(MessageReceivedEvent e) {
