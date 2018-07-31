@@ -5,20 +5,23 @@ import static nambot.helpers.General.isNamless;
 import static nambot.helpers.Number.isInt;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import nambot.helpers.settings.GuildSettings;
 import nambot.main.Send;
-import nambot.settings.GuildSettings;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class Help {
-	public static Map<String, String> userHelp;
-	public static Map<String, String> adminHelp;
-	public static Map<String, String> ownerHelp;
+	private static Map<String, String> userHelp;
+	private static Map<String, String> adminHelp;
+	private static Map<String, String> ownerHelp;
+
+	private static List<String> shorthandCommands;
 
 	public static void cmd_help(MessageReceivedEvent e, String param) {
 		GuildSettings gs = getGuildSettings(e.getGuild());
@@ -57,6 +60,7 @@ public class Help {
 		list.addAll(userHelp.keySet());
 		list.addAll(adminHelp.keySet());
 		list.addAll(ownerHelp.keySet());
+		list.removeAll(shorthandCommands);
 		list.sort(null);
 		list.add(0, "help");
 		list = list.stream().filter((x) -> !x.contains(" ")).collect(Collectors.toList());
@@ -67,6 +71,7 @@ public class Help {
 		List<String> list = new ArrayList<>();
 		list.addAll(userHelp.keySet());
 		list.addAll(adminHelp.keySet());
+		list.removeAll(shorthandCommands);
 		list.sort(null);
 		list.add(0, "help");
 		list = list.stream().filter((x) -> !x.contains(" ")).collect(Collectors.toList());
@@ -76,6 +81,7 @@ public class Help {
 	private static void sendListUser(MessageChannel mc, int page) {
 		List<String> list = new ArrayList<>();
 		list.addAll(userHelp.keySet());
+		list.removeAll(shorthandCommands);
 		list.sort(null);
 		list.add(0, "help");
 		list = list.stream().filter((x) -> !x.contains(" ")).collect(Collectors.toList());
@@ -115,6 +121,8 @@ public class Help {
 		adminHelp = new HashMap<>();
 		ownerHelp = new HashMap<>();
 
+		shorthandCommands = Arrays.asList("cc", "inv");
+
 		/* User */
 		userHelp.put("info", "info ([server|<user>|<role>|<channel>|<custom emote>|role <role name>|user <user name>])");
 		userHelp.put("ping", "ping");
@@ -147,10 +155,12 @@ public class Help {
 		adminHelp.put("setprefix", "setprefix <prefix>");
 		adminHelp.put("setlogchannel", "setlogchannel");
 		adminHelp.put("clear", "clear (<1-100>)");
+		adminHelp.put("adminrole", "adminrole [add <role>|remove <role>|list (<page>)]");
 
 		/* Owner */
 		ownerHelp.put("exit", "exit");
 		ownerHelp.put("save", "save");
+		ownerHelp.put("todo", "todo [add <value>|remove <number>|list (<page>)]");
 	}
 
 	private static void setCustomCommandHelpTexts() {
@@ -187,7 +197,7 @@ public class Help {
 		userHelp.put("cc info", userHelp.get("customcommand info"));
 		userHelp.put("cc i", userHelp.get("customcommand info"));
 
-		userHelp.put("customcommand list", "customcommand list (<user>) (<page>)");
+		userHelp.put("customcommand list", "customcommand list ([server|<user>]) (<page>)");
 		userHelp.put("customcommand l", userHelp.get("customcommand list"));
 		userHelp.put("cc list", userHelp.get("customcommand list"));
 		userHelp.put("cc l", userHelp.get("customcommand list"));

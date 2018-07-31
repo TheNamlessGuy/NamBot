@@ -1,14 +1,16 @@
 package nambot.globals;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 import nambot.commands.user.store.actions.General;
 import nambot.commands.user.store.actions.Throwables;
 import nambot.helpers.Item;
-import nambot.settings.GuildSettings;
-import nambot.settings.NamMember;
+import nambot.helpers.settings.GuildSettings;
+import nambot.helpers.settings.NamMember;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
@@ -18,11 +20,13 @@ public class Vars {
 	public static Random random;
 	public static Map<String, NamMember> members;
 	public static Map<String, Item> items;
+	public static List<String> todo;
 
 	static {
 		guildSettings = new HashMap<>();
 		random = new Random();
 		members = new HashMap<>();
+		todo = new ArrayList<>();
 
 		items = new HashMap<>();
 		@SuppressWarnings("rawtypes") Class[] c = { MessageReceivedEvent.class, Integer.class, String.class };

@@ -1,4 +1,4 @@
-package nambot.helpers;
+package nambot.commands.images;
 // 
 
 //  GifSequenceWriter.java

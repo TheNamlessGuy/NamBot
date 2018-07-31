@@ -1,4 +1,4 @@
-package nambot.helpers;
+package nambot.commands.images;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;

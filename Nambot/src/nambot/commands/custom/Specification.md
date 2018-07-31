@@ -45,15 +45,17 @@ Which, for the input "p4 p1", will result in "p4".
 Arrays are always zero-indexed.
 
 ### Character access
-Character access is a very specialized syntax which can only be used in 3 situations: on the first parameter of a loop, on a variable in an array access, or on the parameter to a "random value" function call:
+Character access is a very specialized syntax which can only be used in 3 situations: on the first parameter of a loop, on a variable in an array access, on the parameter to the "random value" function, or on the parameter to the "length" function:
 ```
 `l(args~,char,char;char)`
 `args~$0`
 `rv(args~)`
+`len(args~)`
 ```
 The above loop will, for the input "abc", produce "aabbcc".  
 The above array access, for the input "abc", produce "a".  
 The "random value" call will, for the input "abc", produce either "a", "b" or "c".
+The "length" call will, for the input "abc", produce 3.
 
 ### Function calls
 Function calls are for more advanced things in the language.  
@@ -250,4 +252,20 @@ rn(VALUE, VALUE)
 ```
 rn("0","10")
 rn(A,B)
+```
+
+### Length
+Outputs the length of the parameter, either in words (separated by space), or if characcess in characters.
+
+#### Structure
+```
+len(VALUE)
+len(VALUE~)
+```
+
+#### Example usage
+```
+len(args)
+len(args~)
+len("ABC")
 ```

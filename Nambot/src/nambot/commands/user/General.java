@@ -3,8 +3,8 @@ package nambot.commands.user;
 import static nambot.helpers.General.getAuthorOrMentionedMember;
 import static nambot.helpers.General.getNamMember;
 
+import nambot.helpers.settings.NamMember;
 import nambot.main.Send;
-import nambot.settings.NamMember;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;

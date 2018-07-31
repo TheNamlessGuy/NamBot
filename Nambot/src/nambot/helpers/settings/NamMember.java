@@ -1,4 +1,4 @@
-package nambot.settings;
+package nambot.helpers.settings;
 
 import static nambot.globals.Vars.nambot;
 import static nambot.globals.Vars.random;

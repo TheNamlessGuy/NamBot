@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import nambot.settings.GuildSettings;
+import nambot.helpers.settings.GuildSettings;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.Message;
@@ -47,12 +47,8 @@ public class Send {
 		mc.sendFile(data, file, m).queue();
 	}
 
-	public static void log(GuildSettings gs, MessageChannel mc, MessageEmbed embed) {
-		if (gs.logChannel != null) {
-			Send.embed(gs.logChannel, embed);
-		} else {
-			Send.embed(mc, embed);
-		}
+	public static void log(GuildSettings gs, MessageEmbed embed) {
+		Send.embed(gs.logChannel, embed);
 	}
 
 	public static void error(MessageChannel mc, Throwable e) {
@@ -77,14 +73,18 @@ public class Send {
 	}
 
 	public static void list(MessageChannel mc, int page, List<String> list, String title, int pageSize) {
-		list(mc, page, list, title, pageSize, "");
+		list(mc, page, list, title, pageSize, (sb, s, i) -> sb.append(s), "\n");
 	}
 
-	public static void list(MessageChannel mc, int page, List<String> list, String title, int pageSize, String prefix) {
-		list(mc, page, list, title, pageSize, prefix, "\n");
+	public static void list(MessageChannel mc, int page, List<String> list, String title, int pageSize, String separator) {
+		list(mc, page, list, title, pageSize, (sb, s, i) -> sb.append(s), separator);
 	}
 
-	public static void list(MessageChannel mc, int page, List<String> list, String title, int pageSize, String prefix, String separator) {
+	public static void list(MessageChannel mc, int page, List<String> list, String title, int pageSize, ListFunction lf) {
+		list(mc, page, list, title, pageSize, lf, "\n");
+	}
+
+	public static void list(MessageChannel mc, int page, List<String> list, String title, int pageSize, ListFunction lf, String separator) {
 		StringBuilder sb = new StringBuilder();
 		int entry = (page * pageSize) - pageSize;
 
@@ -92,14 +92,18 @@ public class Send {
 			if (i >= list.size()) {
 				break;
 			}
-			sb.append(prefix).append(list.get(i)).append(separator);
+			lf.apply(sb, list.get(i), i).append(separator);
 		}
 
 		if (sb.length() > 0) {
 			sb.setLength(sb.length() - separator.length());
 		}
 
-		Send.embed(mc, new EmbedBuilder().setColor(Color.gray).setTitle(title + " (" + page + '/' + (((list.size() - 1) / pageSize) + 1) + ")")
-				.setDescription(sb.toString()).build());
+		Send.embed(mc,
+				new EmbedBuilder().setColor(Color.gray).setTitle(title + " (" + page + '/' + (((list.size() - 1) / pageSize) + 1) + ")").setDescription(sb.toString()).build());
+	}
+
+	public static interface ListFunction {
+		StringBuilder apply(StringBuilder sb, String s, int i);
 	}
 }

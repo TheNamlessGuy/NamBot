@@ -10,6 +10,8 @@ import java.util.Scanner;
 import javax.security.auth.login.LoginException;
 
 import nambot.globals.SNOWFLAKES;
+import nambot.main.IO.Load;
+import nambot.main.IO.Save;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Game;
@@ -25,7 +27,7 @@ public class NamBot {
 
 			nambot = new JDABuilder(AccountType.BOT).setToken(token).addEventListener(new MessageListener()).buildBlocking();
 			SNOWFLAKES.SELF = nambot.getSelfUser().getId();
-			IO.load();
+			Load.all();
 			nambot.getPresence().setGame(Game.watching("-help"));
 		} catch (FileNotFoundException | LoginException | InterruptedException e) {
 			e.printStackTrace();
@@ -35,7 +37,7 @@ public class NamBot {
 	public static void exit() {
 		try {
 			nambot.shutdown();
-			IO.save();
+			Save.all();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

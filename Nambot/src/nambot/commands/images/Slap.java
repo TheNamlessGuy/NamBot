@@ -1,9 +1,9 @@
 package nambot.commands.images;
 
-import static nambot.helpers.ImageProcessing.copyImage;
-import static nambot.helpers.ImageProcessing.getAvatar;
-import static nambot.helpers.ImageProcessing.gifToBytes;
-import static nambot.helpers.ImageProcessing.rotateImage;
+import static nambot.commands.images.ImageProcessing.copyImage;
+import static nambot.commands.images.ImageProcessing.getAvatar;
+import static nambot.commands.images.ImageProcessing.gifToBytes;
+import static nambot.commands.images.ImageProcessing.rotateImage;
 
 import java.awt.image.BufferedImage;
 import java.io.File;

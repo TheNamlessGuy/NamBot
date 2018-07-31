@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import nambot.globals.SNOWFLAKES;
-import nambot.settings.GuildSettings;
-import nambot.settings.NamMember;
+import nambot.helpers.settings.GuildSettings;
+import nambot.helpers.settings.NamMember;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;

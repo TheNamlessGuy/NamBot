@@ -1,12 +1,12 @@
 package nambot.commands.images;
 
+import static nambot.commands.images.ImageProcessing.copyImage;
+import static nambot.commands.images.ImageProcessing.getAvatar;
+import static nambot.commands.images.ImageProcessing.imageToBytes;
+import static nambot.commands.images.ImageProcessing.renderText;
+import static nambot.commands.images.ImageProcessing.renderTextW;
 import static nambot.helpers.General.getMemberByMention;
 import static nambot.helpers.General.isUserMention;
-import static nambot.helpers.ImageProcessing.copyImage;
-import static nambot.helpers.ImageProcessing.getAvatar;
-import static nambot.helpers.ImageProcessing.imageToBytes;
-import static nambot.helpers.ImageProcessing.renderText;
-import static nambot.helpers.ImageProcessing.renderTextW;
 
 import java.awt.Color;
 import java.awt.Font;

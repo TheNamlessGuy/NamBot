@@ -95,6 +95,7 @@ public class Tokenizer {
 		matchers.add(createTokenMatcher("\\)", TokenType.CALL_END));
 		matchers.add(createTokenMatcher("gnn", TokenType.GETNICKNAME));
 		matchers.add(createTokenMatcher("low", TokenType.LOWER));
+		matchers.add(createTokenMatcher("len", TokenType.LENGTH));
 		matchers.add(createTokenMatcher("gn", TokenType.GETNAME));
 		matchers.add(createTokenMatcher("gi", TokenType.GETID));
 		matchers.add(createTokenMatcher("if", TokenType.IF));

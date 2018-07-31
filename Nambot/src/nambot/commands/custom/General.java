@@ -12,8 +12,8 @@ import java.util.List;
 
 import nambot.commands.custom.parser.Parser;
 import nambot.commands.user.Help;
+import nambot.helpers.settings.GuildSettings;
 import nambot.main.Send;
-import nambot.settings.GuildSettings;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -77,12 +77,12 @@ public class General {
 
 		GuildSettings gs = getGuildSettings(e.getGuild());
 		if (gs.customCommands.containsKey(params[0])) {
-			Send.text(e.getChannel(), "A command of the name '" + params[0] + "' already exists in this server");
+			Send.text(e.getChannel(), "A command of the name `" + params[0] + "` already exists in this server");
 			return;
 		}
 
 		gs.customCommands.put(params[0], new CustomCommand(params[0], params[1], e.getAuthor().getId(), e.getGuild().getId()));
-		Send.text(e.getChannel(), "Command '" + params[0] + "' created");
+		Send.text(e.getChannel(), "Command `" + params[0] + "` created");
 	}
 
 	private static void delete(MessageReceivedEvent e, String param) {
@@ -93,16 +93,16 @@ public class General {
 
 		GuildSettings gs = getGuildSettings(e.getGuild());
 		if (!gs.customCommands.containsKey(param)) {
-			Send.text(e.getChannel(), "No command by the name '" + param + "' found");
+			Send.text(e.getChannel(), "No command by the name `" + param + "` found");
 			return;
 		}
 
 		if (!gs.customCommands.get(param).ownerID.equals(e.getAuthor().getId()) && !gs.isAdmin(e.getMember())) {
-			Send.text(e.getChannel(), "You are not the owner of command '" + param + "'");
+			Send.text(e.getChannel(), "You are not the owner of command `" + param + "`");
 			return;
 		}
 		gs.customCommands.remove(param);
-		Send.text(e.getChannel(), "Command '" + param + "' removed");
+		Send.text(e.getChannel(), "Command `" + param + "` removed");
 	}
 
 	private static void edit(MessageReceivedEvent e, String param) {
@@ -114,17 +114,17 @@ public class General {
 
 		GuildSettings gs = getGuildSettings(e.getGuild());
 		if (!gs.customCommands.containsKey(params[0])) {
-			Send.text(e.getChannel(), "No command by the name '" + params[0] + "' found");
+			Send.text(e.getChannel(), "No command by the name `" + params[0] + "` found");
 			return;
 		}
 
 		if (!gs.customCommands.get(params[0]).ownerID.equals(e.getAuthor().getId()) && !gs.isAdmin(e.getMember())) {
-			Send.text(e.getChannel(), "You are not the owner of command '" + params[0] + "'");
+			Send.text(e.getChannel(), "You are not the owner of command `" + params[0] + "`");
 			return;
 		}
 
 		gs.customCommands.get(params[0]).update(params[1]);
-		Send.text(e.getChannel(), "Command '" + param + "' edited");
+		Send.text(e.getChannel(), "Command `" + params[0] + "` edited");
 	}
 
 	private static void show(MessageReceivedEvent e, String param) {
@@ -159,7 +159,7 @@ public class General {
 
 		GuildSettings gs = getGuildSettings(e.getGuild());
 		if (!gs.customCommands.containsKey(param)) {
-			Send.text(e.getChannel(), "No command by the name '" + param + "' found");
+			Send.text(e.getChannel(), "No command by the name `" + param + "` found");
 			return;
 		}
 
@@ -170,6 +170,32 @@ public class General {
 	}
 
 	private static void list(MessageReceivedEvent e, String param) {
+		if (param.equals("server")) {
+			list_server(e, param);
+		} else {
+			list_user(e, param);
+		}
+	}
+
+	private static void list_server(MessageReceivedEvent e, String param) {
+		GuildSettings gs = getGuildSettings(e.getGuild());
+		String[] params = param.split(" ");
+
+		List<String> list = new ArrayList<>();
+		for (CustomCommand cc : gs.customCommands.values()) {
+			list.add(cc.name);
+		}
+
+		int page = 1;
+		String last = params[params.length - 1];
+		if (isInt(last)) {
+			page = lclamp(1, Integer.parseInt(last));
+		}
+
+		Send.list(e.getChannel(), page, list, "Custom command list for " + gs.guild.getName(), 30, ", ");
+	}
+
+	private static void list_user(MessageReceivedEvent e, String param) {
 		GuildSettings gs = getGuildSettings(e.getGuild());
 		Member m = gs.guild.getMemberById(getAuthorOrMentionedMember(0, e));
 		String[] params = param.split(" ");
@@ -182,11 +208,12 @@ public class General {
 		}
 
 		int page = 1;
-		if (isInt(params[params.length - 1])) {
-			page = lclamp(1, Integer.parseInt(params[params.length - 1]));
+		String last = params[params.length - 1];
+		if (isInt(last)) {
+			page = lclamp(1, Integer.parseInt(last));
 		}
 
-		Send.list(e.getChannel(), page, list, "Custom command list for " + m.getUser().getName(), 30, "", ", ");
+		Send.list(e.getChannel(), page, list, "Custom command list for " + m.getUser().getName(), 30, ", ");
 	}
 
 	private static void help(MessageReceivedEvent e) {

@@ -3,8 +3,8 @@ package nambot.commands.user.store.actions;
 import static nambot.helpers.General.getNamMember;
 
 import nambot.commands.user.Help;
+import nambot.helpers.settings.NamMember;
 import nambot.main.Send;
-import nambot.settings.NamMember;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class Throwables {
