@@ -62,7 +62,10 @@ public class Load {
 		in.close();
 
 		for (String id : o.keySet()) {
-			members.put(id, new NamMember(id, o.getJSONObject(id)));
+			NamMember nm = new NamMember(id, o.getJSONObject(id));
+			if (nm.user != null) {
+				members.put(id, nm);
+			}
 		}
 	}
 

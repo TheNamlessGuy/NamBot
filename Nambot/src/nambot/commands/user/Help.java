@@ -128,7 +128,7 @@ public class Help {
 		userHelp.put("ping", "ping");
 		userHelp.put("joke", "joke");
 		userHelp.put("vote", "vote <phrase>");
-		userHelp.put("avatar", "avatar (<user>)");
+		userHelp.put("avatar", "avatar (<user>|server)");
 		userHelp.put("level", "level (<user>)");
 		userHelp.put("flip", "flip (--reverse) <phrase>");
 		userHelp.put("reverse", "reverse (--flip) <phrase>");
@@ -156,11 +156,12 @@ public class Help {
 		adminHelp.put("setlogchannel", "setlogchannel");
 		adminHelp.put("clear", "clear (<1-100>)");
 		adminHelp.put("adminrole", "adminrole [add <role>|remove <role>|list (<page>)]");
+		adminHelp.put("reacttorole", "reacttorole [channel [set|remove]|add <role> <ID of message that should have the reaction attached> <reaction>|remove <reaction>]");
 
 		/* Owner */
 		ownerHelp.put("exit", "exit");
 		ownerHelp.put("save", "save");
-		ownerHelp.put("todo", "todo [add <value>|remove <number>|list (<page>)]");
+		ownerHelp.put("todo", "todo [add <value>|delete <number>|list (<page>)]");
 	}
 
 	private static void setCustomCommandHelpTexts() {

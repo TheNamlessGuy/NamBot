@@ -48,7 +48,9 @@ public class Send {
 	}
 
 	public static void log(GuildSettings gs, MessageEmbed embed) {
-		Send.embed(gs.logChannel, embed);
+		if (gs.logChannel != null) {
+			Send.embed(gs.logChannel, embed);
+		}
 	}
 
 	public static void error(MessageChannel mc, Throwable e) {
@@ -70,6 +72,10 @@ public class Send {
 			sb.append("```");
 			Send.text(mc, sb.toString());
 		}
+	}
+
+	public static void reaction(MessageChannel mc, String messageID, String reaction) {
+		mc.getMessageById(messageID).complete().addReaction(reaction).queue();
 	}
 
 	public static void list(MessageChannel mc, int page, List<String> list, String title, int pageSize) {

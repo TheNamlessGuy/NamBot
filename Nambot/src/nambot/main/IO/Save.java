@@ -41,7 +41,9 @@ public class Save {
 	public static void users() throws IOException {
 		JSONObject o = new JSONObject();
 		for (NamMember nm : members.values()) {
-			o.put(nm.getID(), nm.save());
+			if (nm.user != null) {
+				o.put(nm.getID(), nm.save());
+			}
 		}
 
 		Path path = getFile("users.json");

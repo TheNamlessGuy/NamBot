@@ -29,9 +29,7 @@ public class General {
 		gs.prefix = param;
 
 		MessageEmbed embed = new EmbedBuilder().setColor(Color.green).setTitle("Prefix change").setDescription("Prefix changed from `" + prev + "` to `" + param + "`").build();
-		if (gs.logChannel != null) {
-			Send.log(gs, embed);
-		}
+		Send.log(gs, embed);
 		Send.embed(e.getChannel(), embed);
 	}
 
@@ -105,10 +103,7 @@ public class General {
 		}
 		gs.adminRoles.add(roleID);
 		Send.text(e.getChannel(), "The role `" + roleName + "` added as admin role");
-
-		if (gs.logChannel != null) {
-			Send.log(gs, new EmbedBuilder().setColor(Color.green).setTitle("Admin role added").setDescription("Role `" + roleName + "` added as admin role").build());
-		}
+		Send.log(gs, new EmbedBuilder().setColor(Color.green).setTitle("Admin role added").setDescription("Role `" + roleName + "` added as admin role").build());
 	}
 
 	public static void adminrole_remove(MessageReceivedEvent e, GuildSettings gs, String param) {
@@ -140,9 +135,7 @@ public class General {
 		gs.adminRoles.remove(roleID);
 		Send.text(e.getChannel(), "The role `" + roleName + "` removed as admin role");
 
-		if (gs.logChannel != null) {
-			Send.log(gs, new EmbedBuilder().setColor(Color.red).setTitle("Admin role removed").setDescription("Role `" + roleName + "` removed as admin role").build());
-		}
+		Send.log(gs, new EmbedBuilder().setColor(Color.red).setTitle("Admin role removed").setDescription("Role `" + roleName + "` removed as admin role").build());
 	}
 
 	public static void adminrole_list(MessageReceivedEvent e, GuildSettings gs, String param) {

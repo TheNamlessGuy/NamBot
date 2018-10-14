@@ -53,7 +53,7 @@ public class Info {
 	public static MessageEmbed info_server(MessageReceivedEvent e) {
 		Guild g = e.getGuild();
 		StringBuilder msg = new StringBuilder();
-		msg.append("Owner: ").append(getNameIndicator(e.getMember())).append('\n');
+		msg.append("Owner: ").append(getNameIndicator(g.getOwner())).append('\n');
 		msg.append("Created: ").append(getTimeString(g.getCreationTime())).append('\n');
 		msg.append("ID: ").append(g.getId()).append("\n\n");
 
@@ -62,8 +62,7 @@ public class Info {
 		msg.append("Text chats: ").append(g.getTextChannels().size()).append('\n');
 		msg.append("Voice chats: ").append(g.getVoiceChannels().size()).append('\n');
 
-		return new EmbedBuilder().setColor(Color.gray).setTitle("Server info for " + g.getName()).setThumbnail(g.getIconUrl()).appendDescription(msg.toString())
-				.build();
+		return new EmbedBuilder().setColor(Color.gray).setTitle("Server info for " + g.getName()).setThumbnail(g.getIconUrl()).appendDescription(msg.toString()).build();
 	}
 
 	private static MessageEmbed info_user(MessageReceivedEvent e, String name) {

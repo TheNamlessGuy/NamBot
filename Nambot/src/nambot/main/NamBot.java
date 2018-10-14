@@ -15,9 +15,12 @@ import nambot.main.IO.Save;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Game;
+import net.dv8tion.jda.core.entities.MessageChannel;
 
 public class NamBot {
 	private static Scanner scanner;
+	static volatile Thread thread;
+	static volatile boolean running;
 
 	public static void main(String[] args) throws IOException {
 		try {
@@ -29,6 +32,29 @@ public class NamBot {
 			SNOWFLAKES.SELF = nambot.getSelfUser().getId();
 			Load.all();
 			nambot.getPresence().setGame(Game.watching("-help"));
+
+			running = true;
+			thread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					MessageChannel mc = nambot.getGuildById(SNOWFLAKES.S_NTS).getTextChannelById(SNOWFLAKES.C_NTS_LOG);
+					int amount = 0;
+					while (running) {
+						try {
+							Thread.sleep(60000);
+							amount++;
+							if (amount >= 72) {
+								Send.text(mc, "Saving...");
+								Save.all();
+								amount = 0;
+							}
+						} catch (InterruptedException | IOException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			});
+			thread.run();
 		} catch (FileNotFoundException | LoginException | InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -36,6 +62,7 @@ public class NamBot {
 
 	public static void exit() {
 		try {
+			running = false;
 			nambot.shutdown();
 			Save.all();
 		} catch (IOException e) {

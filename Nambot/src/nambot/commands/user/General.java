@@ -3,6 +3,8 @@ package nambot.commands.user;
 import static nambot.helpers.General.getAuthorOrMentionedMember;
 import static nambot.helpers.General.getNamMember;
 
+import java.awt.Color;
+
 import nambot.helpers.settings.NamMember;
 import nambot.main.Send;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -21,10 +23,18 @@ public class General {
 	}
 
 	public static void cmd_avatar(MessageReceivedEvent e, String params) {
-		Member m = e.getGuild().getMemberById(getAuthorOrMentionedMember(0, e));
-		String url = m.getUser().getAvatarUrl();
+		String url = null;
+		Color c = null;
+		if (params.equals("server")) {
+			url = e.getGuild().getIconUrl();
+			c = Color.gray;
+		} else {
+			Member m = e.getGuild().getMemberById(getAuthorOrMentionedMember(0, e));
+			url = m.getUser().getAvatarUrl();
+			c = m.getColor();
+		}
 
-		Send.embed(e.getChannel(), new EmbedBuilder().setTitle("Link to avatar", url).setColor(m.getColor()).setImage(url).build());
+		Send.embed(e.getChannel(), new EmbedBuilder().setTitle("Link to avatar", url).setColor(c).setImage(url).build());
 	}
 
 	public static void cmd_level(MessageReceivedEvent e, String params) {
@@ -39,8 +49,7 @@ public class General {
 		sb.append("EXP: ").append(nm.EXP).append('/').append(nm.EXP_threshold).append('\n');
 		sb.append("Total EXP: ").append(nm.getAvailableEXP()).append('\n');
 
-		Send.embed(e.getChannel(),
-				new EmbedBuilder().setColor(nm.getColor(e.getGuild())).setTitle("Level info for " + nm.getName()).setDescription(sb.toString()).build());
+		Send.embed(e.getChannel(), new EmbedBuilder().setColor(nm.getColor(e.getGuild())).setTitle("Level info for " + nm.getName()).setDescription(sb.toString()).build());
 	}
 
 	public static void cmd_flip(MessageReceivedEvent e, String param) {
@@ -78,8 +87,7 @@ public class General {
 		m.addReaction("👎").complete();
 	}
 
-	private static String[] fliparray = { "ɐ", "q", "ɔ", "p", "ǝ", "ɟ", "ƃ", "ɥ", "ᴉ", "ɾ", "ʞ", "l", "ɯ", "u", "o", "d", "b", "ɹ", "s", "ʇ", "n", "ʌ", "ʍ",
-			"x", "ʎ", "z" };
+	private static String[] fliparray = { "ɐ", "q", "ɔ", "p", "ǝ", "ɟ", "ƃ", "ɥ", "ᴉ", "ɾ", "ʞ", "l", "ɯ", "u", "o", "d", "b", "ɹ", "s", "ʇ", "n", "ʌ", "ʍ", "x", "ʎ", "z" };
 
 	private static String flip(String s) {
 		s = s.toLowerCase();

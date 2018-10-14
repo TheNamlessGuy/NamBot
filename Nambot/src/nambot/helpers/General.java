@@ -79,4 +79,8 @@ public class General {
 		}
 		return g.getMemberById(mention);
 	}
+
+	public static int countChars(String regex, String s) {
+		return s.length() - s.replaceAll(regex, "").length();
+	}
 }
