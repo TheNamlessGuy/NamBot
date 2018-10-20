@@ -41,7 +41,7 @@ public class NamBot {
 					int amount = 0;
 					while (running) {
 						try {
-							Thread.sleep(60000);
+							Thread.sleep(600000);
 							amount++;
 							if (amount >= 72) {
 								Send.text(mc, "Saving...");
