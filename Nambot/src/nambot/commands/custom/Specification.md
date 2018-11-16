@@ -222,7 +222,7 @@ ra(VALUE)
 #### Example usage
 ```
 https://i.imgur.com/`ra("6j3yOTH","JG75ivQ")`.jpg
-ra(caller,mention0)
+ra(caller,mentions$0)
 ```
 
 ### Random value
@@ -252,6 +252,19 @@ rn(VALUE, VALUE)
 ```
 rn("0","10")
 rn(A,B)
+```
+
+### Random line from URL
+Like Random, but instead of choosing between its parameters, it accepts an URL linking to a raw text file, and then randomly selects a line from that file.
+
+#### Structure
+```
+rlu(VALUE)
+```
+
+#### Example usage
+```
+rlu("https://pastebin.com/raw/hF2aR41G")
 ```
 
 ### Length

@@ -17,6 +17,7 @@ import nambot.commands.custom.nodes.Node;
 import nambot.commands.custom.nodes.NumberLoopNode;
 import nambot.commands.custom.nodes.OutputNode;
 import nambot.commands.custom.nodes.ParamListNode;
+import nambot.commands.custom.nodes.RandomLineFromURL;
 import nambot.commands.custom.nodes.RandomNode;
 import nambot.commands.custom.nodes.RandomNumberNode;
 import nambot.commands.custom.nodes.ReplaceNode;
@@ -104,6 +105,8 @@ public class ParserGetter {
 			return rv;
 		} else if ((rv = randomnumber(i)) != null) {
 			return rv;
+		} else if ((rv = randomlinefromurl(i)) != null) {
+			return rv;
 		} else if ((rv = length(i)) != null) {
 			return rv;
 		}
@@ -141,6 +144,8 @@ public class ParserGetter {
 		} else if ((rv = randomvalue(i)) != null) {
 			return rv;
 		} else if ((rv = randomnumber(i)) != null) {
+			return rv;
+		} else if ((rv = randomlinefromurl(i)) != null) {
 			return rv;
 		} else if ((rv = length(i)) != null) {
 			return rv;
@@ -306,6 +311,34 @@ public class ParserGetter {
 		offset += rv.consumed;
 
 		return new Retval(new RandomNumberNode(lval, rval), offset);
+	}
+
+	private Retval randomlinefromurl(int i) {
+		int offset = 0;
+		Retval rv = null;
+
+		if (p.peek(i).type != TokenType.RANDOMLINEFROMURL) {
+			return null;
+		}
+		++offset;
+
+		if ((rv = callStart(i + offset)) == null) {
+			return null;
+		}
+		offset += rv.consumed;
+
+		if ((rv = value(i + offset)) == null) {
+			return null;
+		}
+		Node val = rv.value;
+		offset += rv.consumed;
+
+		if ((rv = callEnd(i + offset)) == null) {
+			return null;
+		}
+		offset += rv.consumed;
+
+		return new Retval(new RandomLineFromURL(val), offset);
 	}
 
 	private Retval getname(int i) {

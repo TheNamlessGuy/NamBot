@@ -100,6 +100,7 @@ public class Tokenizer {
 		matchers.add(createTokenMatcher("gi", TokenType.GETID));
 		matchers.add(createTokenMatcher("if", TokenType.IF));
 		matchers.add(createTokenMatcher("ln", TokenType.NUMBERLOOP));
+		matchers.add(createTokenMatcher("rlu", TokenType.RANDOMLINEFROMURL));
 		matchers.add(createTokenMatcher("ra", TokenType.RANDOM));
 		matchers.add(createTokenMatcher("rv", TokenType.RANDOMVALUE));
 		matchers.add(createTokenMatcher("rn", TokenType.RANDOMNUMBER));
